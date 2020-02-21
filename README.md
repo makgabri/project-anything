@@ -1,16 +1,72 @@
 # Online Music Creator Studio
 
-## Tembers
+## Team Members
 Tabeeb Yeamin, Sanjam Sigdel, Gabrian Mak
 
 ## Description
 
+Anything is a web based Digital Audio Workstation (DAW) and music sharing platform. Authenticated users can upload, record and edit audio clips using the web based graphical user interface. They can export their music and share it to their music gallery for other authenticated users to view. (Time permitting) users can send invites to other users to their project files and they can edit them together in real time, kind of like Google Docs but for music editing.
+
 ## Features
 
-**By Beta: **
+#### By Beta:
+- Real time audio recording, visualization
+- Ability to make multiple tracks
+- Audio editing features:
+    - spliting and moving audio blocks around
+    - adjusting track volume, pitches
+    - Advanced FX: Reverb, Delay, Equalization, Compression
+- Saving and sharing files with authenticated users
+- Allow users to authenticate using Google and upload tracks directly to YouTube, soundcloud etc.
 
-**By Final: **
+#### By Final:
+- User Galleries: Authenticated users can view other users publicly shared music
+- Advanced: Google docs like real time multi user editing
 
 ## Technology:
+1. Nodejs
+
+   We will use Nodejs for backend purposes.
+
+2. React
+
+   React for frontend purposes.
+
+3. jQuery
+
+   jQuery for frontend purposes.
+
+4. [Wavesurfer](https://github.com/katspaugh/wavesurfer.js)
+
+   Audio visualization API  for generating waveform graphs.
+
+5. [Web Audio API](https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/specification.html)
+
+   Web Audio API to cut, trim, adjust volume and pitch, equalize, and perform many other changes to out audio.
+
+6. Google Authentication
+
+   Authentication for the web application, also allows for sharing to Youtube.
 
 ## Challenges
+1. Learning React to use for frontend
+
+   No team member has previous experience using React, everyone has to learn it for the purpose of this application.
+
+2. Planning for scalability
+
+   When users upload tracks to their gallery, we should account for having a large database in the future, or more efficent methods of storing data.
+   
+3. Getting used to new APIs
+
+   Reading through the documentation and understanding the methods provided by the API to decide the best course of action for the web application
+   
+4. Planning for Security
+
+   Security is a big concern since each user will host a gallery of audio tracks they made, we don't want other users to claim audio that does not belong to them.
+
+5. Mid-Project Adjustments
+
+   Hosting a gallery for each user may seem to take too long, or some previous features may take some time, so we need to be able to change our application and come up with contingency plans if certain features don't work out.
+
+
