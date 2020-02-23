@@ -61,9 +61,9 @@ Anything is a web based Digital Audio Workstation (DAW) and music sharing platfo
 
    Reading through the documentation and understanding the methods provided by the API to decide the best course of action for the web application
    
-4. Planning for Security
+4. Maximizing Performance
 
-   Security is a big concern since each user will host a gallery of audio tracks they made, we don't want other users to claim audio that does not belong to them.
+    As we utilize a new API, we are unsure of how the performance may be affected as more and more tracks of audio are being added to the current workstation. However, we will observe different factors that may affect the speed of the performance and ensure that no unnecessary work is being done.
 
 5. Mid-Project Adjustments
 
