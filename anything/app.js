@@ -9,7 +9,7 @@ const path = require('path');
 const session = require('express-session');
 
 /**     Load External Files      **/
-const users = require('./users/users');
+const users = require('./routes/users/users');
 
 
 /**     Initializing app      **/

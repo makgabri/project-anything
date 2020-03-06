@@ -1,11 +1,33 @@
-const secrets = require('./google_client_secret.json');
-var google = require('googleapis');
+const secrets = require('./google_client_secret.json.js');
+const google = require('googleapis');
+var mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
 
+
+/**     Database Setup      **/
+var dburl = "mongodb+srv://anything:cscc09@anything-omsw1.mongodb.net/test?retryWrites=true&w=majority";
+mongoose.connect(dburl, { useNewUrlParser: true });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+var userSchema = new Schema({
+    username: {
+      type: String,
+      required: [true, 'Username must exist']
+    },
+    password: {
+      type: String,
+      min: [6, 'Password too short'],
+      required: [true, 'Password must exist']
+    }
+  });
+
+/**     Google Authorization Setup   **/
 var oauth2Client = new google.auth.OAuth2(
     secrets.web.client_id,
     secrets.web.client_secret,
     secrets.web.redirect_uris[0] // TODO: Update this on console and regenerate json
 );
+
 
 exports.signin_google = function(req, res, next) {
     var options = {
