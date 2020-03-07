@@ -1,15 +1,26 @@
 /**     Required Node Libraries     **/
 const bodyParser = require('body-parser');
 const cookie = require('cookie');
-const crypto = require('crypto');
-const datastore = require('nedb');
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const mongoose = require('mongoose');
+const passport = require('passport');
 const session = require('express-session');
 
+
+
 /**     Load External Files      **/
-const users = require('./routes/users/users');
+const config = require('./config/config');
+const user_schema = require('./config/models/user');
+
+
+
+/**     Starting Mongoose       **/
+mongoose.connect(config.mongo.url, config.mongo.options);
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {console.log('connection successful')});
+let user_model = mongoose.model('users', user_schema);
+
 
 
 /**     Initializing app      **/
@@ -27,6 +38,7 @@ app.use(function(req, res, next){
     }));
     next();
 });
+
 /**     Initializing app - Session   **/
 app.use(session({
     secret: 'cats are secretly planning to rule the world',
@@ -34,60 +46,32 @@ app.use(session({
     saveUninitialized: true,
     cookie: {httpOnly: true, sameSite: true, secure: true}
 }));
-/**     Initializing app - Output to console req   **/
+
+
+
+/**     Initializing Passport        **/
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+/**     Loading route re-direction   **/
+require('./config/passport')(passport);
+require('./config/routes')(app, passport);
+
+
+
+/**     Listen to server    **/
 app.use(function (req, res, next){
     console.log("HTTPS request", req.method, req.url, req.body);
     next();
 });
 
-
-
-/**     Initializing Databases      **/
-
-
-
-/**     Method to authenticate session      **/
-var isAuthenticated = function(req, res, next) {
-    if ((!req.session.tokens) || (!req.session.username)) return res.status(401).end("access denied");
-    next();
-};
-
-
-
-/**     Create      **/
-app.post('/sign_in_google/', users.signin_google);
-app.post('/sign_up/', users.sign_in);
-app.post('/sign_in/', users.sign_in);
-
-
-
-/**     Read        **/
-app.get('/oauth2callback', users.signin_google_callback); // TODO: Set the callback url on google developer console and configure back here
-app.get('/signout/', users.sign_out);
-
-
-/**     Update      **/
-
-
-
-
-/**     Delete      **/
-
-
-
-
 const https = require('https');
 const PORT = 3000;
 
-// TODO: Generate key & certificate
-var privateKey = null;
-var certificate = null;
-var config = {
-        key: privateKey,
-        cert: certificate
-};
-
-https.createServer(config, app).listen(PORT, function (err) {
+/**     Start Server     **/
+https.createServer(config.server, app).listen(PORT, function (err) {
     if (err) console.log(err);
     else console.log("HTTPS server on https://localhost:%s", PORT);
 });
