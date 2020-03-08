@@ -9,25 +9,61 @@ const Schema = mongoose.Schema;
 /**     User Schema     **/
 
 const UserSchema = new Schema({
-    name: { type: String, default: '' },
-    email: { type: String, default: '' },
-    username: { type: String, default: '' },
-    provider: { type: String, default: '' },
-    hashed_password: { type: String, default: '' },
-    salt: { type: String, default: '' },
-    authToken: { type: String, default: '' },
-    google: {}
+    key: {
+        type: String,
+        required: true
+    },
+    provider: {
+        type: String,
+        enum: ['local', 'google']
+    }
 });
 
+const GoogleSchema = new Schema({
+    googleId: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String
+    }
+});
 
+const LocalSchema = new Schema({
+    username: {
+        type: String,
+        required: true,
+        min: 1
+    },
+    name: {
+        type: String
+    },
+    salt: {
+        type: String,
+        required: true
+    },
+    hashed_password: {
+        type: String,
+        required: true
+    }
+})
+
+
+
+/**     Schema Methods     */
+LocalSchema.methods.verifyPassword = function(password) {
+    let hash = crypto.createHmac('sha512', this.salt);
+    hash.update(password);
+    return (hash.digest('base64') == this.hashed_password);
+}
 
 /**     Virtuals    **/
 
-UserSchema.virtual('password')
+LocalSchema.virtual('password')
     .set(function(password) {
         this._password = password;
         this.salt = crypto.randomBytes(16).toString('base64');
-        var hash = crypto.createHmac('sha512', salt);
+        var hash = crypto.createHmac('sha512', this.salt);
         hash.update(password);
         this.hashed_password = hash.digest('base64');
     })
@@ -36,4 +72,8 @@ UserSchema.virtual('password')
     });
 
 
-module.exports = UserSchema;
+module.exports = {
+    User: UserSchema,
+    Google: GoogleSchema,
+    Local: LocalSchema
+}

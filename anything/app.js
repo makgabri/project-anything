@@ -10,7 +10,7 @@ const session = require('express-session');
 
 /**     Load External Files      **/
 const config = require('./config/config');
-const user_schema = require('./config/models/user');
+const schemas = require('./config/models/user');
 
 
 
@@ -19,7 +19,9 @@ mongoose.connect(config.mongo.url, config.mongo.options);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log('connection successful')});
-let user_model = mongoose.model('users', user_schema);
+let user_model = mongoose.model('users', schemas.User);
+let google_model = mongoose.model('google_users', schemas.Google);
+let local_model = mongoose.model('local_users', schemas.Local);
 
 
 
@@ -28,16 +30,16 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 /**     Initializing app - Cookie     **/
-app.use(function(req, res, next){
-    var username = (req.session.username)? req.session.username : '';
-    res.setHeader('Set-Cookie', cookie.serialize('username', username, {
-          path : '/', 
-          maxAge: 60 * 60,
-          secure: true,
-          sameSite: true
-    }));
-    next();
-});
+// app.use(function(req, res, next){
+//     var username = (req.session.username)? req.session.username : '';
+//     res.setHeader('Set-Cookie', cookie.serialize('username', username, {
+//           path : '/', 
+//           maxAge: 60 * 60,
+//           secure: true,
+//           sameSite: true
+//     }));
+//     next();
+// });
 
 /**     Initializing app - Session   **/
 app.use(session({
@@ -67,11 +69,16 @@ app.use(function (req, res, next){
     next();
 });
 
-const https = require('https');
+// const https = require('https');
+const http = require('http');
 const PORT = 3000;
 
 /**     Start Server     **/
-https.createServer(config.server, app).listen(PORT, function (err) {
+// https.createServer(config.server, app).listen(PORT, function (err) {
+//     if (err) console.log(err);
+//     else console.log("HTTPS server on https://localhost:%s", PORT);
+// });
+http.createServer(app).listen(PORT, function(err) {
     if (err) console.log(err);
-    else console.log("HTTPS server on https://localhost:%s", PORT);
+    else console.log("HTTP server on http://localhost:%s", PORT);
 });
