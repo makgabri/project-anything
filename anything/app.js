@@ -15,7 +15,7 @@ const schemas = require('./config/models/user');
 
 
 /**     Starting Mongoose       **/
-mongoose.connect(config.mongo.url, config.mongo.options);
+//mongoose.connect(config.mongo.url, config.mongo.options);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log('connection successful')});
@@ -68,6 +68,8 @@ app.use(function (req, res, next){
     console.log("HTTPS request", req.method, req.url, req.body);
     next();
 });
+
+app.use(express.static('test'));
 
 // const https = require('https');
 const http = require('http');
