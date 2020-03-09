@@ -12,7 +12,5 @@
             `;
             document.querySelector('#tracks').append(newTrack);
         });
-
-
     });
 }());   

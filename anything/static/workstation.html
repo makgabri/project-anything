@@ -3,10 +3,6 @@
 <head>
     <meta charset="utf-8"/>
     <title>Web Gallery</title>
-    <link href="style/main.css" rel="stylesheet" type="text/css"/>
-    <link href="style/messages.css" rel="stylesheet" type="text/css"/>
-    <link href="style/form.css" rel="stylesheet" type="text/css"/>
-    <link href="style/image.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body>
@@ -27,8 +23,26 @@
         </div>
 
     </div>
+    
+    <!-- div where audio waves will be shown-->
+    <div id="audio-spectrum"></div>
+    <div id="audio-spectrum2"></div>
 
+    <div id="wave-timeline"></div>
+
+
+    <input type="button" id= "btn-play" value = "Play" disabled="disabled"/>
+    <input type="button" id= "btn-pause" value = "Pause" disabled="disabled"/>
+    <input type="button" id= "btn-stop" value = "Stop" disabled="disabled"/>
+
+
+    <div id="playlist"></div>
+
+    <script src="js/bundle.js"></script>
     <script src="js/workstation.js"></script>
+    <script type="module" src="js/bundle2.js"></script>
+
     <script src="js/api.js"></script>
+
 </body>
 </html>

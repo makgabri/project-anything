@@ -9,6 +9,7 @@
   "author": "Tabeeb Yeamin, Sanjam Sigdel, Gabrian Mak",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "waveform-playlist": "^3.1.0"
   }
 }
