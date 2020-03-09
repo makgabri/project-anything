@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Anything</title>
+    <link href="style/main.css" rel="stylesheet" type="text/css"/>
+    <link href="style/track.css" rel="stylesheet" type="text/css"/>
+    <link href="style/form.css" rel="stylesheet" type="text/css"/>
+    <link href="style/workstation.css" rel="stylesheet" type="text/css"/>
+    <link href="style/track-editor.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+        <a href="/" id="title">Anything</a>
+        <div class="navbar">
+            <a class="homebar" href="/">
+                <span class="text-secondary">Home</span>
+            </a>
+            <div class="drop1">
+                <div class="dropdown">
+                <button class="dropbtn">
+                    File<i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a>New</a>
+                    <a>Open</a>
+                    <a>Save</a>
+                </div>
+                </div>
+            </div>
+    
+            <div class="drop2">
+                <div class="dropdown">
+                <button class="dropbtn">
+                    Edit<i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a>Crop</a>
+                    <a>Delete</a>
+                    <a>Copy</a>
+                    <a>Paste</a>
+                </div>
+                </div>
+            </div>
+    
+            <div class="drop3">
+                <div class="dropdown">
+                <button class="dropbtn">
+                    {{ username }} <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/feedback">Feedback</a>    
+                    <a href="/logout">Logout</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <p id="error_box"></p>
+    
+    <div class="library">
+        <h3>Library</h3>
+        <div class="library-audio">
+            <div class="track-title">XOTourLife</div>
+            <audio controls loop>
+                <source src="/media/Lil Uzi Vert - XO Tour Llif3 (Official Visualiser).mp3" type="audio/mpeg"> 
+            </audio>
+            <div class="track-length">3:00</div>
+        </div>
+        <div class="library-audio">
+            <div class="track-title">Sicko Mode</div>
+            <audio controls loop>
+                <source src="/media/Travis Scott - SICKO MODE ft. Drake.mp3" type="audio/mpeg"> 
+            </audio>
+            <div class="track-length">5:00</div>
+        </div>
+        <div class="library-audio">
+            <div class="track-title">After Hours</div>
+            <audio controls loop>
+                <source src="/media/The Weeknd - After Hours (Audio).mp3" type="audio/mpeg"> 
+            </audio>
+            <div class="track-length">6:00</div>
+        </div>
+    </div>
+
+    <div class="track-editor">
+        <div class="controls">
+            <div class="play-icon"></div>
+            <div class="pause-icon"></div>
+            <div class="forward-icon"></div>
+            <div class="backward-icon"></div>
+            <div class="end-icon"></div>
+            <div class="start-icon"></div>
+        </div>
+        <div class="track-list">
+            <div class="track">
+                <div class=track-info>
+                    <div class="track-title">XOTourLife</div>
+                    <input type="range" min="0" max="200" value="100" class="slider" id="track-xo-volume">
+                    <div class="mute"></div>
+                    <div class="delete-icon"></div>
+                </div>
+                <div class="wavesurfer">
+                    <audio controls loop>
+                        <source src="/media/Lil Uzi Vert - XO Tour Llif3 (Official Visualiser).mp3" type="audio/mpeg"> 
+                    </audio>
+                </div>
+            </div>
+            <div class="track">
+                <div class=track-info>
+                    <div class="track-title">Sicko Mode</div>
+                    <input type="range" min="0" max="200" value="100" class="slider" id="track-xo-volume">
+                    <div class="mute"></div>
+                    <div class="delete-icon"></div>
+                </div>
+                <div class="wavesurfer">
+                    <audio controls loop>
+                        <source src="/media/Travis Scott - SICKO MODE ft. Drake.mp3" type="audio/mpeg"> 
+                    </audio>
+                </div>
+            </div>
+            <div class="track">
+                <div class=track-info>
+                    <div class="track-title">After Hours</div>
+                    <input type="range" min="0" max="200" value="100" class="slider" id="track-xo-volume">
+                    <div class="mute"></div>
+                    <div class="delete-icon"></div>
+                </div>
+                <div class="wavesurfer">
+                    <audio controls loop>
+                        <source src="/media/The Weeknd - After Hours (Audio).mp3" type="audio/mpeg"> 
+                    </audio>
+                </div>
+            </div>
+        </div>
+        <div class="track-settings">
+            <select id="settings">
+                <option value="volume">Volume</option>
+                <option value="pitch">Pitch</option>
+                <option value="reverb">Reverb</option>
+                <option value="compressor">Compressor</option>
+            </select>
+            <input type="range" min="0" max="200" value="100" class="slider-settings" id="track-xo-volume">
+        </div>
+    </div>
+    
+    <footer>
+        <a href='/credits.html'>credits</a>
+    </footer>
+    <script src="js/api.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

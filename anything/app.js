@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 
+app.use(express.static('frontend'));
 
 /**     Creating object methods     **/
 
@@ -12,6 +13,12 @@ app.use(function (req, res, next){
     console.log("HTTPS request", req.method, req.url, req.body);
     next();
 });
+
+app.get('/', function (req, res) {
+    res.send('An alligator approaches!');
+});
+
+
 
 /**     Create      **/
 
@@ -33,7 +40,7 @@ app.use(function (req, res, next){
 
 
 
-const https = require('https');
+const http = require('http');
 const PORT = 3000;
 
 // TODO: Generate key & certificate
@@ -44,7 +51,7 @@ var config = {
         cert: certificate
 };
 
-https.createServer(config, app).listen(PORT, function (err) {
+http.createServer(config, app).listen(PORT, function (err) {
     if (err) console.log(err);
-    else console.log("HTTPS server on https://localhost:%s", PORT);
+    else console.log("HTTPS server on http://localhost:%s", PORT);
 });
