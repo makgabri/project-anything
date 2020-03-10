@@ -1,6 +1,7 @@
 /**     Required Node Libraries     **/
 const bodyParser = require('body-parser');
 const cookie = require('cookie');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -15,7 +16,7 @@ const schemas = require('./config/models/user');
 
 
 /**     Starting Mongoose       **/
-//mongoose.connect(config.mongo.url, config.mongo.options);
+mongoose.connect(config.mongo.url, config.mongo.options);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log('connection successful')});
@@ -28,26 +29,27 @@ let local_model = mongoose.model('local_users', schemas.Local);
 /**     Initializing app      **/
 const app = express();
 app.use(bodyParser.json());
+app.set('trust proxy', 1)
+app.use(cookieParser('cats are secretly planning to rule the world'));
 app.use(bodyParser.urlencoded({ extended: false }));
-/**     Initializing app - Cookie     **/
-// app.use(function(req, res, next){
-//     var username = (req.session.username)? req.session.username : '';
-//     res.setHeader('Set-Cookie', cookie.serialize('username', username, {
-//           path : '/', 
-//           maxAge: 60 * 60,
-//           secure: true,
-//           sameSite: true
-//     }));
-//     next();
-// });
-
 /**     Initializing app - Session   **/
 app.use(session({
     secret: 'cats are secretly planning to rule the world',
     resave: false,
     saveUninitialized: true,
-    cookie: {httpOnly: true, sameSite: true, secure: true}
+    cookie: {httpOnly: true, sameSite: true, secure: true, maxAge: 60*60*24}
 }));
+/**     Initializing app - Cookie     **/
+app.use(function(req, res, next){
+    var key = (req.session.key)? req.session.key : '';
+    res.setHeader('Set-Cookie', cookie.serialize('key', key, {
+          path : '/', 
+          maxAge: 60 * 60,
+          secure: true,
+          sameSite: true
+    }));
+    next();
+});
 
 
 
@@ -66,21 +68,17 @@ require('./config/routes')(app, passport);
 /**     Listen to server    **/
 app.use(function (req, res, next){
     console.log("HTTPS request", req.method, req.url, req.body);
+    console.log(req.user);
     next();
 });
 
 app.use(express.static('test'));
 
-// const https = require('https');
-const http = require('http');
+const https = require('https');
 const PORT = 3000;
 
 /**     Start Server     **/
-// https.createServer(config.server, app).listen(PORT, function (err) {
-//     if (err) console.log(err);
-//     else console.log("HTTPS server on https://localhost:%s", PORT);
-// });
-http.createServer(app).listen(PORT, function(err) {
+https.createServer(config.server, app).listen(PORT, function (err) {
     if (err) console.log(err);
-    else console.log("HTTP server on http://localhost:%s", PORT);
+    else console.log("HTTPS server on https://localhost:%s", PORT);
 });

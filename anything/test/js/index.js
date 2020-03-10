@@ -16,10 +16,8 @@ window.onload = function(){
 
     document.getElementById('title').addEventListener('click', (function(e) {
         window.location.replace('/');
-    }))
-    document.getElementById('title').addEventListener('mouseover' (function(e) {
-        document.getElementById('title').style.cursor = "pointer";
-    }))
+    }));
+
 
     /**     Adds Listeners to display action box    **/
     // Add/Changes form to login option

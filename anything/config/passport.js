@@ -23,8 +23,8 @@ module.exports = function(passport) {
             Local.findOne({username: username}, function(err, local_user) {
                 if (err) return done(err);
                 if (!local_user) return done(null, false);
-                if (!local_user.verifyPassword(password)) return done(null, false);
-                return done(null, local_user);
+                if (!local_user.verifyPassword(password)) return done(null, false, {message: 'Incorrect password.'});
+                return done(null, user);
             });
           });
         }
@@ -45,29 +45,32 @@ module.exports = function(passport) {
                         provider: 'google'
                     }, function (err, new_user) {
                         if (err) return done(err);
+                    }).then(function(new_user) {
+                        Google.create({
+                            googleId: profile.id,
+                            familyName: profile.name.familyName,
+                            givenName: profile.name.givenName
+                        });
+                        return done(null, new_user);
                     });
-                    Google.create({
-                        googleId: profile.id,
-                        name: profile.name
-                    }), function(err, new_google_user) {
-                        if (err) return done(err);
-                        return done(null, new_google_user);
-                    }
                 }
                 Google.findOne( {googleId: profile.id }, function(err, google_user) {
                     if (err) return done(err);
                     if (!google_user) return done('Initialization error');
-                    return done(null, google_user);
+                    return done(null, user);
                 })
             });
         }
     ));
 
     passport.serializeUser(function(user, done) {
-        done(null, user);
+        done(null, user.key);
     });
       
-    passport.deserializeUser(function(user, done) {
-        done(null, user);
+    passport.deserializeUser(function(key, done) {
+        console.log('deserialize');
+        User.findOne({key: key}, function(err, user_found) {
+            done(err, user_found);
+        })
     });
 };

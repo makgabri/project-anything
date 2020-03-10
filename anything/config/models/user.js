@@ -11,6 +11,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     key: {
         type: String,
+        unique: true,
         required: true
     },
     provider: {
@@ -24,7 +25,10 @@ const GoogleSchema = new Schema({
         type: String,
         required: true
     },
-    name: {
+    familyName: {
+        type: String
+    },
+    givenName: {
         type: String
     }
 });

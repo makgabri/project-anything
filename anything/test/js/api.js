@@ -82,6 +82,15 @@ var api = (function(){
        });
     };
     
+
+    module.signingoogle = function(){
+        send("GET", '/auth/google/', function(err, res) {
+            if (err) return notifyErrorListeners(err);
+        });
+    }
+
+
+
     /**
      * Sign out of webgallery
      * 

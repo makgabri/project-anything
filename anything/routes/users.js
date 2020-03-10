@@ -6,8 +6,10 @@ const User = mongoose.model('users');
 const Local = mongoose.model('local_users');
 const crypto = require('crypto');
 
+
+
 // Sign up for local
-exports.sign_up = function(req, res, next) {
+exports.sign_up_local = function(req, res, next) {
     var username = req.body.username;
     // Check if username exists
     User.findOne({ key: username }, function(err, user){
@@ -29,21 +31,50 @@ exports.sign_up = function(req, res, next) {
                 salt: salt,
                 hashed_password: saltedHash,
                 password: req.body.password
-            }), function(err, new_local_user) {
-                if (err) return res.status(500).end(err);
+            }).then(function(new_local_user) {
                 return res.status(200).json("user " + username + " signed up");
-            }
+            });
         });
     });
 };
 
-// Sign in success
-exports.sign_in = function(req, res, next) {
-    res.redirect('/');
-}
+// Sign in for local
+exports.sign_in_local = function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) return next(err);
+        if (!user) return res.redirect('/fail');
+        req.session.key = user.key;
+        res.setHeader('Set-Cookie', cookie.serialize('key', user.key, {
+            path : '/', 
+            maxAge: 60 * 60 * 2     // maxAge is 2 hours
+        }));
+        res.redirect('/');
+    });
+};
+
+// Sign in for google
+exports.sign_in_google = function(req, res, next) {
+    passport.authenticate('google', function(err, user, info) {
+        if (err) return next(err);
+        if (!user) return res.redirect('/fail');
+        req.session.key = user.key;
+        res.setHeader('Set-Cookie', cookie.serialize('key', user.key, {
+            path : '/', 
+            maxAge: 60 * 60 * 2     // maxAge is 2 hours
+        }));
+        res.redirect('/');
+    });
+};
+
+
 
 // Sign out for all
 exports.sign_out = function(req, res, next) {
     req.logout();
+    req.session.destroy();
+    res.setHeader('Set-Cookie', cookie.serialize('key', '', {
+        path : '/', 
+        maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
+    }));
     res.redirect('/');
 };

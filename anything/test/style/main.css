@@ -52,3 +52,10 @@ footer{
     visibility: hidden;
 }
 
+.home:hover{
+    cursor: pointer;
+}
+
+.credits:hover{
+    cursor: pointer;
+}
