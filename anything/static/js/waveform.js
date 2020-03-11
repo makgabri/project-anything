@@ -50,6 +50,7 @@ Spectrum2.on("ready", function(){
     buttons.play.disabled = false;
 });
 
+/*
 window.addEventListener("resize", function(){
     let currentProgress = Spectrum.getCurrentTime() / Spectrum.getDuration();
 
@@ -71,7 +72,7 @@ window.addEventListener("resize", function(){
     buttons.stop.disabled = false;
 
 }, false);
-
+*/
 
 
 Spectrum.load("audio-file.mp3");
