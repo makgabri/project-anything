@@ -27,7 +27,8 @@ exports.sign_up_local = function(req, res, next) {
             if (err) return res.status(500).end(err);
             Local.create({
                 username: username,
-                name: req.body.name,
+                familyName: req.body.familyName,
+                givenName: req.body.givenName,
                 salt: salt,
                 hashed_password: saltedHash,
                 password: req.body.password

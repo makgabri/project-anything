@@ -13,7 +13,7 @@ module.exports = function(app, passport) {
     /**     Create     **/
     // Creating users and signing in
     app.post('/signup/', users.sign_up_local);
-    app.post('/signin/', passport.authenticate('local', {failureRedirect: '/'}), users.sign_in_local);
+    app.post('/signin/', passport.authenticate('local', {failureRedirect: '/failed', successRedirect: '/success'}));
 
     /**     Read     **/
     // Google authentication

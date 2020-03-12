@@ -39,7 +39,10 @@ const LocalSchema = new Schema({
         required: true,
         min: 1
     },
-    name: {
+    familyName: {
+        type: String
+    },
+    givenName: {
         type: String
     },
     salt: {
