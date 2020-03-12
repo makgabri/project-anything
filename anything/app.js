@@ -29,7 +29,7 @@ let local_model = mongoose.model('local_users', schemas.Local);
 /**     Initializing app      **/
 const app = express();
 app.use(bodyParser.json());
-app.set('trust proxy', 1)
+app.set('trust proxy', 1);
 app.use(cookieParser('cats are secretly planning to rule the world'));
 app.use(bodyParser.urlencoded({ extended: false }));
 /**     Initializing app - Session   **/
@@ -72,13 +72,13 @@ app.use(function (req, res, next){
     next();
 });
 
-app.use(express.static('test'));
+app.use(express.static('frontend'));
 
-const https = require('https');
+const http = require('http');
 const PORT = 3000;
 
 /**     Start Server     **/
 https.createServer(config.server, app).listen(PORT, function (err) {
     if (err) console.log(err);
-    else console.log("HTTPS server on https://localhost:%s", PORT);
+    else console.log("HTTPS server on http://localhost:%s", PORT);
 });
