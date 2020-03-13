@@ -17,22 +17,23 @@ module.exports = function(app, passport) {
 
     /**     Read     **/
     // Google authentication
-    app.get('/auth/google/', passport.authenticate('google', {
-        scope: [
-            'https://www.googleapis.com/auth/plus.login',
-            , 'https://www.googleapis.com/auth/plus.profile.emails.read'
-    ]}));
-    app.get( '/auth/google/callback/',  function(req, res, next) {
-        passport.authenticate('google', function(err, user, info) {
-          if (err) return next(err);
-          if (!user) return res.redirect('/login_failed');
-          req.logIn(user, function(err) {
-            if (err) return next(err);
-            console.log(req.user);
-            return res.redirect('/');
-          });
-        })(req, res, next);
-        });
+    app.get('/auth/google/', passport.authenticate('google', { scope: ['profile']}));
+    app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), 
+    function(req, res) {
+        req.session.save(function(err) {
+            console.log(req._passport);
+            if (err) console.log(err);
+            res.redirect('/');
+        })
+    });
+    // app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}),
+    // function(req, res) {
+    //     console.log(req.session);
+    //   // Explicitly save the session before redirecting!
+    //   req.session.save(() => {
+    //     res.redirect('/');
+    //   })
+    // });
     // Signout for all passport
     app.get('/signout/', users.sign_out);
     /**     Update     **/
