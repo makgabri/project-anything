@@ -8599,32 +8599,10 @@ document.querySelector(".btn-fadeout").addEventListener('click', function(e){
   toggleActive(this);
 });
 
-//fade types
-/*
-$container.on("click", ".btn-logarithmic", function() {
-  ee.emit("fadetype", "logarithmic");
-  toggleActive(this);
-});
-
-
-//zoom buttons
-$container.on("click", ".btn-zoom-in", function() {
-  ee.emit("zoomin");
-});
-
-$container.on("click", ".btn-zoom-out", function() {
-  ee.emit("zoomout");
-});*/
-
 document.querySelector(".btn-trim-audio").addEventListener('click', function(e){
     ee.emit("trim");
 });
 
-/*
-$container.on("click", ".btn-info", function() {
-  console.log(playlist.getInfo());
-});
-*/
 document.querySelector(".btn-download").addEventListener('click', function(e){
   ee.emit('startaudiorendering', 'wav');
 });
@@ -8671,31 +8649,18 @@ let gainChangeEvents = ["input", "change"];
 for (event of gainChangeEvents){
     document.querySelector(".master-gain").addEventListener(event, function(e){
         ee.emit("mastervolumechange", e.target.value);
-        });
+    });
 }
 
 /*
 $container.on("change", ".continuous-play", function(e){
   ee.emit("continuousplay", $(e.target).is(':checked'));
-});
-
-$container.on("change", ".link-endpoints", function(e){
-  ee.emit("linkendpoints", $(e.target).is(':checked'));
 });*/
 
-//$container.on("change", ".automatic-scroll", function(e){
 document.querySelector(".automatic-scroll").addEventListener('change', function(e){
   ee.emit("automaticscroll", document.querySelector(".automatic-scroll").checked);
 });
 
-function displaySoundStatus(status) {
-  $(".sound-status").html(status);
-}
-
-function displayLoadingData(data) {
-  var info = $("<div/>").append(data);
-  $(".loading-data").append(info);
-}
 
 function displayDownloadLink(link) {
   var dateString = (new Date()).toISOString();
@@ -8718,52 +8683,6 @@ ee.on("select", updateSelect);
 
 ee.on("timeupdate", updateTime);
 
-ee.on("mute", function(track) {
-  displaySoundStatus("Mute button pressed for " + track.name);
-});
-
-ee.on("solo", function(track) {
-  displaySoundStatus("Solo button pressed for " + track.name);
-});
-
-ee.on("volumechange", function(volume, track) {
-  displaySoundStatus(track.name + " now has volume " + volume + ".");
-});
-
-ee.on("mastervolumechange", function(volume) {
-  displaySoundStatus("Master volume now has volume " + volume + ".");
-});
-
-
-var audioStates = ["uninitialized", "loading", "decoding", "finished"];
-
-ee.on("audiorequeststatechange", function(state, src) {
-  var name = src;
-
-  if (src instanceof File) {
-    name = src.name;
-  }
-
-  displayLoadingData("Track " + name + " is in state " + audioStates[state]);
-});
-
-ee.on("loadprogress", function(percent, src) {
-  var name = src;
-
-  if (src instanceof File) {
-    name = src.name;
-  }
-
-  displayLoadingData("Track " + name + " has loaded " + percent + "%");
-});
-
-ee.on("audiosourcesloaded", function() {
-  displayLoadingData("Tracks have all finished decoding.");
-});
-
-ee.on("audiosourcesrendered", function() {
-  displayLoadingData("Tracks have been rendered");
-});
 
 ee.on('audiorenderingfinished', function (type, data) {
   if (type == 'wav'){
