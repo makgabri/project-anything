@@ -1,93 +1,34 @@
 const WFP = require("waveform-playlist");
 
-var playlist = WFP.init({
-    // webaudio api AudioContext
-    ac: new (window.AudioContext || window.webkitAudioContext)(),
-  
+let playlist = WFP.init({
     // DOM container element REQUIRED
     container: document.querySelector("#playlist"),
-  
-    // number of audio samples per waveform peak.
-    // must be an entry in option: zoomLevels.
-    samplesPerPixel: 4096,
-  
-    // whether to draw multiple channels or combine them.
-    mono: true,
-  
-    // enables "exclusive solo" where solo switches between tracks
-    exclSolo: false,
-  
-    // default fade curve type.
-    fadeType: "logarithmic", // (logarithmic | linear | sCurve | exponential)
-  
-    // whether or not to include the time measure.
-    timescale: true,
-  
+
     // control panel on left side of waveform
     controls: {
-      // whether or not to include the track controls
-      show: true,
-  
-      // width of controls in pixels
-      width: 150
-    },
-  
-    colors: {
-      // color of the wave background
-      waveOutlineColor: "white",
-  
-      // color of the time ticks on the canvas
-      timeColor: "grey",
-  
-      // color of the fade drawn on canvas
-      fadeColor: "black"
-    },
-  
-    // height in pixels of each canvas element a waveform is on.
-    waveHeight: 128,
-  
-    // interaction state of the playlist
-    // (cursor | select | fadein | fadeout | shift)
-    state: "cursor",
+        // whether or not to include the track controls
+        show: true,
 
-    // Array of zoom levels in samples per pixel.
-    // Smaller numbers have a greater zoom in.
-    zoomLevels: [512, 1024, 2048, 4096],
-  
-    // Whether to automatically scroll the waveform while playing
-    isAutomaticScroll: false,
-  });
+        // width of controls in pixels
+        width: 150
+    }
+});
 
-
+// eventually we playlistapi.onProjectUpdate and onTrackUpdate
 playlist.load([
     {
-      src: "audio-2.mp3",
-      name: "Drums",
-      start: 8.5,
-      fadeIn: {
-        duration: 0.5
-      },
-      fadeOut: {
-        shape: "logarithmic",
-        duration: 0.5
-      }
+        src: "audio-2.mp3",
+        name: "Track1"
     },
     {
-      src: "audio-file.mp3",
-      name: "Guitar",
-      start: 23.5,
-      fadeOut: {
-        shape: "linear",
-        duration: 0.5
-      },
-      cuein: 15
-      
+        src: "audio-file.mp3",
+        name: "Track2",      
     }
   ]).then(function() {
     //can do stuff with the playlist.
     //initialize the WAV exporter.
     playlist.initExporter();
-  });
+});
   
 
   
@@ -95,10 +36,22 @@ playlist.load([
  * This script is provided to give an example how the playlist can be controlled using the event emitter.
  * This enables projects to create/control the useability of the project.
 */
+
+
+
+
+
+
+
+
+
+
+
 var ee = playlist.getEventEmitter();
+
 var $container = $("body");
 
-var $time = $container.find('.audio-pos');
+let timeBox = document.querySelector(".audio-pos");
 
 var format = "hh:mm:ss.uuu";
 var startTime = 0;
@@ -163,99 +116,103 @@ function cueFormatters(format) {
 
 function updateSelect(start, end) {
   if (start < end) {
-    $('.btn-trim-audio').removeClass('disabled');
-    $('.btn-loop').removeClass('disabled');
+    document.querySelector(".btn-trim-audio").classList.remove('disabled');
+    document.querySelector(".btn-loop").classList.remove('disabled');
   }
   else {
-    $('.btn-trim-audio').addClass('disabled');
-    $('.btn-loop').addClass('disabled');
+    document.querySelector(".btn-trim-audio").classList.add('disabled')
+    document.querySelector(".btn-loop").classList.add('disabled');
   }
-
-
-
   startTime = start;
   endTime = end;
 }
 
 function updateTime(time) {
-  $time.html(cueFormatters(format)(time));
-
+    
+  timeBox.innerHTML = cueFormatters(format)(time);
   audioPos = time;
 }
 
 updateSelect(startTime, endTime);
 updateTime(audioPos);
 
-
-$container.on("click", ".btn-annotations-download", function() {
-  ee.emit("annotationsrequest");
+/*
+document.querySelector(".btn-annotations-download").addEventListener('click', function(e){
+    ee.emit("annotationsrequest");
 });
-
+*/
+/*
 $container.on("click", ".btn-loop", function() {
   isLooping = true;
   playoutPromises = playlist.play(startTime, endTime);
 });
+*/
 
-$container.on("click", ".btn-play", function() {
-  ee.emit("play");
+document.querySelector(".btn-play").addEventListener('click', function(e){
+    ee.emit("play");
 });
 
-$container.on("click", ".btn-pause", function() {
-  isLooping = false;
-  ee.emit("pause");
+
+document.querySelector(".btn-pause").addEventListener('click', function(e){
+    isLooping = false;
+    ee.emit("pause");
 });
 
-$container.on("click", ".btn-stop", function() {
-  isLooping = false;
-  ee.emit("stop");
+
+document.querySelector(".btn-stop").addEventListener('click', function(e){
+    isLooping = false;
+    ee.emit("stop");
 });
 
-$container.on("click", ".btn-rewind", function() {
-  isLooping = false;
-  ee.emit("rewind");
+
+document.querySelector(".btn-rewind").addEventListener('click', function(e){
+    isLooping = false;
+    ee.emit("rewind");
 });
 
-$container.on("click", ".btn-fast-forward", function() {
-  isLooping = false;
-  ee.emit("fastforward");
+document.querySelector(".btn-fast-forward").addEventListener('click', function(e){
+    isLooping = false;
+    ee.emit("fastforward");
 });
 
-$container.on("click", ".btn-clear", function() {
-  isLooping = false;
-  ee.emit("clear");
+/*
+document.querySelector(".btn-clear").addEventListener('click', function(e){
+    isLooping = false;
+    ee.emit("clear");
 });
 
-$container.on("click", ".btn-record", function() {
-  ee.emit("record");
-});
+document.querySelector(".btn-record").addEventListener('click', function(e){
+    ee.emit("record");
+});*/
 
 //track interaction states
-$container.on("click", ".btn-cursor", function() {
-  ee.emit("statechange", "cursor");
+document.querySelector(".btn-cursor").addEventListener('click', function(e){
+    ee.emit("statechange", "cursor");
   toggleActive(this);
 });
 
-$container.on("click", ".btn-select", function() {
-  ee.emit("statechange", "select");
+document.querySelector(".btn-select").addEventListener('click', function(e){
+    ee.emit("statechange", "select");
   toggleActive(this);
 });
 
-$container.on("click", ".btn-shift", function() {
-  ee.emit("statechange", "shift");
+document.querySelector(".btn-shift").addEventListener('click', function(e){
+    ee.emit("statechange", "shift");
   toggleActive(this);
 });
 
-$container.on("click", ".btn-fadein", function() {
-  ee.emit("statechange", "fadein");
+document.querySelector(".btn-fadein").addEventListener('click', function(e){
+    ee.emit("statechange", "fadein");
   toggleActive(this);
 });
 
-$container.on("click", ".btn-fadeout", function() {
-  ee.emit("statechange", "fadeout");
+document.querySelector(".btn-fadeout").addEventListener('click', function(e){
+    ee.emit("statechange", "fadeout");
   toggleActive(this);
 });
 
 //fade types
+/*
 $container.on("click", ".btn-logarithmic", function() {
   ee.emit("fadetype", "logarithmic");
   toggleActive(this);
@@ -269,20 +226,22 @@ $container.on("click", ".btn-zoom-in", function() {
 
 $container.on("click", ".btn-zoom-out", function() {
   ee.emit("zoomout");
+});*/
+
+document.querySelector(".btn-trim-audio").addEventListener('click', function(e){
+    ee.emit("trim");
 });
 
-$container.on("click", ".btn-trim-audio", function() {
-  ee.emit("trim");
-});
-
+/*
 $container.on("click", ".btn-info", function() {
   console.log(playlist.getInfo());
 });
-
-$container.on("click", ".btn-download", function () {
+*/
+document.querySelector(".btn-download").addEventListener('click', function(e){
   ee.emit('startaudiorendering', 'wav');
 });
 
+/*
 $container.on("click", ".btn-seektotime", function () {
   var time = parseInt(document.getElementById("seektime").value, 10);
   ee.emit("select", time, time);
@@ -290,7 +249,7 @@ $container.on("click", ".btn-seektotime", function () {
 
 $container.on("change", ".select-seek-style", function (node) {
   playlist.setSeekStyle(node.target.value);
-});
+});*/
 
 //track drop
 $container.on("dragenter", ".track-drop", function(e) {
@@ -318,28 +277,27 @@ $container.on("drop", ".track-drop", function(e) {
   }
 });
 
-$container.on("change", ".time-format", function(e) {
-  format = $timeFormat.val();
-  ee.emit("durationformat", format);
 
-  updateSelect(startTime, endTime);
-  updateTime(audioPos);
-});
+//$container.on("input change", ".master-gain", function(e){
+let gainChangeEvents = ["input", "change"];
+for (event of gainChangeEvents){
+    document.querySelector(".master-gain").addEventListener(event, function(e){
+        ee.emit("mastervolumechange", e.target.value);
+        });
+}
 
-$container.on("input change", ".master-gain", function(e){
-  ee.emit("mastervolumechange", e.target.value);
-});
-
+/*
 $container.on("change", ".continuous-play", function(e){
   ee.emit("continuousplay", $(e.target).is(':checked'));
 });
 
 $container.on("change", ".link-endpoints", function(e){
   ee.emit("linkendpoints", $(e.target).is(':checked'));
-});
+});*/
 
-$container.on("change", ".automatic-scroll", function(e){
-  ee.emit("automaticscroll", $(e.target).is(':checked'));
+//$container.on("change", ".automatic-scroll", function(e){
+document.querySelector(".automatic-scroll").addEventListener('change', function(e){
+  ee.emit("automaticscroll", document.querySelector(".automatic-scroll").checked);
 });
 
 function displaySoundStatus(status) {
