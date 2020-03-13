@@ -1,0 +1,54 @@
+.title{
+    width: 50%;
+    word-wrap: break-word;
+}
+
+.title:hover{
+    cursor: pointer;
+}
+
+.action_box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.action_btn{
+    text-align:center;
+    font-size: 18px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #3C3D3F;
+    background: #ffffff;
+    border: 2px #3C3D3F solid;
+    width: 30%;
+    padding: 10px 20px 10px 20px;
+    margin: 10px 10px 5px 10px;
+}
+
+.action_btn:hover {
+  background: rgb(189, 107, 0);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+
+/* This snippet of code was originated from using: http://css3buttongenerator.com/ */
+
+.header_btn{
+    text-align:center;
+    font-size: 14px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #3C3D3F;
+    background: #ffffff;
+    border: 2px #3C3D3F solid;
+    width: 20%;
+    padding: 10px 20px 10px 20px;
+    margin: 10px 10px 5px 10px;
+}
+
+.header_btn:hover {
+  background: rgb(189, 107, 0);
+  color: #ffffff;
+  cursor: pointer;
+}

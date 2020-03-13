@@ -1,0 +1,116 @@
+.submit_form{
+    display:flex;
+    flex-direction: column;
+    width: 70%;
+    margin-top: 20px;
+    margin-left: 15%;
+    border: 2px #3C3D3F solid;
+    padding: 20px 10px 10px 15px;
+}
+
+.submit_form .form_header{
+    display: flex;
+    flex-direction: row;
+    width: 99%;
+    justify-content: space-between;
+    margin:-20px 0px 10px -10px;
+    padding: 10px 0px 10px 30px;
+    background-color: rgb(0, 0, 0);
+}
+
+.submit_form .form_title{
+    font-size:20px;
+    font-weight:bold;
+    color:white;
+}
+
+.submit_form .element{
+    margin-bottom:10px;
+    font-size: 18px;
+    width: 94%;
+    padding:5px 10px 5px 10px;
+    margin: 5px 10px 5px 10px;
+}
+
+.txt{
+    font-size: 18px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+    padding:5px 10px 5px 10px;
+    margin: 5px 10px 5px 10px;
+}
+
+
+
+/* This snippet of code was originated from using: http://css3buttongenerator.com/ */
+
+.btn{
+    text-align:center;
+    font-size: 18px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #3C3D3F;
+    background: #ffffff;
+    border: 2px #3C3D3F solid;
+    width: 97.5%;
+    padding: 10px 20px 10px 20px;
+    margin: 10px 10px 5px 10px;
+}
+
+.btn:hover {
+  background: rgb(189, 107, 0);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* This snipper of code was originated from: https://www.w3schools.com/howto/howto_css_switch.asp */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-right: 25px;
+}
+  
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+input:checked + .slider {
+    background-color: rgb(255, 166, 0);
+}
+  
+input:focus + .slider {
+    box-shadow: 0 0 1px rgb(255, 166, 0);
+}
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}

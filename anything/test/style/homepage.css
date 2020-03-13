@@ -1,0 +1,24 @@
+.selecting_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.select_letter{
+    width: 20%;
+    border: 2px #3C3D3F solid;
+    padding: 10px 5px 10px 10px;
+}
+
+.select_letter ul li{
+    text-decoration: underline;
+    color: blue;
+    height: 24px;
+    cursor: pointer;
+}
+
+.user_list{
+    width: 70%;
+    border: 2px #3C3D3F solid;
+    padding: 10px 10px 10px 10px;
+}

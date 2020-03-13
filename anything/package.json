@@ -9,6 +9,16 @@
   "author": "Tabeeb Yeamin, Sanjam Sigdel, Gabrian Mak",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "cookie-parser": "^1.4.4",
+    "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.9.3",
+    "nodemon": "^2.0.2",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "wavesurfer": "^1.3.4"
   }
 }

@@ -1,0 +1,175 @@
+.track-editor{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 500px;
+}
+
+.controls{
+    display: flex;
+    flex-grow: 2;
+    order: 1;
+    width: 100%;
+    border-style: solid;
+    border-color: black;
+    height: 100px;
+    flex-direction: row;
+}
+
+.track-list{
+    display: flex;
+    width: 75%;
+    order: 2;
+    flex-direction: column;
+    height: 400px;
+    overflow: scroll;
+}
+
+.track-list .track{
+    border-style: solid;
+    border-color: black;
+}
+
+.track-settings{
+    width: 25%;
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: black;
+    height: 400px;
+}
+
+/* body select.select_box */ 
+.track-settings select {
+    padding: 10px 70px 10px 13px; 
+    width: 100%; 
+    height: 50px; 
+    border: 1px solid #e3e3e3; 
+    border-radius: 3px; 
+    background: url("https://i.ibb.co/b7xjLrB/selectbox-arrow.png") right center no-repeat; 
+    background-color:#333; 
+    color: orange; 
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px; 
+    appearance: none; 
+    /* this is must */ -webkit-appearance: none; 
+    -moz-appearance: none; 
+} 
+
+/* body select.select_box option */ 
+.track-settings select option { 
+    padding: 0 4px; 
+    color: orange;
+    background-color:#333;
+} 
+
+.slider-settings {
+    -webkit-appearance: none;
+    transform: rotate(270deg);
+    width: 70%;
+    height: 15px;
+    margin: auto;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider-settings:hover {
+    opacity: 1;
+}
+
+.slider-settings::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider-settings::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.play-icon{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/play-button.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.pause-icon{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/pause.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.forward-icon{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/forward.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.backward-icon{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/backward.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.end-icon{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/end.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.start-icon{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/start.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+  
