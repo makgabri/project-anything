@@ -41,17 +41,6 @@ app.use(session({
     saveUninitialized: true,
     cookie: {httpOnly: true, sameSite: true, secure: true, expires: cookieExpirationDate}
 }));
-/**     Initializing app - Cookie     **/
-// app.use(function(req, res, next){
-//     var key = (req.session.key)? req.session.key : '';
-//     res.setHeader('Set-Cookie', cookie.serialize('key', key, {
-//           path : '/', 
-//           maxAge: 60 * 60,
-//           secure: true,
-//           sameSite: true
-//     }));
-//     next();
-// });
 
 
 
@@ -69,9 +58,8 @@ require('./config/routes')(app, passport);
 
 /**     Listen to server    **/
 app.use(function (req, res, next){
-    console.log("HTTPS request", req.method, req.url, req.body);
-    //console.log(req.session);
-    console.log(req.isAuthenticated());
+    req.username = (req.session.passport)? req.session.passport : null;
+    console.log("HTTP request", req.username, req.method, req.url, req.body);
     next();
 });
 

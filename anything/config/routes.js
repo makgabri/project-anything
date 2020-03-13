@@ -13,27 +13,25 @@ module.exports = function(app, passport) {
     /**     Create     **/
     // Creating users and signing in
     app.post('/signup/', users.sign_up_local);
-    app.post('/signin/', passport.authenticate('local', {failureRedirect: '/failed', successRedirect: '/success'}));
+    app.post('/signin/', passport.authenticate('local', {failureRedirect: '/failed'}), users.set_cookie,
+    function(req, res) {
+        req.session.save(function(err) {
+            if (err) console.log(err);
+            res.status(200).json('success');
+        })
+    });
 
     /**     Read     **/
     // Google authentication
     app.get('/auth/google/', passport.authenticate('google', { scope: ['profile']}));
-    app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), 
+    app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), users.set_cookie,
     function(req, res) {
         req.session.save(function(err) {
-            console.log(req._passport);
             if (err) console.log(err);
-            res.redirect('/');
+            res.redirect('/homepage.html');
         })
     });
-    // app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}),
-    // function(req, res) {
-    //     console.log(req.session);
-    //   // Explicitly save the session before redirecting!
-    //   req.session.save(() => {
-    //     res.redirect('/');
-    //   })
-    // });
+    app.get('/user_key/', users.get_user_key);
     // Signout for all passport
     app.get('/signout/', users.sign_out);
     /**     Update     **/

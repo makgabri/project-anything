@@ -16,6 +16,11 @@ window.onload = function(){
 
 
 
+    /**     UI Navigation    **/
+    // TODO: Check if logged in
+
+
+
     /**     Adds Listeners to display action box    **/
     // Add/Changes form to login option
     this.document.getElementById("login_btn").addEventListener('click', (function(e){

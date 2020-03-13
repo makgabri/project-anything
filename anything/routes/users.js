@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('users');
 const Local = mongoose.model('local_users');
 const crypto = require('crypto');
+const cookie = require('cookie');
 
 
 
@@ -39,32 +40,21 @@ exports.sign_up_local = function(req, res, next) {
     });
 };
 
-// Sign in for local
-exports.sign_in_local = function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
-        if (err) return next(err);
-        if (!user) return res.redirect('/fail');
-        req.session.key = user.key;
-        res.setHeader('Set-Cookie', cookie.serialize('key', user.key, {
-            path : '/', 
-            maxAge: 60 * 60 * 2     // maxAge is 2 hours
-        }));
-        res.redirect('/');
-    });
-};
 
-// Sign in for google
-exports.sign_in_google = function(req, res, next) {
-    passport.authenticate('google', function(err, user, info) {
-        if (err) return next(err);
-        if (!user) return res.redirect('/fail');
-        req.session.key = user.key;
-        res.setHeader('Set-Cookie', cookie.serialize('key', user.key, {
-            path : '/', 
-            maxAge: 60 * 60 * 2     // maxAge is 2 hours
-        }));
-        res.redirect('/');
-    });
+
+exports.get_user_key = function(req, res, next) {
+    if (!req.session.passport) return res.status(401).json('You are not logged in');
+    return res.status(200).json(req.session.passport.user);
+}
+
+
+exports.set_cookie = function(req, res, next) {
+    if (!req.session.passport) return res.status(401).json('You are not logged in');
+    res.setHeader('Set-Cookie', cookie.serialize('username', req.session.passport.user, {
+        path : '/', 
+        maxAge: 60 * 60 * 2     // maxAge is 2 hours, hopefully enough time for TA to mark
+    }));
+    next();
 };
 
 

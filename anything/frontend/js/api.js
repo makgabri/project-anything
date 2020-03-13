@@ -53,7 +53,9 @@ var api = (function(){
     module.signin_local = function(username, password){
         send("POST", "/signin/", {username: username, password: password}, function(err, res){
             if (err) return notifyErrorListeners(err);
-            notifyUserListeners(getUsername());
+            if (res == "success") {
+                window.location.replace("../homepage.html")
+            }
        });
     };
     

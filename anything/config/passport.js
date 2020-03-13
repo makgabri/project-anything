@@ -64,12 +64,10 @@ module.exports = function(passport) {
     ));
 
     passport.serializeUser(function(user, done) {
-        console.log('seralize');
         done(null, user.key);
     });
       
     passport.deserializeUser(function(key, done) {
-        console.log('deserialize');
         User.findOne({key: key}, function(err, user_found) {
             done(err, user_found);
         })
