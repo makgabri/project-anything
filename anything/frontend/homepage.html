@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Anything</title>
+    <link href="style/main.css" rel="stylesheet" type="text/css"/>
+    <link href="style/track.css" rel="stylesheet" type="text/css"/>
+    <link href="style/form.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <header>
+        <a href="/" id="title">Anything</a>
+        <div id="signout_button" class="btn header_btn">Sign out</div>
+    </header>
+    
+    <p id="error_box"></p>
+
+    <div id="welcome_message" class="header_title">
+        <h3>Hello </h3>
+        <h3>These are your tracks</h3>
+    </div>
+    
+    <form class="complex_form" id="create_message_form">
+      <div class="form_title">Create A Track</div>
+      <textarea id="track-name" class="form_element" placeholder="Enter track name" required></textarea>
+      <button type="submit" formaction="/workstation.html" class="btn">Create your track</button>
+    </form>
+    
+    <div id="tracks">
+        <h3>Tracks</h3>
+        <div class="container-audio">
+            <div class="track-title">XO Tour Life</div>
+            <div class="track-author">Lil Uzi Vert</div>
+            <div class="edit-icon" onclick="window.open('workstation.html')"></div>
+            <audio controls loop>
+                <source src="/media/Lil Uzi Vert - XO Tour Llif3 (Official Visualiser).mp3" type="audio/mpeg"> 
+            </audio>
+            <div class="track-views" id="xo-views">300 views</div>
+            <div class="track-likes" id="xo-likes">150 likes</div>
+        </div>
+        <div class="container-audio">
+            <div class="track-title">Sicko Mode</div>
+            <div class="track-author">Travis Scott</div>
+            <div class="edit-icon" onclick="window.open('workstation.html')"></div>
+            <audio controls loop>
+                <source src="/media/Travis Scott - SICKO MODE ft. Drake.mp3" type="audio/mpeg">
+            </audio>
+            <div class="track-views" id="xo-views">400 views</div>
+            <div class="track-likes" id="xo-likes">250 likes</div>
+        </div>
+        <div class="container-audio">
+            <div class="track-title">After Hours</div>
+            <div class="track-author">Weeknd</div>
+            <div class="edit-icon" onclick="window.open('workstation.html')"></div>
+            <audio controls loop>
+                <source src="/media/The Weeknd - After Hours (Audio).mp3" type="audio/mpeg">
+            </audio>
+            <div class="track-views" id="xo-views">500 views</div>
+            <div class="track-likes" id="xo-likes">350 likes</div>
+        </div>
+    </div>
+
+    <div id="pagination" style="display: none;">
+        <div class="prev-arrow"></div>
+        <div class="next-arrow"></div>
+    </div>
+    
+    <footer>
+        <a href='/credits.html'>credits</a>
+    </footer>
+    <script src="js/api.js"></script>
+    <script src="js/homepage.js"></script>
+</body>
+</html>

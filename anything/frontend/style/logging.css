@@ -1,0 +1,28 @@
+.action_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    width: 50%;
+    margin-left: 25%;
+}
+
+.google_login {
+    display: inline-block;
+    background-image: url("../media/btn_google_signin_normal.png");
+    height: 40px;
+    width: 170px;
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: cover; 
+    opacity: 90%;
+}
+
+.google_login:hover {
+    background-image: url("../media/btn_google_signin_normal.png");
+    height: 40px;
+    width: 170px;
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: cover; 
+    opacity: 100%;
