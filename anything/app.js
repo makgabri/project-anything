@@ -10,7 +10,8 @@ const session = require('express-session');
 
 /**     Load External Files      **/
 const config = require('./config/config');
-const schemas = require('./config/models/user');
+const userSchemas = require('./config/models/user');
+const audioSchemas = require('./config/models/audio');
 
 
 
@@ -19,9 +20,11 @@ mongoose.connect(config.mongo.url, config.mongo.options);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {console.log('connection successful')});
-let user_model = mongoose.model('users', schemas.User);
-let google_model = mongoose.model('google_users', schemas.Google);
-let local_model = mongoose.model('local_users', schemas.Local);
+let user_model = mongoose.model('users', userSchemas.User);
+let google_model = mongoose.model('google_users', userSchemas.Google);
+let local_model = mongoose.model('local_users', userSchemas.Local);
+let project_model = mongoose.model('project', audioSchemas.Project);
+let track_model = mongoose.model('track', audioSchemas.Track);
 
 
 
