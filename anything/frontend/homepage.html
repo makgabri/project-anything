@@ -10,18 +10,17 @@
 <body>
     <header>
         <a href="/" id="title">Anything</a>
-        <a href="/login.html" id="signin_button" class="btn header_btn hidden">Sign in or Sign up</a>
-        <a href="/signout/" id="signout_button" class="btn header_btn hidden">Sign out</a>
+        <div id="signout_button" class="btn header_btn">Sign out</div>
     </header>
     
     <p id="error_box"></p>
 
-    <div class="header_title">
-        <h3>Hello {{username}},</h3>
+    <div id="welcome_message" class="header_title">
+        <h3>Hello </h3>
         <h3>These are your tracks</h3>
     </div>
     
-    <form class="complex_form hidden" id="create_message_form">
+    <form class="complex_form" id="create_message_form">
       <div class="form_title">Create A Track</div>
       <textarea id="track-name" class="form_element" placeholder="Enter track name" required></textarea>
       <button type="submit" formaction="/workstation.html" class="btn">Create your track</button>

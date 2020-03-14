@@ -159,5 +159,9 @@
             api.navComments(1);
         });
 
+        document.getElementById("signout_button").addEventListener('click', function (e) {
+            api.signout();
+        })
+
     }
 }());

@@ -32,6 +32,8 @@ module.exports = function(app, passport) {
         })
     });
     app.get('/user_key/', users.get_user_key);
+    app.get('/user_firstName/', users.get_user_givenName);
+    app.get('/user_lastName/', users.get_user_familyName);
     // Signout for all passport
     app.get('/signout/', users.sign_out);
     /**     Update     **/

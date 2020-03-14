@@ -58,11 +58,11 @@ window.onload = function(){
         let elmt = document.createElement('form');
         elmt.className = "complex_form";
         elmt.innerHTML = `
+            <input type="text" id="familyName" class="element" placeholder="Enter your family name" required/>
+            <input type="text" id="givenName" class="element" placeholder="Enter your given name" required/>
             <input type="text" id="username" class="element" placeholder="Enter your username" required/>
             <input type="password" id="password" class="element" placeholder="Enter a password" required/>
             <input type="password" id="password_repeat" class="element" placeholder="Re-enter your password" required/>
-            <input type="text" id="familyName" class="element" placeholder="Enter your family name" required/>
-            <input type="text" id="givenName" class="element" placeholder="Enter your given name" required/>
             <div>
                 <button id="register_exec" class="btn">Sign up</button>
             </div>
