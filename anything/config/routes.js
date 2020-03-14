@@ -4,6 +4,8 @@
 
 const users = require('../routes/users');
 const auth = require('../routes/authentication');
+const workstation = require('../routes/workstation');
+
 
 /**     Properly assign CRUD calls      **/
 
@@ -41,5 +43,17 @@ module.exports = function(app, passport) {
 
 
     /**     CRUD for audio     **/
-    /**     CRUD for workshop     **/
+    /**     CRUD for workstation     **/
+    
+    /** Projects */
+    app.post('/api/projects/', workstation.addProject);
+    app.get('/api/projects/:projectId', workstation.getProject);
+    app.delete('/api/projects/:projectId', workstation.deleteProject);
+
+    /** Tracks */
+    app.post('/api/tracks/', workstation.addTrack);
+    app.get('/api/tracks/project/:projectId', workstation.getTracks);
+    app.delete('/api/tracks/:trackId', workstation.deleteTrack);
+    app.delete('/api/tracks/project/:projectId', workstation.deleteAllTracks);
+
 };

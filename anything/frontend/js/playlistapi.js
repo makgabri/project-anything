@@ -81,7 +81,7 @@ let playlistApi = (function(){
     // delete an project from the gallery given its projectId
     module.deleteProject = function(projectId){
         // have to delete all the tracks for the project first
-        send("DELETE", "/api/alltracks/" + projectId + "/", null, function(err, res){
+        send("DELETE", "/api/tracks/project/" + projectId + "/", null, function(err, res){
             if (err) return notifyErrorListeners(err);
             notifyTrackListeners();
         });
@@ -101,7 +101,7 @@ let playlistApi = (function(){
 
     // get tracks for projectID
     let getTracks = function(callback){
-        send("GET", "/api/tracks/", null, callback);
+        send("GET", "/api/tracks/project/"+currProjectID, null, callback);
     };
 
 
