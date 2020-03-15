@@ -68,3 +68,27 @@ exports.delete_track = function(req, res, next) {
         return res.status(200).json("Track: " + req.body.trackId + " has been deleted");
     })
 }
+
+exports.upload_audio_track = function(req, res, err) {
+    if (err) return res.status(500).end(err);
+    return res.status(201).json("upload track success");
+}
+
+exports.get_track_file = function(gfs) {
+    return (function (req, res, next) {
+        gfs.files.findOne({ filename: req.body.filename }, (err, file) => {
+            // Check if file
+            if (!file || file.length === 0) {
+              return res.status(404).json('no file exists');
+            }
+        
+            // Check if track
+            if (file.contentType === 'audio/mpeg' || file.contentType === 'audio/aac') {
+              const readstream = gfs.createReadStream(file.filename);
+              readstream.pipe(res);
+            } else {
+              res.status(404).json('file is not audio type');
+            }
+          })
+    });
+}

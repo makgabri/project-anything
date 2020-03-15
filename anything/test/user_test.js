@@ -37,29 +37,7 @@ describe('User sign up testing', function() {
 });
 
 describe('User sign in testing', function() {
-    it('should login user', function(done) {
-        request(app)
-        .post('/signup/')
-        .send({
-            familyName: 'foo',
-            givenName: 'bar',
-            username: 'foobar',
-            password: 'foobar'
-        })
-        .expect(200, done);
-    });
-
-    it('should create a same user', function(done) {
-        request(app)
-        .post('/signup/')
-        .send({
-            familyName: 'foo',
-            givenName: 'bar',
-            username: 'foobar',
-            password: 'foobar'
-        })
-        .expect(409, done);
-    });
+    // TODO
 });
 
 // CLean up created user

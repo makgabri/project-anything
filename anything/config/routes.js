@@ -8,7 +8,7 @@ const auth = require('../routes/authentication');
 
 /**     Properly assign CRUD calls      **/
 
-module.exports = function(app, passport) {
+module.exports = function(app, passport, gfs, track_upload) {
 
     /**     CRUD for users     **/
     /**     Create     **/
@@ -31,6 +31,8 @@ module.exports = function(app, passport) {
 
 
     /**     CRUD for audio     **/
+    app.post('/upload_track/', track_upload.single('track'), audio.upload_audio_track);
+    app.get('/get_track_file/', audio.get_track_file(gfs));
     app.post('/add_track/', audio.add_track);
     app.get('/get_track/', audio.get_track);
     app.delete('/delete_track/', audio.delete_track);
