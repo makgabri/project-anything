@@ -56,7 +56,7 @@ let playlistApi = (function(){
     // create new project
     module.addProject = function(title, author){
        send(
-        "POST", "/api/projects/",
+        "POST", "/add_project/",
         {
             title: title,
             author: author,

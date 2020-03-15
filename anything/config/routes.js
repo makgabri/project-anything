@@ -3,14 +3,14 @@
 /**     Required Node Libraries     **/
 
 const users = require('../routes/users');
-const workstation = require('../routes/workstation');
+const audio = require('../routes/workstation');
 const auth = require('../routes/authentication');
 //const workstation = require('../routes/workstation2');
 
 
 /**     Properly assign CRUD calls      **/
 
-module.exports = function(app, passport) {
+module.exports = function(app, passport, gfs, track_upload) {
 
     /**     CRUD for users     **/
     /**     Create     **/
@@ -22,6 +22,7 @@ module.exports = function(app, passport) {
     /**     Read     **/
     app.get('/auth/google/', passport.authenticate('google', { scope: ['profile']}));
     app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), users.set_cookie, users.sign_in_google);
+    // curl --verbose -k -H "Content-Type: application/json" -X GET -d '{"username":"1","password":"1"}' -c cookie.txt https://localhost:3000/signout/
     app.get('/signout/', users.sign_out);
     app.get('/user_key/', users.get_user_key);
     app.get('/user_firstName/', users.get_user_givenName);
@@ -32,18 +33,16 @@ module.exports = function(app, passport) {
 
 
     /**     CRUD for audio     **/
-    /**     CRUD for workstation     **/
-    
-    /** Projects */
-    //  curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"projectId":"1","title":"1","author":"1","date":"2020-01-01"}' -b cookie.txt https://localhost:3000/api/projects/
-    app.post('/api/projects/', workstation.add_project);
-    app.get('/api/projects/:projectId', workstation.get_project);
-    app.delete('/api/projects/:projectId', workstation.delete_project);
+    app.post('/upload_track/', track_upload.single('track'), audio.upload_audio_track);
+    app.get('/get_track_file/', audio.get_track_file(gfs));
+    app.post('/add_track/', audio.add_track);
+    app.get('/get_track/', audio.get_track);
+    app.delete('/delete_track/', audio.delete_track);
 
-    /** Tracks */
-    app.post('/api/tracks/', workstation.add_track);
-    app.get('/api/tracks/project/:projectId', workstation.get_track);
-    app.delete('/api/tracks/:trackId', workstation.delete_track);
-    app.delete('/api/tracks/project/:projectId', workstation.delete_all_tracks);
-
+    /**     CRUD for workshop     **/
+    //  curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"projectId":"1","title":"1","author":"1","date":"2020-01-01"}' -b cookie.txt https://localhost:3000/add_project/
+    app.post('/add_project/', audio.add_project);
+    // curl --verbose -k -H "Content-Type: application/json" -X DELETE -d '{"projectId":"1"}' -b cookie.txt https://localhost:3000/delete_project/
+    app.get('/get_project/', audio.get_project);
+    app.delete('/delete_project/', audio.delete_project);
 };
