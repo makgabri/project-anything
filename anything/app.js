@@ -72,7 +72,9 @@ const https = require('https');
 const PORT = 3000;
 
 /**     Start Server     **/
-https.createServer(config.server, app).listen(PORT, function (err) {
+let server = https.createServer(config.server, app).listen(PORT, function (err) {
     if (err) console.log(err);
     else console.log("HTTPS server on http://localhost:%s", PORT);
 });
+
+module.exports = server;

@@ -10,7 +10,6 @@ const cookie = require('cookie');
 //       Therefor in validation, we check if the fields exists
 // Todo: validation
 exports.add_project = function(req, res, next) {
-    // Do I need to convert date string into date object?
     Project.create({
         projectId: req.body.projectId,
         title: req.body.title,

@@ -1,5 +1,7 @@
 'use strict'
 
+const { check, validationResult } = require('express-validator');
+
 module.exports = function isLoggedIn(req, res, next) {
     // Check if authenticated by google login
     if (req.isAuthenticated()) return next();
@@ -33,25 +35,63 @@ module.exports = function validate(req, res,next) {
             ]
         }
 
-        // Validating post message
-        case 'postMessage': {
+        // Validating add project
+        case 'add_project': {
             return [
-                check('content').escape()
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric'),
+                check('title').exists().withMessage('title must exist'),
+                check('title').isAlphanumeric().withMessage('title must be alphanumeric'),
+                check('author').exists().withMessage('author must exist'),
+                check('author').isAlphanumeric().withMessage('author must be alphanumeric'),
+                check('date').exists().withMessage('date must exist'),
+                check('date').isAlphanumeric().withMessage('date must be alphanumeric')
             ]
         }
 
-        // Validating patch upvote/downvote
-        case 'patch': {
+        // Validating get project
+        case 'get_project': {
             return [
-                check('id').isAlphanumeric().withMessage('id must be alphanumeric'),
-                check('action').isAlphanumeric().withMessage('action must be alphanumeric')
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
             ]
         }
 
-        // Validating delete message
-        case 'delete': {
+        // Validating delete project
+        case 'delete_project': {
             return [
-                check('id').isAlphanumeric().withMessage('id must be alphanumeric'),
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
+            ]
+        }
+
+        // Validating add_track
+        case 'add_track': {
+            return [
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric'),
+                check('trackId').exists().withMessage('trackId must exist'),
+                check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric'),
+                check('src').exists().withMessage('src must exist'),
+                check('src').isAlphanumeric().withMessage('src must be alphanumeric'),
+                check('name').exists().withMessage('name must exist'),
+                check('name').isAlphanumeric().withMessage('name must be alphanumeric'),
+            ]
+        }
+        
+        // Validating get track
+        case 'get_project': {
+            return [
+                check('trackId').exists().withMessage('trackId must exist'),
+                check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric')
+            ]
+        }
+
+        // Validating delete track
+        case 'delete_track': {
+            return [
+                check('trackId').exists().withMessage('trackId must exist'),
+                check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric')
             ]
         }
     }
