@@ -20,6 +20,7 @@ module.exports = function(app, passport) {
     /**     Read     **/
     app.get('/auth/google/', passport.authenticate('google', { scope: ['profile']}));
     app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), users.set_cookie, users.sign_in_google);
+    // curl --verbose -k -H "Content-Type: application/json" -X GET -d '{"username":"1","password":"1"}' -c cookie.txt https://localhost:3000/signout/
     app.get('/signout/', users.sign_out);
     app.get('/user_key/', users.get_user_key);
     app.get('/user_firstName/', users.get_user_givenName);
