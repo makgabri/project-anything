@@ -11,10 +11,10 @@ const cookie = require('cookie');
 // Todo: validation
 exports.add_project = function(req, res, next) {
     Project.create({
-        projectId: req.body.projectId,
+        //projectId: req.body.projectId,
         title: req.body.title,
         author: req.body.author,
-        date: new Date(req.body.date)
+        date: req.body.date
     }), function (err, new_project) {
         if (err) return res.status(500).end(err);
         return res.status(200).json(new_project);
@@ -44,7 +44,7 @@ exports.add_track = function(req, res, next) {
         if (!project) return res.status(400).json("Project: " + req.body.projectId + " does not exist");
         
         Track.create({
-            trackId: req.body.trackId,
+            //trackId: req.body.trackId,
             projectId: req.body.projectId,
             src: req.body.src,
             name: req.body.name
@@ -69,6 +69,12 @@ exports.delete_track = function(req, res, next) {
     })
 }
 
+exports.delete_all_tracks = function(req, res, next) {
+    Track.deleteOne({trackId: req.body.trackId}, function(err) {
+        if (err) return res.status(500).end(err);
+        return res.status(200).json("Track: " + req.body.trackId + " has been deleted");
+    })
+}
 exports.upload_audio_track = function(req, res, err) {
     if (err) return res.status(500).end(err);
     return res.status(201).json("upload track success");

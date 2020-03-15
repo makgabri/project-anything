@@ -149,6 +149,14 @@
                     });
                 }
             });
+
+            document.querySelector("#complex_form").addEventListener("submit", function(e){
+                e.preventDefault();
+                let title = document.querySelector("#project-name").value;
+                let author = username;
+                document.querySelector("complex_form").reset();
+                playlistApi.addProject(title, author);
+            });
         });
 
         document.querySelector("#pagination .prev-arrow").addEventListener("click", function(e){
@@ -162,6 +170,8 @@
         document.getElementById("signout_button").addEventListener('click', function (e) {
             api.signout();
         })
+        
+
 
     }
 }());
