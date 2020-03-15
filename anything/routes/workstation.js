@@ -2,72 +2,77 @@
 
 /**     Required Node Libraries     **/
 const mongoose = require('mongoose');
-const User = mongoose.model('users');
-const Local = mongoose.model('local_users');
-const Google = mongoose.model('google_users');
-const crypto = require('crypto');
+const Project = mongoose.model('project');
+const Track = mongoose.model('track');
 const cookie = require('cookie');
-const Projects = mongoose.model('projects');
 
-
-
-let Project = function(project){
-    this.title = project.title;
-    this.author = project.author;
-    this.date = project.date;  
-};
-
-
-let Track = function(track){
-    this.projectId = track.projectId;
-    this.src = track.src;
-    this.name = track.name;
-};
-
-
-
-/** Create a new project */
-exports.addProject = function(req, res, next) {
-    let new_project = new Project(req.body);
-    // insert the new project
-
-
-    Projects.create({key: id, provider: 'projects'}, function(err, project) {
+// Note: assumption is that the required fields are sent within request
+//       Therefor in validation, we check if the fields exists
+// Todo: validation
+exports.add_project = function(req, res, next) {
+    // Do I need to convert date string into date object?
+    Project.create({
+        //projectId: req.body.projectId,
+        title: req.body.title,
+        author: req.body.author,
+        date: req.body.date
+    }), function (err, new_project) {
         if (err) return res.status(500).end(err);
-        Local.create(new_project).then(function(new_project) {
-            return res.status(200).json("Project " + new_project.id + " created");
+        return res.status(200).json(new_project);
+    }
+}
+
+exports.get_project = function(req, res, next) {
+    Project.findOne({projectId: req.body.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        return res.status(200).json(project);
+    })
+}
+
+exports.delete_project = function(req, res, next) {
+    Track.deleteMany({projectId: req.body.projectId}, function(err) {
+        if (err) return res.status(500).end(err);
+        Project.deleteOne({projectId: req.body.projectId}, function(err) {
+            if (err) return res.status(500).end(err);
+            return res.status(200).json("Project: " + req.body.projectId +" has been deleted");
         });
-    });
+    })
+}
 
+exports.add_track = function(req, res, next) {
+    Project.findOne({projectId: req.body.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(400).json("Project: " + req.body.projectId + " does not exist");
+        
+        Track.create({
+            //trackId: req.body.trackId,
+            projectId: req.body.projectId,
+            src: req.body.src,
+            name: req.body.name
+        }), function (err, new_track) {
+            if (err) return res.status(500).end(err);
+            return res.status(200).json(new_track);
+        }
+    })
+}
 
-};
+exports.get_track = function(req, res, next) {
+    Track.findOne({trackId: req.body.trackId}, function(err, track) {
+        if (err) return res.status(500).end(err);
+        return res.status(200).json(track);
+    })
+}
 
-/** Return a project given id in req.param */
-exports.getProject = function(req, res, next) {
+exports.delete_track = function(req, res, next) {
+    Track.deleteOne({trackId: req.body.trackId}, function(err) {
+        if (err) return res.status(500).end(err);
+        return res.status(200).json("Track: " + req.body.trackId + " has been deleted");
+    })
+}
 
-};
-
-/** Delete a project given id in req.param */
-exports.deleteProject = function(req, res, next) {
-
-};
-
-/** Add track to project given id in req.param */
-exports.addTrack = function(req, res, next) {
-
-};
-
-/** Get all tracks for project given id in req.param */
-exports.getTracks = function(req, res, next) {
-
-};
-
-/** Delete a track given id in req.param */
-exports.deleteTrack = function(req, res, next) {
-
-};
-
-/** Delete all of project's tracks given id in req.param */
-exports.deleteAllTracks = function(req, res, next) {
-
-};
+exports.delete_all_tracks = function(req, res, next) {
+    Track.deleteOne({trackId: req.body.trackId}, function(err) {
+        if (err) return res.status(500).end(err);
+        return res.status(200).json("Track: " + req.body.trackId + " has been deleted");
+    })
+}

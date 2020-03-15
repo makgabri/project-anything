@@ -3,8 +3,9 @@
 /**     Required Node Libraries     **/
 
 const users = require('../routes/users');
-const auth = require('../routes/authentication');
 const workstation = require('../routes/workstation');
+const auth = require('../routes/authentication');
+//const workstation = require('../routes/workstation2');
 
 
 /**     Properly assign CRUD calls      **/
@@ -15,29 +16,17 @@ module.exports = function(app, passport) {
     /**     Create     **/
     // Creating users and signing in
     app.post('/signup/', users.sign_up_local);
-    app.post('/signin/', passport.authenticate('local', {failureRedirect: '/failed'}), users.set_cookie,
-    function(req, res) {
-        req.session.save(function(err) {
-            if (err) console.log(err);
-            res.status(200).json('success');
-        })
-    });
+    //  curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"username":"1","password":"1"}' -c cookie.txt https://localhost:3000/signin/
+    app.post('/signin/', passport.authenticate('local', {failureRedirect: '/failed'}), users.set_cookie, users.sign_in_local);
 
     /**     Read     **/
-    // Google authentication
     app.get('/auth/google/', passport.authenticate('google', { scope: ['profile']}));
-    app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), users.set_cookie,
-    function(req, res) {
-        req.session.save(function(err) {
-            if (err) console.log(err);
-            res.redirect('/homepage.html');
-        })
-    });
+    app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), users.set_cookie, users.sign_in_google);
+    app.get('/signout/', users.sign_out);
     app.get('/user_key/', users.get_user_key);
     app.get('/user_firstName/', users.get_user_givenName);
     app.get('/user_lastName/', users.get_user_familyName);
-    // Signout for all passport
-    app.get('/signout/', users.sign_out);
+
     /**     Update     **/
     /**     Delete     **/
 
@@ -46,14 +35,15 @@ module.exports = function(app, passport) {
     /**     CRUD for workstation     **/
     
     /** Projects */
-    app.post('/api/projects/', workstation.addProject);
-    app.get('/api/projects/:projectId', workstation.getProject);
-    app.delete('/api/projects/:projectId', workstation.deleteProject);
+    //  curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"projectId":"1","title":"1","author":"1","date":"2020-01-01"}' -b cookie.txt https://localhost:3000/api/projects/
+    app.post('/api/projects/', workstation.add_project);
+    app.get('/api/projects/:projectId', workstation.get_project);
+    app.delete('/api/projects/:projectId', workstation.delete_project);
 
     /** Tracks */
-    app.post('/api/tracks/', workstation.addTrack);
-    app.get('/api/tracks/project/:projectId', workstation.getTracks);
-    app.delete('/api/tracks/:trackId', workstation.deleteTrack);
-    app.delete('/api/tracks/project/:projectId', workstation.deleteAllTracks);
+    app.post('/api/tracks/', workstation.add_track);
+    app.get('/api/tracks/project/:projectId', workstation.get_track);
+    app.delete('/api/tracks/:trackId', workstation.delete_track);
+    app.delete('/api/tracks/project/:projectId', workstation.delete_all_tracks);
 
 };

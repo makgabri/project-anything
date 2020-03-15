@@ -41,6 +41,22 @@ exports.sign_up_local = function(req, res, next) {
     });
 };
 
+// Success sign in for local
+exports.sign_in_local = function(req, res, next) {
+    req.session.save(function(err) {
+        if (err) console.log(err);
+        res.status(200).json('success');
+    })
+}
+
+// Success sign in for google
+exports.sign_in_google = function(req, res, next) {
+    req.session.save(function(err) {
+        if (err) console.log(err);
+        res.redirect('/homepage.html');
+    })
+}
+
 // Sign out for all
 exports.sign_out = function(req, res, next) {
     req.logout();
