@@ -81,8 +81,8 @@ var api = (function(){
 
     let loginListeners = [];
     
-    let getUsername = function(){
-        return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    let getUsername = function(callback){
+        send("GET", "/user_firstName/", null, callback);
     }
 
     function notifyLoginListeners(username){
