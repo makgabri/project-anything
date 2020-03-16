@@ -147,6 +147,23 @@ let playlistApi = (function(){
         });
     };
   
+    // upload a track to a project
+    module.uploadTrack = function(projectId, file){
+        sendFiles(
+        "POST", "/upload_track/",
+        {  
+            projectId: projectId,
+            src: src,
+            name: name
+        },
+        function(err,res){
+            if (err){
+                console.log("error");
+                return notifyErrorListeners(err);
+            }
+            notifyTrackListeners();
+        });
+    };
     
     // call handler when an Project is added or deleted
     module.onProjectUpdate = function(handler){
