@@ -8,36 +8,32 @@ const Schema = mongoose.Schema;
 /**     User Schema     **/
 // Note: author->key would be better reference to user schema
 const ProjectSchema = new Schema({
-    projectId: {
+    title: {
         type: String,
-        unique: true,
         require: true
     },
-    title: {
-        type: String
-    },
     author: {
-        type: String
+        type: String,
+        require: true
     },
     date: {
-        type: Date
+        type: Date,
+        require: true
     }
 });
 
 const TrackSchema = new Schema({
-    trackId: {
+    projectId: {
         type: String,
-        unique: true,
         require: true
     },
-    projectId: {
-        type: String
-    },
     src: {
-        type: String
+        type: String,
+        require: true
     },
     name: {
-        type: String
+        type: String,
+        require: true
     }
 });
 

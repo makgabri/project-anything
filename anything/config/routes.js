@@ -15,6 +15,7 @@ module.exports = function(app, passport, gfs, track_upload) {
     /**     CRUD for users     **/
     /**     Create     **/
     // Creating users and signing in
+    // curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"familyName":"Ben","givenName":"10","username":"1","password":"1"}' https://localhost:3000/signup/
     app.post('/signup/', users.sign_up_local);
     //  curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"username":"1","password":"1"}' -c cookie.txt https://localhost:3000/signin/
     app.post('/signin/', passport.authenticate('local', {failureRedirect: '/failed'}), users.set_cookie, users.sign_in_local);
@@ -25,8 +26,8 @@ module.exports = function(app, passport, gfs, track_upload) {
     // curl --verbose -k -H "Content-Type: application/json" -X GET -d '{"username":"1","password":"1"}' -c cookie.txt https://localhost:3000/signout/
     app.get('/signout/', users.sign_out);
     app.get('/user_key/', users.get_user_key);
-    app.get('/user_firstName/', users.get_user_givenName);
-    app.get('/user_lastName/', users.get_user_familyName);
+    // curl --verbose -k -H "Content-Type: application/json" -X GET -b cookie.txt https://localhost:3000/user_name/
+    app.get('/user_name/', users.get_user_name);
 
     /**     Update     **/
     /**     Delete     **/
@@ -42,6 +43,7 @@ module.exports = function(app, passport, gfs, track_upload) {
     /**     CRUD for workshop     **/
     //  curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"projectId":"1","title":"1","author":"1","date":"2020-01-01"}' -b cookie.txt https://localhost:3000/add_project/
     app.post('/add_project/', audio.add_project);
+    app.get('/get_project_list/', audio.user_project_list);
     // curl --verbose -k -H "Content-Type: application/json" -X DELETE -d '{"projectId":"1"}' -b cookie.txt https://localhost:3000/delete_project/
     app.get('/get_project/', audio.get_project);
     app.delete('/delete_project/', audio.delete_project);

@@ -4,25 +4,30 @@
 const mongoose = require('mongoose');
 const Project = mongoose.model('project');
 const Track = mongoose.model('track');
-const cookie = require('cookie');
 
 // Note: assumption is that the required fields are sent within request
 //       Therefor in validation, we check if the fields exists
 // Todo: validation
 exports.add_project = function(req, res, next) {
     Project.create({
-        //projectId: req.body.projectId,
         title: req.body.title,
-        author: req.body.author,
-        date: req.body.date
-    }), function (err, new_project) {
-        if (err) return res.status(500).end(err);
+        author: req.session.passport.user,
+        date: new Date()
+    }, function (err, new_project) {
+        if (err) return res.status(500).end(err.errmsg);
         return res.status(200).json(new_project);
-    }
+    })
+}
+
+exports.user_project_list = function(req, res, next) {
+    Project.find({author: req.session.passport.user},{_id:1,title:1}, function(err, proj_list) {
+        if (err) return res.status(500).end(err);
+        return res.json(proj_list);
+    });
 }
 
 exports.get_project = function(req, res, next) {
-    Project.findOne({projectId: req.body.projectId}, function(err, project) {
+    Project.findOne({_id: req.body.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
         return res.status(200).json(project);
     })
@@ -75,9 +80,19 @@ exports.delete_all_tracks = function(req, res, next) {
         return res.status(200).json("Track: " + req.body.trackId + " has been deleted");
     })
 }
-exports.upload_audio_track = function(req, res, err) {
-    if (err) return res.status(500).end(err);
-    return res.status(201).json("upload track success");
+exports.upload_audio_track = function(req, res, next) {
+    Project.findOne({_id: req.body.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(400).json("Project: " + req.body.projectId + " does not exist");
+        Track.create({
+            projectId: req.body.projectId,
+            src: req.body.src,
+            name: req.body.name
+        }, function (err, new_track) {
+            if (err) return res.status(500).end(err);
+            return res.status(200).json(new_track);
+        });
+    })
 }
 
 exports.get_track_file = function(gfs) {

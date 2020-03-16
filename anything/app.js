@@ -25,6 +25,7 @@ db.on('error', console.error.bind(console, 'mongoDB connection error:'));
 db.once('open', function() {console.log('mongoDB connection successful')});
 let gfs = Grid(db, mongoose.mongo);
 gfs.collection('uploads');
+console.log(db.db);
 const track_upload = multer({gridFsStorage});
 let user_model = mongoose.model('users', userSchemas.User);
 let google_model = mongoose.model('google_users', userSchemas.Google);

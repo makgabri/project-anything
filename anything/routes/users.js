@@ -86,9 +86,8 @@ exports.get_user_key = function(req, res, next) {
     return res.status(200).json(req.session.passport.user);
 }
 
-// Get current session's user's first name
-exports.get_user_givenName = function(req, res, next) {
-    if (!req.isAuthenticated()) return res.status(401).json('You are not logged in');
+// Get user's name as an object
+exports.get_user_name = function(req, res, next) {
     User.findOne({key : req.session.passport.user}, function(err, user) {
         if (err) return res.status(500).json("Database error");
         if (!user) return res.status(500).json("Database could not find user with key: " + req.session.passport.user);
@@ -97,7 +96,10 @@ exports.get_user_givenName = function(req, res, next) {
             Google.findOne({googleId : user.key}, function(err, google_user) {
                 if (err) return res.status(500).json("Database error");
                 if (!google_user) res.status(500).json("Database not properly synced. Contact admin.");
-                return res.status(200).json(google_user.givenName);
+                return res.status(200).json({
+                    givenName: google_user.givenName,
+                    familyName: google_user.familyName
+                });
             });
         }
         if (user.provider == "local") {
@@ -105,32 +107,10 @@ exports.get_user_givenName = function(req, res, next) {
             Local.findOne({username : user.key}, function(err, local_user) {
                 if (err) return res.status(500).json("Database error");
                 if (!local_user) res.status(500).json("Database not properly synced. Contact admin.");
-                return res.status(200).json(local_user.givenName);
-            });
-        }
-    })
-}
-
-// Get current session's user's last name
-exports.get_user_familyName = function(req, res, next) {
-    if (!req.isAuthenticated()) return res.status(401).json('You are not logged in');
-    User.findOne({key : req.session.passport.user}, function(err, user) {
-        if (err) return res.status(500).json("Database error");
-        if (!user) return res.status(500).json("Database could not find user with key: " + req.session.passport.user);
-        if (user.provider == "google") {
-            // Look at google db
-            Google.findOne({googleId : user.key}, function(err, google_user) {
-                if (err) return res.status(500).json("Database error");
-                if (!google_user) res.status(500).json("Database not properly synced. Contact admin.");
-                return res.status(200).json(google_user.givenName);
-            });
-        }
-        if (user.provider == "local") {
-            // Look at local db
-            Local.findOne({username : user.key}, function(err, local_user) {
-                if (err) return res.status(500).json("Database error");
-                if (!local_user) res.status(500).json("Database not properly synced. Contact admin.");
-                return res.status(200).json(local_user.familyName);
+                return res.status(200).json({
+                    givenName: local_user.givenName,
+                    familyName: local_user.familyName
+                });
             });
         }
     })

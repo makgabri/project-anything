@@ -7,7 +7,7 @@ const Local = mongoose.model('local_users');
 const Google = mongoose.model('google_users');
 const crypto = require('crypto');
 const cookie = require('cookie');
-const Projects = mongoose.model('projects');
+//const Projects = mongoose.model('projects');
 
 
 
@@ -27,20 +27,20 @@ let Track = function(track){
 
 
 /** Create a new project */
-exports.addProject = function(req, res, next) {
-    let new_project = new Project(req.body);
-    // insert the new project
+// exports.addProject = function(req, res, next) {
+//     let new_project = new Project(req.body);
+//     // insert the new project
 
 
-    Projects.create({key: id, provider: 'projects'}, function(err, project) {
-        if (err) return res.status(500).end(err);
-        Local.create(new_project).then(function(new_project) {
-            return res.status(200).json("Project " + new_project.id + " created");
-        });
-    });
+//     Projects.create({key: id, provider: 'projects'}, function(err, project) {
+//         if (err) return res.status(500).end(err);
+//         Local.create(new_project).then(function(new_project) {
+//             return res.status(200).json("Project " + new_project.id + " created");
+//         });
+//     });
 
 
-};
+// };
 
 /** Return a project given id in req.param */
 exports.getProject = function(req, res, next) {
