@@ -57,22 +57,25 @@ app.use(passport.session());
 require('./config/passport')(passport);
 require('./config/routes')(app, passport);
 
-
+var isAuthenticated = function(req, res, next) {
+    if (!req.username) return res.status(401).end("access denied");
+    next();
+};
 
 /**     Listen to server    **/
 app.use(function (req, res, next){
-    req.username = (req.session.passport)? req.session.passport : null;
+    req.username = (req.session.passport)? req.session.passport : '';
     console.log("HTTP request", req.username, req.method, req.url, req.body);
     next();
 });
 
 app.use(express.static('frontend'));
 
-const https = require('https');
+const http = require('http');
 const PORT = 3000;
 
 /**     Start Server     **/
-https.createServer(config.server, app).listen(PORT, function (err) {
+http.createServer(config.server, app).listen(PORT, function (err) {
     if (err) console.log(err);
     else console.log("HTTPS server on http://localhost:%s", PORT);
 });

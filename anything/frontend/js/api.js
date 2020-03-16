@@ -53,6 +53,7 @@ var api = (function(){
     module.signin_local = function(username, password){
         send("POST", "/signin/", {username: username, password: password}, function(err, res){
             if (err) return notifyErrorListeners(err);
+            notifyLoginListeners(getUsername());
             if (res == "success") {
                 window.location.replace("../homepage.html")
             }
@@ -64,6 +65,7 @@ var api = (function(){
     module.signout = function(){
         send("GET", "/signout/", null, function(err, res){
             if (err) return notifyErrorListeners(err);
+            notifyLoginListeners(getUsername());
        });
     };
 
@@ -76,6 +78,23 @@ var api = (function(){
         }
         return true;
     };
+
+    let loginListeners = [];
+    
+    let getUsername = function(){
+        return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    }
+
+    function notifyLoginListeners(username){
+        loginListeners.forEach(function(listener){
+            listener(username);
+        });
+    };
+
+    module.onLoginUpdate = function(listener){
+        loginListeners.push(listener);
+        listener(getUsername());
+    }
 
 
     /**     Local Variables     **/
