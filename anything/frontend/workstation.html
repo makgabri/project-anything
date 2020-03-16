@@ -5,7 +5,6 @@
     <title>Anything</title>
     <link href="style/main.css" rel="stylesheet" type="text/css"/>
     <link href="style/track.css" rel="stylesheet" type="text/css"/>
-    <link href="style/form.css" rel="stylesheet" type="text/css"/>
     <link href="style/workstation.css" rel="stylesheet" type="text/css"/>
     <link href="style/track-editor.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -59,90 +58,50 @@
     
     <p id="error_box"></p>
     
-    <div class="library">
-        <h3>Library</h3>
-        <div class="library-audio">
-            <div class="track-title">XOTourLife</div>
-            <audio controls loop>
-                <source src="/media/Lil Uzi Vert - XO Tour Llif3 (Official Visualiser).mp3" type="audio/mpeg"> 
-            </audio>
-            <div class="track-length">3:00</div>
-        </div>
-        <div class="library-audio">
-            <div class="track-title">Sicko Mode</div>
-            <audio controls loop>
-                <source src="/media/Travis Scott - SICKO MODE ft. Drake.mp3" type="audio/mpeg"> 
-            </audio>
-            <div class="track-length">5:00</div>
-        </div>
-        <div class="library-audio">
-            <div class="track-title">After Hours</div>
-            <audio controls loop>
-                <source src="/media/The Weeknd - After Hours (Audio).mp3" type="audio/mpeg"> 
-            </audio>
-            <div class="track-length">6:00</div>
-        </div>
-    </div>
+    <div id="playlist"></div>
+
 
     <div class="track-editor">
         <div class="controls">
-            <div class="play-icon"></div>
-            <div class="pause-icon"></div>
-            <div class="forward-icon"></div>
-            <div class="backward-icon"></div>
+            <div class="btn-play btn btn-success"></div>
+            <div class="btn-pause btn btn-warning"></div>
+            <div class="btn-fast-forward btn btn-success"></div>
+            <div class="btn-rewind btn btn-success"></div>
             <div class="end-icon"></div>
             <div class="start-icon"></div>
+
+
+            <div class="btn-stop"></div>
+            <div class="btn-cursor btn btn-default active" title="select cursor"></div>
+            <div class="btn-select btn btn-default" title="select audio region"></div>
+            <div class="btn-shift btn btn-default" title="shift audio in time"></div>
+            <div class="btn-fadein btn btn-default" title="set audio fade in"></div>
+            <div class="btn-fadeout btn btn-default" title="set audio fade out"></div>
+            <div class="btn-loop btn btn-success disabled" title="loop a selected segment of audio"></div>
+            <div title="keep only the selected audio region for a track"
+            class="btn-trim-audio btn btn-primary disabled">Trim</div>
+            <div title="Download the current work as Wav file" class="btn btn-download btn-primary"></div>
         </div>
+
+        <label class="audio-pos">00:00:00.0</label>
+        <div class="checkbox">
+            <label>
+              <input type="checkbox" class="automatic-scroll"> Automatic Scroll
+            </label>
+        </div>
+
         <div class="track-list">
-            <div class="track">
-                <div class=track-info>
-                    <div class="track-title">XOTourLife</div>
-                    <input type="range" min="0" max="200" value="100" class="slider" id="track-xo-volume">
-                    <div class="mute"></div>
-                    <div class="delete-icon"></div>
-                </div>
-                <div class="wavesurfer">
-                    <audio controls loop>
-                        <source src="/media/Lil Uzi Vert - XO Tour Llif3 (Official Visualiser).mp3" type="audio/mpeg"> 
-                    </audio>
-                </div>
-            </div>
-            <div class="track">
-                <div class=track-info>
-                    <div class="track-title">Sicko Mode</div>
-                    <input type="range" min="0" max="200" value="100" class="slider" id="track-xo-volume">
-                    <div class="mute"></div>
-                    <div class="delete-icon"></div>
-                </div>
-                <div class="wavesurfer">
-                    <audio controls loop>
-                        <source src="/media/Travis Scott - SICKO MODE ft. Drake.mp3" type="audio/mpeg"> 
-                    </audio>
-                </div>
-            </div>
-            <div class="track">
-                <div class=track-info>
-                    <div class="track-title">After Hours</div>
-                    <input type="range" min="0" max="200" value="100" class="slider" id="track-xo-volume">
-                    <div class="mute"></div>
-                    <div class="delete-icon"></div>
-                </div>
-                <div class="wavesurfer">
-                    <audio controls loop>
-                        <source src="/media/The Weeknd - After Hours (Audio).mp3" type="audio/mpeg"> 
-                    </audio>
-                </div>
-            </div>
+
+        <!--put some editing stuff-->
+
         </div>
+
+
         <div class="track-settings">
-            <select id="settings">
-                <option value="volume">Volume</option>
-                <option value="pitch">Pitch</option>
-                <option value="reverb">Reverb</option>
-                <option value="compressor">Compressor</option>
-            </select>
-            <input type="range" min="0" max="200" value="100" class="slider-settings" id="track-xo-volume">
+            <label for="master-gain">Master Volume</label>
+            <input type="range" min="0" max="200" value="100" class="master-gain form-control" id="master-gain">
         </div>
+        
     </div>
     
     <footer>
@@ -150,5 +109,8 @@
     </footer>
     <script src="js/api.js"></script>
     <script src="js/index.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/bundle2.js"></script>
+
 </body>
 </html>

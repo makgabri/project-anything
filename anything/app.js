@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const multer = require("multer");
+const Grid = require("gridfs-stream");
 const passport = require('passport');
 const session = require('express-session');
 
@@ -12,14 +14,18 @@ const session = require('express-session');
 const config = require('./config/config');
 const userSchemas = require('./config/models/user');
 const audioSchemas = require('./config/models/audio');
+const gridFsStorage = require('./config/gridfs');
 
 
 
 /**     Starting Mongoose       **/
 mongoose.connect(config.mongo.url, config.mongo.options);
 let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {console.log('connection successful')});
+db.on('error', console.error.bind(console, 'mongoDB connection error:'));
+db.once('open', function() {console.log('mongoDB connection successful')});
+let gfs = Grid(db, mongoose.mongo);
+gfs.collection('uploads');
+const track_upload = multer({gridFsStorage});
 let user_model = mongoose.model('users', userSchemas.User);
 let google_model = mongoose.model('google_users', userSchemas.Google);
 let local_model = mongoose.model('local_users', userSchemas.Local);
@@ -55,7 +61,7 @@ app.use(passport.session());
 
 /**     Loading route re-direction   **/
 require('./config/passport')(passport);
-require('./config/routes')(app, passport);
+require('./config/routes')(app, passport, gfs, track_upload);
 
 var isAuthenticated = function(req, res, next) {
     if (!req.username) return res.status(401).end("access denied");
@@ -71,11 +77,14 @@ app.use(function (req, res, next){
 
 app.use(express.static('frontend'));
 
-const http = require('http');
+const https = require('https');
 const PORT = 3000;
 
 /**     Start Server     **/
-http.createServer(config.server, app).listen(PORT, function (err) {
+let server = https.createServer(config.server, app).listen(PORT, function (err) {
     if (err) console.log(err);
     else console.log("HTTPS server on http://localhost:%s", PORT);
 });
+
+// Export used for testing
+module.exports = server;
