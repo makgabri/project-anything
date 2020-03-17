@@ -122,14 +122,23 @@ var api = (function(){
         send("GET", "/user_name/", null, callback);
     }
 
+    let getProjList = function(callback){
+        send("GET", "/get_project_list/", null, callback);
+    }
+
 
     /**      Listeners          **/
     let errorListeners = [];
     let loginListeners = [];
+    let projListListeners = [];
     
     /**     Public notifier invokers  **/
     module.invokeError = function(err) {
         notifyErrorListeners(err);
+    }
+
+    module.invokeProjList = function() {
+        notifyProjListListeners();
     }
 
     /**    Private Notifiers     **/
@@ -145,6 +154,15 @@ var api = (function(){
         });
     };
 
+    function notifyProjListListeners(){
+        getProjList(function(err, projList) {
+            if (err) return notifyErrorListeners(err);
+            projListListeners.forEach(function(listener) {
+                listener(projList);
+            })
+        })
+    }
+
 
     /**     Add Notifiers    **/
     module.onError = function(listener){
@@ -157,6 +175,16 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             listener(user_name);
         });
+    }
+
+    module.onProjListUpdate = function(listener) {
+        projListListeners.push(listener);
+        getProjList(function(err, projList) {
+            if (err) return notifyErrorListeners(err);
+            projListListeners.forEach(function(listener) {
+                listener(projList);
+            })
+        })
     }
 
 

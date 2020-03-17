@@ -3,6 +3,7 @@
     "use strict";
     window.onload = function(){
 
+        /** Error Handlers **/
         api.onError(function(err){
             console.error("[error]", err);
         });
@@ -13,6 +14,7 @@
             error_box.style.display = "block";
         });
 
+        /** Basic functionality if logged in **/
         api.onLoginUpdate(function(username){
             if (!username) {
                 window.location.href = '/';
@@ -30,11 +32,29 @@
             document.querySelector("#complex_form").addEventListener("submit", function(e){
                 e.preventDefault();
                 let title = document.querySelector("#project-name").value;
-                let author = username;
                 document.querySelector("#complex_form").reset();
-                playlistApi.addProject(title, author);
+                playlistApi.addProject(title);
             });
         });
+
+        /** Loading Prjects **/
+        api.onProjListUpdate(function(projList) {
+            let projDiv = document.querySelector("#projects");
+            projDiv.innerHTML = '';
+
+            projList.forEach(function(project) {
+                let elmt = document.createElement('button');
+                elmt.className = 'project_btn';
+                elmt.innerHTML = project.title;
+
+                projDiv.append(elmt);
+
+                elmt.addEventListener('click', function(e) {
+                    playlistApi.setCurrProj(project._id);
+                    window.location.href = '/workstation.html';
+                })
+            })
+        })
 
         document.querySelector("#pagination .prev-arrow").addEventListener("click", function(e){
             api.navComments(-1);

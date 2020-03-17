@@ -37,9 +37,10 @@ let playlistApi = (function(){
     /** Local Variable Getters and Setters */
     module.setCurrProj = function(newProjId) {
         currProjectID = newProjId;
+        localStorage.setItem("currProj", newProjId);
     }
     module.getCurrProj = function() {
-        return currProjectID;
+        return localStorage.getItem("currProj");
     }
 
 
@@ -66,6 +67,7 @@ let playlistApi = (function(){
        send("POST", "/add_project/", {title: title}, function(err, res){
             if (err) return api.notifyErrorListeners(err);
             notifyProjectListeners();
+            api.invokeProjList();
         });
     };
 
@@ -123,38 +125,17 @@ let playlistApi = (function(){
 
 
     
-    // add a track to a project
-    module.addTrack = function(projectId, src, name){
-        send(
-        "POST", "/api/tracks/",
-        {  
-            projectId: projectId,
-            src: src,
-            name: name
-        },
-        function(err,res){
-            if (err){
-                console.log("error");
-                return api.notifyErrorListeners(err);
-            }
-            notifyTrackListeners();
-        });
-    };
-  
-    // upload a track to a project
     module.uploadTrack = function(projectId, file){
         sendFiles(
         "POST", "/upload_track/",
         {  
             projectId: projectId,
-            file: file,
-            name: "temp"
+            track: file,
+            // name is file name. Should make this default and optional parameter for name
+            name: file.str.split(/(\\|\/)/g).pop()
         },
         function(err,res){
-            if (err){
-                console.log("error");
-                return api.notifyErrorListeners(err);
-            }
+            if (err) return api.notifyErrorListeners(err);
             notifyTrackListeners();
         });
     };
@@ -178,7 +159,7 @@ let playlistApi = (function(){
         });
     };
 
-    
+
 
     return module;
     
