@@ -64,11 +64,14 @@ app.use(passport.session());
 require('./config/passport')(passport);
 require('./config/routes')(app, passport);
 
-
+var isAuthenticated = function(req, res, next) {
+    if (!req.username) return res.status(401).end("access denied");
+    next();
+};
 
 /**     Listen to server    **/
 app.use(function (req, res, next){
-    req.username = (req.session.passport)? req.session.passport : null;
+    req.username = (req.session.passport)? req.session.passport : '';
     console.log("HTTP request", req.username, req.method, req.url, req.body);
     next();
 });

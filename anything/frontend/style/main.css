@@ -14,11 +14,10 @@ header{
     display:flex;
     margin-top:36px;
     height: 64px;
-    justify-content:flex-end;
+    justify-content: center;
 }
 
 header #title{
-    justify-content: left;
     color: black;
     text-decoration:none;
     margin: 0px;

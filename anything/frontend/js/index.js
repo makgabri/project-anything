@@ -14,6 +14,11 @@ window.onload = function(){
         error_box.style.visibility = "visible";
     });
 
+    api.onLoginUpdate(function(username){
+        if (username) {
+            window.location.href = '/homepage.html';
+        }
+    });
 
 
     /**     UI Navigation    **/
