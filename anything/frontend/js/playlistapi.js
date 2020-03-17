@@ -153,8 +153,8 @@ let playlistApi = (function(){
         "POST", "/upload_track/",
         {  
             projectId: projectId,
-            src: src,
-            name: name
+            file: file,
+            name: "temp"
         },
         function(err,res){
             if (err){
