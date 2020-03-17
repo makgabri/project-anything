@@ -1,5 +1,6 @@
 const WFP = require("waveform-playlist");
 
+
 let playlist = WFP.init({
     // DOM container element REQUIRED
     container: document.querySelector("#playlist"),
@@ -314,4 +315,21 @@ ee.on('finished', function () {
       playoutPromises = playlist.play(startTime, endTime);
     });
   }
+});
+
+
+
+
+
+
+document.querySelector('#upload_form').addEventListener('submit', function(e){
+  // prevent from refreshing the page on submit
+  e.preventDefault();
+  // read form elements
+  let file = document.getElementById("audio_file").files[0];
+
+  document.querySelector('#upload_form').reset();
+
+  // probably don't need src and name
+  playlistApi.uploadTrack(projectId,file);
 });

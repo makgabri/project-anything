@@ -38,6 +38,7 @@
     border-style: solid;
     border-color: black;
     height: 400px;
+    color: #001a33;
 }
 
 /* body select.select_box */ 
@@ -66,7 +67,7 @@
 } 
 
 .master-gain {
-    margin-top: 50px;
+    margin-top: 80px;
     margin-left: auto;
     margin-right: auto;
     -webkit-appearance: none;
@@ -127,25 +128,13 @@
     background-position: center;
 }
 
-.end-icon{
+.btn-stop{
     display: flex;
     float: right;
     margin: 25px 25px 25px 25px;
     width: 50px;
     height: 50px;
-    background-image: url('../media/forward.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.start-icon{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
-    background-image: url('../media/backward.png');
+    background-image: url('../media/stop-button.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -181,36 +170,98 @@
     margin: 25px 25px 25px 25px;
     width: 50px;
     height: 50px;
-    /*background-image: url('../media/play-button.png');*/
+    background-image: url('../media/select-button.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 
 }
+.btn-cursor{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/cursor.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
 .btn-trim-audio{
     display: flex;
     float: right;
     margin: 25px 25px 25px 25px;
     width: 50px;
     height: 50px;
-    /*background-image: url('../media/play-button.png');*/
+    background-image: url('../media/trim.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
+.btn-shift{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/shift.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.btn-fadein{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/fadein.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.btn-fadeout{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/fadeout.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 
-.audio-pos{
+}.btn-download{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/download.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.audio-pos, .checkbox{
+    color: #001a33;
 }
 
 
 
-
-.playlist { margin: 2em 0; }
+#playlist {
+    margin: 2em 0; 
+    overflow-y: scroll;
+    height: 300px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
 
 .playlist .playlist-time-scale {
      height: 30px; 
 }
-
 
 
 .playlist .channel-progress {
@@ -351,11 +402,14 @@
 
 
 /* Do this in JS!*/
+
 .track-drop {
-    border: 2px dashed blue; 
-    height: 100px; 
-    width: 200px; 
-    margin: 1em 0; 
+    border: 2px dashed #001a33; 
+    color: #001a33;
+    height: 50px; 
+    margin: 1em 0;
+    width: 30%;
+    margin: 0 auto;
 }
 
 .track-drop::before { 
