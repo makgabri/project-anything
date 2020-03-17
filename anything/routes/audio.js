@@ -34,6 +34,17 @@ exports.get_project = function(req, res, next) {
 }
 
 exports.delete_project = function(req, res, next) {
+    Track.find({projectId: req.body.projectId}, function(err, track_list) {
+        if (err) return res.status(500).end(err);
+        track_list.forEach(function(track) {
+            Upload_Chunks.deleteMany({files_id: track._id}, function(err, n) {
+                if (err) return res.status(500).end(err);
+                Upload_Files.deleteMany({_id: track._id}, function(err, n) {
+                    if (err) return res.status(500).end(err);
+                })
+            })
+        })
+    })
     Track.deleteMany({projectId: req.body.projectId}, function(err) {
         if (err) return res.status(500).end(err);
         Project.deleteOne({projectId: req.body.projectId}, function(err) {
@@ -42,6 +53,7 @@ exports.delete_project = function(req, res, next) {
         });
     })
 }
+
 
 
 /**     Track Operations    **/
@@ -53,10 +65,10 @@ exports.get_track_list = function(req, res, next) {
 }
 
 exports.delete_track = function(req, res, next) {
-    Track.deleteOne({_id: req.body.trackid}, function(err, n) {
+    Track.deleteOne({_id: req.body.trackId}, function(err, n) {
         if (err) return res.status(500).end(err);
-        if (n.deletedCount != 1) return res.status(409).json("Track: " + req.body.trackid + " not found");
-        return res.status(200).json("Track: " + req.body.trackid + " has been deleted");
+        if (n.deletedCount != 1) return res.status(409).json("Track: " + req.body.trackId + " not found");
+        return res.status(200).json("Track: " + req.body.trackId + " has been deleted");
     })
 }
 

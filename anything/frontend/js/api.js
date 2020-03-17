@@ -35,7 +35,17 @@ var api = (function(){
     var module = {};
     
 
-
+    /**
+     * Sign up to the web app
+     * 
+     * @param   {string}  username     username
+     * @param   {string}  password     password
+     * @param   {string}  familyName   familyName
+     * @param   {string}  givenName    givenName
+     * 
+     * sends a signup message to backend to create a local user object
+     * 
+     */
     module.signup_local = function(username, password, familyName, givenName){
         send("POST", "/signup/", {
             username: username,
@@ -48,8 +58,15 @@ var api = (function(){
        });
     };
     
-
-
+    /**
+     * Sign in to webgallery
+     * 
+     * @param   {string}  username     username
+     * @param   {string}  password     password
+     * 
+     * sends a signup message to backend to create session
+     * 
+     */
     module.signin_local = function(username, password){
         send("POST", "/signin/", {username: username, password: password}, function(err, res){
             if (err) return notifyErrorListeners(err);
@@ -60,8 +77,12 @@ var api = (function(){
        });
     };
     
-
-
+    /**
+     * Sign out of webgallery
+     * 
+     * sends a signout message to backend to destroy session
+     * 
+     */
     module.signout = function(){
         send("GET", "/signout/", null, function(err, res){
             if (err) return notifyErrorListeners(err);
@@ -70,7 +91,15 @@ var api = (function(){
     };
 
 
-
+    /**
+     * Front end function to double check password
+     * 
+     * @param   {string}  password1     first password
+     * @param   {string}  password2     second password
+     * 
+     * Confirms that the re-entered password is the same
+     * 
+     */
     module.check_password = function(password1, password2) {
         if (password1 != password2)  {
             notifyErrorListeners("Passwords do not match");
@@ -79,22 +108,7 @@ var api = (function(){
         return true;
     };
 
-    let loginListeners = [];
-    
-    let getUsername = function(callback){
-        send("GET", "/user_firstName/", null, callback);
-    }
 
-    function notifyLoginListeners(username){
-        loginListeners.forEach(function(listener){
-            listener(username);
-        });
-    };
-
-    module.onLoginUpdate = function(listener){
-        loginListeners.push(listener);
-        listener(getUsername());
-    }
 
 
     /**     Local Variables     **/
@@ -104,13 +118,19 @@ var api = (function(){
 
 
     /**     AJAX Get Function   **/
-    
+    let getUsername = function(callback){
+        send("GET", "/user_name/", null, callback);
+    }
 
 
     /**      Listeners          **/
     let errorListeners = [];
+    let loginListeners = [];
     
-
+    /**     Public notifier invokers  **/
+    module.invokeError = function(err) {
+        notifyErrorListeners(err);
+    }
 
     /**    Private Notifiers     **/
     function notifyErrorListeners(err){
@@ -119,12 +139,25 @@ var api = (function(){
         });
     }
 
+    function notifyLoginListeners(username){
+        loginListeners.forEach(function(listener){
+            listener(username);
+        });
+    };
 
 
+    /**     Add Notifiers    **/
     module.onError = function(listener){
         errorListeners.push(listener);
     };
 
+    module.onLoginUpdate = function(listener){
+        loginListeners.push(listener);
+        getUsername(function(err, user_name) {
+            if (err) return notifyErrorListeners(err);
+            listener(user_name);
+        });
+    }
 
 
     return module;

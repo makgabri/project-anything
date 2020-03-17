@@ -190,18 +190,18 @@ test('Mongoose - cleaning up uploads.files and uploads.chunks', function(t) {
     })
 })
 
-test('Mongoose - removing projects by foobar', function(t) {
-    project_model.deleteMany({author: 'foobar'}, function(err, n) {
-        if (err) return t.ifError(err);
-        t.same(n.deletedCount, 3, 'Delete count should be 1');
-        t.end();
-    });
-});
-
 test('Mongoose - removing audio by foobar', function(t) {
     track_model.deleteMany({author: 'foobar'}, function(err, n) {
         if (err) return t.ifError(err);
         t.same(n.deletedCount, 2, 'Delete count should be 2');
+        t.end();
+    });
+});
+
+test('Mongoose - removing projects by foobar', function(t) {
+    project_model.deleteMany({author: 'foobar'}, function(err, n) {
+        if (err) return t.ifError(err);
+        t.same(n.deletedCount, 3, 'Delete count should be 1');
         t.end();
     });
 });

@@ -27,3 +27,7 @@
     background-size: cover; 
     opacity: 100%;
 }
+
+.home:hover {
+    cursor: pointer;
+}

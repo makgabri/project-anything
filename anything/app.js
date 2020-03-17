@@ -3,10 +3,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const multer = require("multer");
-// const Grid = require("gridfs-stream");
-const { createReadStream } = require('fs');
-const { createBucket } = require('mongoose-gridfs');
 const passport = require('passport');
 const session = require('express-session');
 
@@ -64,14 +60,9 @@ app.use(passport.session());
 require('./config/passport')(passport);
 require('./config/routes')(app, passport);
 
-var isAuthenticated = function(req, res, next) {
-    if (!req.username) return res.status(401).end("access denied");
-    next();
-};
-
 /**     Listen to server    **/
 app.use(function (req, res, next){
-    req.username = (req.session.passport)? req.session.passport : '';
+    req.username = (req.session.passport)? req.session.passport : null;
     console.log("HTTP request", req.username, req.method, req.url, req.body);
     next();
 });

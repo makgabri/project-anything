@@ -14,11 +14,15 @@
         });
 
         api.onLoginUpdate(function(username){
+            if (!username) {
+                window.location.href = '/';
+            }
+
             document.querySelector("#signout_button").style.display = (username)? 'block' : 'none';
             if (username){
                 let elmt = document.querySelector('#welcome_message');
                 elmt.innerHTML = `
-                    <h3>Hello ${username}</h3>
+                    <h3>Hello ${username.familyName} ${username.givenName}</h3>
                     <h3>These are your tracks</h3>
                 `
             }
@@ -27,7 +31,7 @@
                 e.preventDefault();
                 let title = document.querySelector("#project-name").value;
                 let author = username;
-                document.querySelector("complex_form").reset();
+                document.querySelector("#complex_form").reset();
                 playlistApi.addProject(title, author);
             });
         });

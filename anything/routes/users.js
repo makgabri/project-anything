@@ -88,6 +88,7 @@ exports.get_user_key = function(req, res, next) {
 
 // Get user's name as an object
 exports.get_user_name = function(req, res, next) {
+    if (!req.isAuthenticated()) return res.status(200).json('');
     User.findOne({key : req.session.passport.user}, function(err, user) {
         if (err) return res.status(500).json("Database error");
         if (!user) return res.status(500).json("Database could not find user with key: " + req.session.passport.user);

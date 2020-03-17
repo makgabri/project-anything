@@ -14,21 +14,23 @@ window.onload = function(){
         error_box.style.visibility = "visible";
     });
 
+    /**     UI Navigation    **/
+    // Re-directed to homepage if logged in
     api.onLoginUpdate(function(username){
         if (username) {
             window.location.href = '/homepage.html';
         }
     });
 
-
-    /**     UI Navigation    **/
-    // TODO: Check if logged in
+    document.getElementById('title').addEventListener('click', (function(e) {
+        window.location.reload();
+    }))
 
 
 
     /**     Adds Listeners to display action box    **/
     // Add/Changes form to login option
-    this.document.getElementById("login_btn").addEventListener('click', (function(e){
+    document.getElementById("login_btn").addEventListener('click', (function(e){
         let user_info = document.getElementById("user_info");
         user_info.innerHTML = '';
 
@@ -55,7 +57,7 @@ window.onload = function(){
     }));
 
     // Add/Changes form to signup option
-    this.document.getElementById("register_btn").addEventListener('click', (function(e){
+    document.getElementById("register_btn").addEventListener('click', (function(e){
         let user_info = document.getElementById("user_info");
         user_info.innerHTML = '';
 
@@ -91,7 +93,7 @@ window.onload = function(){
 
 
     // Add google login
-    this.document.getElementById("google_login").addEventListener('click', (function(e) {
+    document.getElementById("google_login").addEventListener('click', (function(e) {
         location.replace("/auth/google/")
     }))
 };

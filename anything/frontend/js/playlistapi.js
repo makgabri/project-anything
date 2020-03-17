@@ -32,13 +32,20 @@ let playlistApi = (function(){
     }
 
 
-
+    /**     Local Variables     **/
     let currProjectID = "";
+    /** Local Variable Getters and Setters */
+    module.setCurrProj = function(newProjId) {
+        currProjectID = newProjId;
+    }
+    module.getCurrProj = function() {
+        return currProjectID;
+    }
 
 
     /*  ******* Data types *******
         Project objects must have at least the following attributes:
-            - (String) projectId 
+            - (String) _id
             - (String) title
             - (String) author
             - (Date) date
@@ -46,6 +53,7 @@ let playlistApi = (function(){
         Track objects must have the following attributes
             - (String) trackId
             - (String) projectId
+            - (String) author
             - (String) src
             - (String) name
     
@@ -55,48 +63,33 @@ let playlistApi = (function(){
     
     // create new project
     module.addProject = function(title, author){
-       send(
-        "POST", "/add_project/",
-        {
-            title: title,
-            author: author,
-            date: getCurrentDate(false)
-        },
-        function(err,res){
-            if (err){
-                console.log("error");
-                return notifyErrorListeners(err);
-            }
+       send("POST", "/add_project/", {title: title}, function(err, res){
+            if (err) return api.notifyErrorListeners(err);
             notifyProjectListeners();
         });
     };
 
     // delete a track on a project
     module.deleteTrack = function(trackId){
-        send("DELETE", "/api/tracks/" + trackId + "/", null, function(err, res){
-            if (err) return notifyErrorListeners(err);
+        send("DELETE", "/delete_track/", {trackId: trackId}, function(err, res){
+            if (err) return api.notifyErrorListeners(err);
             notifyTrackListeners();
         });
     }; 
+
     // delete an project from the gallery given its projectId
     module.deleteProject = function(projectId){
-        // have to delete all the tracks for the project first
-        send("DELETE", "/api/tracks/project/" + projectId + "/", null, function(err, res){
-            if (err) return notifyErrorListeners(err);
-            notifyTrackListeners();
-        });
-        
-        // then delete this project
-        send("DELETE", "/api/projects/" + projectId + "/", null, function(err, res){
-            if (err) return notifyErrorListeners(err);
+        send("DELETE", "/delete_project/", {projectId: projectId}, function(err, res){
+            if (err) return api.notifyErrorListeners(err);
             notifyProjectListeners();
         });
         //this.navigate(-1);        
     };
 
+    /**     AJAX Get Function   **/
     let getProject = function(projectId, callback){
         currProjectID = projectId;
-        return send("GET", "/api/projects/"+projectId, null, callback);
+        return send("GET", "/get_project/", {projectId: currProjectID}, callback);
     };
 
     // get tracks for projectID
@@ -105,22 +98,23 @@ let playlistApi = (function(){
     };
 
 
-
+    /**     Listeners      **/
     let projectListeners = [];
+    let trackListeners = [];
+
+    /**     Private Notifiers   **/
     function notifyProjectListeners(){
         getProject(currProjectID, function(err, res){
-            if (err) return notifyErrorListeners(err);
+            if (err) return api.notifyErrorListeners(err);
             projectListeners.forEach(function(listener){
                 listener(res);
             });
         });  
     }
 
-
-    let trackListeners = [];
     function notifyTrackListeners(){
         getTracks(function(err, res){
-            if (err) return notifyErrorListeners(err);
+            if (err) return api.notifyErrorListeners(err);
             trackListeners.forEach(function(listener){
                 listener(res);
             });
@@ -141,7 +135,7 @@ let playlistApi = (function(){
         function(err,res){
             if (err){
                 console.log("error");
-                return notifyErrorListeners(err);
+                return api.notifyErrorListeners(err);
             }
             notifyTrackListeners();
         });
@@ -159,7 +153,7 @@ let playlistApi = (function(){
         function(err,res){
             if (err){
                 console.log("error");
-                return notifyErrorListeners(err);
+                return api.notifyErrorListeners(err);
             }
             notifyTrackListeners();
         });
@@ -169,7 +163,7 @@ let playlistApi = (function(){
     module.onProjectUpdate = function(handler){
         projectListeners.push(handler);
         getProject(currProjectID,function(err, res){
-            if (err) return notifyErrorListeners(err);
+            if (err) return api.notifyErrorListeners(err);
             handler(res);
         });  
     };
@@ -179,55 +173,12 @@ let playlistApi = (function(){
     module.onTrackUpdate = function(handler){
         trackListeners.push(handler);
         getTracks(function(err, res){
-            if (err) return notifyErrorListeners(err);
+            if (err) return api.notifyErrorListeners(err);
             handler(res);
         });
     };
 
-    let errorListeners = [];
     
-    function notifyErrorListeners(err){
-        errorListeners.forEach(function(listener){
-            listener(err);
-        });
-    }
-
-
-    let getCurrentDate = function(comment){
-        /*
-        Code for getting date was used from here:
-        https://www.w3resource.com/javascript-exercises/javascript-basic-exercise-3.php
-        */
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; 
-        var yyyy = today.getFullYear();
-        var hh = today.getHours();
-        var mn = today.getMinutes();
-        if(dd<10) 
-        {
-            dd='0'+dd;
-        } 
-        if(mm<10) 
-        {
-            mm='0'+mm;
-        }
-        if(hh<10) 
-        {
-            hh='0'+hh;
-        } 
-        if(mn<10) 
-        {
-            mn='0'+mn;
-        }
-        // if comment, use time, else use year
-        today = mm+'-'+dd+'-';
-        if (comment){
-            today+=hh+":"+mn;
-        }else{
-            today+=yyyy;}
-        return today;
-    };
 
     return module;
     

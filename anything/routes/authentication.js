@@ -2,14 +2,14 @@
 
 const { check, validationResult } = require('express-validator');
 
-module.exports = function isLoggedIn(req, res, next) {
+exports.isLoggedIn = function(req, res, next) {
     // Check if authenticated by google login
     if (req.isAuthenticated()) return next();
     // Redirect to login page or prevent access
-    res.redirect('/');
+    return res.redirect('/');
 }
 
-module.exports = function validate(req, res,next) {
+exports.validate = function validate(method) {
     switch(method) {
         // Validating signup
         case 'signup': {
