@@ -1,16 +1,19 @@
 'use strict';
 
 /**     Required Node Libraries     **/
+const multer = require("multer");
 
 const users = require('../routes/users');
 const audio = require('../routes/audio');
 const auth = require('../routes/authentication');
-//const workstation = require('../routes/workstation2');
+const gridFsStorage = require('./gridfs');
+
+let track_upload = null;
 
 
 /**     Properly assign CRUD calls      **/
 
-module.exports = function(app, passport, gfs, track_upload) {
+module.exports = function(app, passport) {
 
     /**     CRUD for users     **/
     /**     Create     **/
@@ -34,8 +37,12 @@ module.exports = function(app, passport, gfs, track_upload) {
 
 
     /**     CRUD for audio     **/
-    app.post('/upload_track/', track_upload.single('track'), audio.upload_audio_track);
-    app.get('/get_track_file/', audio.get_track_file(gfs));
+    gridFsStorage.on('connection', function(db) {
+        console.log("GridFS connection successful");
+        track_upload = multer({ storage: gridFsStorage });
+        app.post('/upload_track/', track_upload.single('track'), audio.upload_audio_track);
+    })
+    // app.get('/get_track_file/', audio.get_track_file(gfs));
     app.post('/add_track/', audio.add_track);
     app.get('/get_track/', audio.get_track);
     app.delete('/delete_track/', audio.delete_track);

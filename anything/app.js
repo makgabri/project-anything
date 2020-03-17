@@ -4,7 +4,9 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const multer = require("multer");
-const Grid = require("gridfs-stream");
+// const Grid = require("gridfs-stream");
+const { createReadStream } = require('fs');
+const { createBucket } = require('mongoose-gridfs');
 const passport = require('passport');
 const session = require('express-session');
 
@@ -23,10 +25,15 @@ mongoose.connect(config.mongo.url, config.mongo.options);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongoDB connection error:'));
 db.once('open', function() {console.log('mongoDB connection successful')});
-let gfs = Grid(db, mongoose.mongo);
-gfs.collection('uploads');
-console.log(db.db);
-const track_upload = multer({gridFsStorage});
+// Grid.mongo = mongoose.mongo;
+// let gfs = Grid(db);
+// gfs.collection('uploads');
+// const conn = mongoose.createConnection(config.mongo.url, config.mongo.options);
+// const bucket = createBucket();
+// gridFsStorage.on('connection', function(db) {
+//     console.log("grid fs has connected");
+// })
+// const track_upload = multer({ gridFsStorage });
 let user_model = mongoose.model('users', userSchemas.User);
 let google_model = mongoose.model('google_users', userSchemas.Google);
 let local_model = mongoose.model('local_users', userSchemas.Local);
@@ -62,7 +69,7 @@ app.use(passport.session());
 
 /**     Loading route re-direction   **/
 require('./config/passport')(passport);
-require('./config/routes')(app, passport, gfs, track_upload);
+require('./config/routes')(app, passport);
 
 
 

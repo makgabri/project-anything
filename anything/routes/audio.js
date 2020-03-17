@@ -80,6 +80,15 @@ exports.delete_all_tracks = function(req, res, next) {
         return res.status(200).json("Track: " + req.body.trackId + " has been deleted");
     })
 }
+
+exports.upload_audio_authenticate = function(req, res, next) {
+    Project.findOne({_id: req.body.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(400).json("Project: " + req.body.projectId + " does not exist");
+        res.status(200).json("Audio file uploaded");
+        next();
+    })
+}
 exports.upload_audio_track = function(req, res, next) {
     Project.findOne({_id: req.body.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
@@ -90,7 +99,7 @@ exports.upload_audio_track = function(req, res, next) {
             name: req.body.name
         }, function (err, new_track) {
             if (err) return res.status(500).end(err);
-            return res.status(200).json(new_track);
+            res.status(200).json(new_track);
         });
     })
 }
