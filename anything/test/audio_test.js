@@ -10,6 +10,8 @@ const project_model = mongoose.model("project");
 const track_model = mongoose.model("track");
 const user_model = mongoose.model("users");
 const local_model = mongoose.model("local_users");
+const gfs_file_model = mongoose.model("uploads.files");
+const gfs_chunks_model = mongoose.model("uploads.chunks");
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -115,17 +117,76 @@ test('App Project - Getting a specific project', function(t) {
     })
 })
 
-test('App Audio - Uploading project', function(t) {
+test('App Audio - Uploading track', function(t) {
     t.pass("Uploading test.mp3 to test project");
     project_model.findOne({title:'test', author: 'foobar'}, function(err, project) {
         agent
             .post('/upload_track/')
             .field('projectId', String(project._id))
-            .field('src', 'test.mp3')
             .field('name', 'test_track')
             .attach('track', __dirname+"/test.mp3")
             .expect(200)
             .end(t.end);
+    })
+})
+
+test('App Audio - Uploading second track', function(t) {
+    t.pass("Uploading test.mp3 to test project");
+    project_model.findOne({title:'test', author: 'foobar'}, function(err, project) {
+        agent
+            .post('/upload_track/')
+            .field('projectId', String(project._id))
+            .field('name', 'test_track2')
+            .attach('track', __dirname+"/test.mp3")
+            .expect(200)
+            .end(t.end);
+    })
+})
+
+test('App Audio - Getting list of tracks', function(t) {
+    t.pass("Collecting a list fo all tracks owned by foobar");
+    agent
+        .get('/get_track_list/')
+        .expect(200)
+        .end(function(err, res) {
+            t.same(res.body.length, 2, 'Size of track list should be 2');
+            t.end();
+        });
+})
+
+test('App Audio - Getting a track file', function(t) {
+    t.pass("Getting a track file should be base64 encoded string");
+    track_model.findOne({name: 'test_track', author: 'foobar'}, function(err, track) {
+        agent
+            .get('/get_track_file/')
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            .send({trackId: track._id})
+            .expect(200)
+            .end(t.end);
+            /** To see the base64 encoded string, un comment following
+             * WARNING: res is very long and can take up to minute to complete printing
+             * .end(function(err, res) {
+                console.log(res);
+                t.end();
+            })
+            */
+    })
+})
+
+test('Mongoose - cleaning up uploads.files and uploads.chunks', function(t) {
+    t.pass("Removing all uploads.chunks and uploads.files created during tests");
+    track_model.find({author: 'foobar'}, function(err, tracks) {
+        if (err) return t.ifError(err);
+        tracks.forEach(function(track) {
+            gfs_chunks_model.deleteMany({files_id: track._id}, function(err, n) {
+                if (err) return t.ifError(err);
+                gfs_file_model.deleteMany({_id: track._id}, function(err, n) {
+                    if (err) return t.ifError(err);
+                });
+            });
+        });
+        t.end();
     })
 })
 
@@ -138,9 +199,9 @@ test('Mongoose - removing projects by foobar', function(t) {
 });
 
 test('Mongoose - removing audio by foobar', function(t) {
-    track_model.deleteMany({name: 'test_track'}, function(err, n) {
+    track_model.deleteMany({author: 'foobar'}, function(err, n) {
         if (err) return t.ifError(err);
-        t.same(n.deletedCount, 1, 'Delete count should be 1');
+        t.same(n.deletedCount, 2, 'Delete count should be 2');
         t.end();
     });
 });

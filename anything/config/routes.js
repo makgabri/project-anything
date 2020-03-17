@@ -32,9 +32,6 @@ module.exports = function(app, passport) {
     // curl --verbose -k -H "Content-Type: application/json" -X GET -b cookie.txt https://localhost:3000/user_name/
     app.get('/user_name/', users.get_user_name);
 
-    /**     Update     **/
-    /**     Delete     **/
-
 
     /**     CRUD for audio     **/
     gridFsStorage.on('connection', function(db) {
@@ -42,10 +39,11 @@ module.exports = function(app, passport) {
         track_upload = multer({ storage: gridFsStorage });
         app.post('/upload_track/', track_upload.single('track'), audio.upload_audio_track);
     })
-    // app.get('/get_track_file/', audio.get_track_file(gfs));
-    app.post('/add_track/', audio.add_track);
-    app.get('/get_track/', audio.get_track);
+    app.get('/get_track_file/', audio.get_track_file);
+    app.get('/get_track_list/', audio.get_track_list);
     app.delete('/delete_track/', audio.delete_track);
+
+
 
     /**     CRUD for workshop     **/
     //  curl --verbose -k -H "Content-Type: application/json" -X POST -d '{"projectId":"1","title":"1","author":"1","date":"2020-01-01"}' -b cookie.txt https://localhost:3000/add_project/

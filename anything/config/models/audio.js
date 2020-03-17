@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 /**     User Schema     **/
-// Note: author->key would be better reference to user schema
 const ProjectSchema = new Schema({
     title: {
         type: String,
@@ -23,11 +22,15 @@ const ProjectSchema = new Schema({
 });
 
 const TrackSchema = new Schema({
+    _id: {
+        type: Schema.Types.ObjectId,
+        require: true
+    },
     projectId: {
         type: String,
         require: true
     },
-    src: {
+    author: {
         type: String,
         require: true
     },

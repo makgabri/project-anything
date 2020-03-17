@@ -1,7 +1,6 @@
 'use strict';
 
 const config = require('./config');
-const crypto = require("crypto");
 const GridFsStorage = require("multer-gridfs-storage");
   
 
@@ -13,7 +12,7 @@ module.exports = new GridFsStorage({
         return {      
             bucketName: 'uploads',       
             //Setting collection name, default name is fs      
-            filename: file.originalname     
+            filename: file.originalname,     
             //Setting file name to original name of file    
         }
     }
