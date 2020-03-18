@@ -9,7 +9,13 @@ exports.isLoggedIn = function(req, res, next) {
     return res.redirect('/');
 }
 
-exports.validate = function validate(method) {
+exports.validate_errors = function(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({errors: errors.array()});
+    next();
+}
+
+exports.validate = function(method) {
     switch(method) {
         // Validating signup
         case 'signup': {
@@ -38,14 +44,8 @@ exports.validate = function validate(method) {
         // Validating add project
         case 'add_project': {
             return [
-                check('projectId').exists().withMessage('projectId must exist'),
-                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric'),
                 check('title').exists().withMessage('title must exist'),
-                check('title').isAlphanumeric().withMessage('title must be alphanumeric'),
-                check('author').exists().withMessage('author must exist'),
-                check('author').isAlphanumeric().withMessage('author must be alphanumeric'),
-                check('date').exists().withMessage('date must exist'),
-                check('date').isAlphanumeric().withMessage('date must be alphanumeric')
+                check('title').isAlphanumeric().withMessage('title must be alphanumeric')
             ]
         }
 
@@ -70,17 +70,13 @@ exports.validate = function validate(method) {
             return [
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric'),
-                check('trackId').exists().withMessage('trackId must exist'),
-                check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric'),
-                check('src').exists().withMessage('src must exist'),
-                check('src').isAlphanumeric().withMessage('src must be alphanumeric'),
                 check('name').exists().withMessage('name must exist'),
-                check('name').isAlphanumeric().withMessage('name must be alphanumeric'),
+                check('name').escape()
             ]
         }
         
         // Validating get track
-        case 'get_project': {
+        case 'get_track': {
             return [
                 check('trackId').exists().withMessage('trackId must exist'),
                 check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric')

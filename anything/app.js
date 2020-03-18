@@ -34,12 +34,12 @@ let uploda_chunks_model = mongoose.model('uploads.chunks', gridfsSchemas.Chunks)
 /**     Initializing app      **/
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set('trust proxy', 1);
 app.use(cookieParser('cats are secretly planning to rule the world'));
 const cookieExpirationDate = new Date();
 const cookieExpirationDays = 365;
 cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDays);
-app.use(bodyParser.urlencoded({ extended: false }));
 /**     Initializing app - Session   **/
 app.use(session({
     secret: 'cats are secretly planning to rule the world',
