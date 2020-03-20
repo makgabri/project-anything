@@ -14,6 +14,22 @@
             error_box.style.display = "block";
         });
 
+        /**     UI Navigation    **/
+        document.getElementById('credits').addEventListener('click', (function(e) {
+            window.location.href = '/credits.html';
+        }));
+        document.getElementById('github').addEventListener('click', (function(e) {
+            window.location.href = 'https://github.com/UTSCC09/project-anything';
+        }));
+        document.getElementById('about').addEventListener('click', (function(e) {
+            window.location.href = '/about.html';
+        }));
+        document.getElementById("signout_button").addEventListener('click', function (e) {
+            api.signout();
+            window.location.href = '/';
+        })
+    
+
         /** Basic functionality if logged in **/
         api.onLoginUpdate(function(username){
             if (!username) {
@@ -63,10 +79,6 @@
         document.querySelector("#pagination .next-arrow").addEventListener("click", function(e){
             api.navComments(1);
         });
-
-        document.getElementById("signout_button").addEventListener('click', function (e) {
-            api.signout();
-        })
         
 
 

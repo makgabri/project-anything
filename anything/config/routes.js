@@ -34,7 +34,7 @@ module.exports = function(app, passport) {
     app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/failed'}), users.sign_in_google);
     app.get('/signout/', users.sign_out);
     app.get('/user_key/', auth.isLoggedIn, users.get_user_key);
-    app.get('/user_name/', auth.isLoggedIn, users.get_user_name);
+    app.get('/user_name/', users.get_user_name);
 
 
     /**     CRUD for Tracks     **/

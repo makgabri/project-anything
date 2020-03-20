@@ -21,10 +21,18 @@ window.onload = function(){
             window.location.href = '/homepage.html';
         }
     });
-
     document.getElementById('title').addEventListener('click', (function(e) {
-        window.location.reload();
-    }))
+        window.location.href = '/';
+    }));
+    document.getElementById('credits').addEventListener('click', (function(e) {
+        window.location.href = '/credits.html';
+    }));
+    document.getElementById('github').addEventListener('click', (function(e) {
+        window.location.href = 'https://github.com/UTSCC09/project-anything';
+    }));
+    document.getElementById('about').addEventListener('click', (function(e) {
+        window.location.href = '/about.html';
+    }));
 
 
 

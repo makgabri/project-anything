@@ -6,7 +6,7 @@ exports.isLoggedIn = function(req, res, next) {
     // Check if authenticated by google login
     if (req.isAuthenticated()) return next();
     // Redirect to login page or prevent access
-    return res.redirect('/');
+    return res.status(401).json('You are not logged in');
 }
 
 exports.validate_errors = function(req, res, next) {

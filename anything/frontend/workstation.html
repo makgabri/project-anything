@@ -6,53 +6,17 @@
     <link href="style/main.css" rel="stylesheet" type="text/css"/>
     <link href="style/track.css" rel="stylesheet" type="text/css"/>
     <link href="style/workstation.css" rel="stylesheet" type="text/css"/>
+    <link href="style/navigator.css" rel="stylesheet" type="text/css"/>
     <link href="style/track-editor.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <header>
-        <a href="/" id="title">Anything</a>
-        <div class="navbar">
-            <a class="homebar" href="/homepage.html">
-                <span class="text-secondary">Home</span>
-            </a>
-            <div class="drop1">
-                <div class="dropdown">
-                <button class="dropbtn">
-                    File<i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a>New</a>
-                    <a>Open</a>
-                    <a>Save</a>
-                </div>
-                </div>
-            </div>
-    
-            <div class="drop2">
-                <div class="dropdown">
-                <button class="dropbtn">
-                    Edit<i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a>Crop</a>
-                    <a>Delete</a>
-                    <a>Copy</a>
-                    <a>Paste</a>
-                </div>
-                </div>
-            </div>
-    
-            <div class="drop3">
-                <div class="dropdown">
-                <button class="dropbtn">
-                    {{ username }} <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="/feedback">Feedback</a>    
-                    <a href="/signout/">Signout</a>
-                </div>
-                </div>
-            </div>
+        <a href="/homepage.html" id="title"></a>
+        <div class='navigator'>
+            <div class='nav' id='signout_button'>Signout</div>
+            <div class='nav' id='credits'>Credits</div>
+            <div class='nav' id='about'>About</div>
+            <div class='nav' id='github'>Github</div>
         </div>
     </header>
     
@@ -120,9 +84,9 @@
     </div>
     
     <footer>
-        <a href='/credits.html'>credits</a>
     </footer>
     <script src="js/api.js"></script>
+    <script src="js/workstation.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/playlistbundle.js"></script>
 

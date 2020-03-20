@@ -5,12 +5,18 @@
     <title>Anything</title>
     <link href="style/main.css" rel="stylesheet" type="text/css"/>
     <link href="style/track.css" rel="stylesheet" type="text/css"/>
+    <link href="style/navigator.css" rel="stylesheet" type="text/css"/>
     <link href="style/form.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <header>
-        <a href="/homepage.html" id="title">Anything</a>
-        <a href="/signout/" id="signout_button" class="btn header_btn">Sign out</a>
+        <a href="/homepage.html" id="title"></a>
+        <div class='navigator'>
+            <div class='nav' id='signout_button'>Signout</div>
+            <div class='nav' id='credits'>Credits</div>
+            <div class='nav' id='about'>About</div>
+            <div class='nav' id='github'>Github</div>
+        </div>
     </header>
     
     <p id="error_box"></p>
@@ -68,7 +74,6 @@
     </div>
     
     <footer>
-        <a href='/credits.html'>credits</a>
     </footer>
     <script src="js/api.js"></script>
     <script src="js/homepage.js"></script>
