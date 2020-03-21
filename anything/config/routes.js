@@ -44,6 +44,7 @@ module.exports = function(app, passport) {
         app.post('/upload_track/', auth.isLoggedIn, track_upload.single('track'), auth.validate('add_track'), auth.validate_errors, audio.upload_audio_track);
     })
     app.get('/get_track_file/', auth.isLoggedIn, auth.validate('get_track'), auth.validate_errors, audio.get_track_file);
+    app.get('/get_track/:trackId/', auth.isLoggedIn, auth.validate('get_track'), auth.validate_errors, audio.get_track);
     app.get('/get_track_list/', auth.isLoggedIn, audio.get_track_list);
     app.delete('/delete_track/', auth.isLoggedIn, auth.validate('delete_track'), auth.validate_errors, audio.delete_track);
 
@@ -60,5 +61,6 @@ module.exports = function(app, passport) {
     app.post('/add_project/', auth.isLoggedIn, auth.validate('add_project'), auth.validate_errors, audio.add_project);
     app.get('/get_project_list/', auth.isLoggedIn, audio.user_project_list);
     app.get('/get_project/', auth.isLoggedIn, auth.validate('get_project'), auth.validate_errors, audio.get_project);
+    app.get('/project_track_list/',auth.isLoggedIn, auth.validate('get_project'), audio.project_track_list);
     app.delete('/delete_project/', auth.isLoggedIn, auth.validate('delete_project'), auth.validate_errors, audio.delete_project);
 };

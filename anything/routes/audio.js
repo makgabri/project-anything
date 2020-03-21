@@ -26,6 +26,18 @@ exports.user_project_list = function(req, res, next) {
     });
 }
 
+exports.project_track_list = function(req, res, next) {
+    Project.findOne({_id: req.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(400).json("Project: " + req.body.projectId + " does not exist");
+        if (project.author != req.session.passport.user) return res.status(401).json("You can't edit other user's projects");
+        Track.find({projectId: req.projectId}, {_id:1, name:1},function(err, track_list) {
+            if (err) return res.status(500).end(err);
+            return res.status(200).json(track_list);
+        });
+    });
+}
+
 exports.get_project = function(req, res, next) {
     Project.findOne({_id: req.body.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
@@ -86,6 +98,31 @@ exports.upload_audio_track = function(req, res, next) {
             if (err) return res.status(500).end(err);
             return res.status(200).json(new_track);
         });
+    })
+}
+
+exports.get_track = function(req, res, next) {
+    Upload_Files.findOne({_id: req.params.trackId}, function(err, track) {
+        if (err) return res.status(500).end(err);
+        if (!track) return res.status(400).json("TrackId: " + req.params.trackId + " does not exist");
+        if (track.author != req.session.passport.user) return res.status(401).json("You are not the owner of this track");
+        Upload_Chunks.find({files_id: req.parms.trackId}, null, {sort:{date: 1}}, function(err,chunks) {
+            if (err) return res.status(500).end(err);
+            if (!chunks) return res.status(500).json("Chunks of file not found");
+            let fileData = [];
+            for (let i=0; i<chunks.length; i++) {
+                fileData.push(chunks[i].data.toString('base64'));
+            }
+            let audio_string = 'data:' + track.contentType + ';base64' + fileData.join('');
+
+            let final_file = Buffer.from(audio_string, 'base64');
+
+            res.writeHead(200, {
+                'Content-Type': track.contentType,
+                'Content-Length': final_file.length
+            });
+            return res.end(final_file);
+        })
     })
 }
 
