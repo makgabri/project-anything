@@ -5,26 +5,34 @@
     <title>Anything</title>
     <link href="style/main.css" rel="stylesheet" type="text/css"/>
     <link href="style/track.css" rel="stylesheet" type="text/css"/>
+    <link href="style/navigator.css" rel="stylesheet" type="text/css"/>
     <link href="style/form.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <header>
-        <a href="/" id="title">Anything</a>
-        <div id="signout_button" class="btn header_btn">Sign out</div>
+        <a href="/homepage.html" id="title"></a>
+        <div class='navigator'>
+            <div class='nav' id='signout_button'>Signout</div>
+            <div class='nav' id='credits'>Credits</div>
+            <div class='nav' id='about'>About</div>
+            <div class='nav' id='github'>Github</div>
+        </div>
     </header>
     
     <p id="error_box"></p>
 
-    <div id="welcome_message" class="header_title">
-        <h3>Hello </h3>
-        <h3>These are your tracks</h3>
-    </div>
+    <div id="welcome_message" class="header_title"></div>
     
-    <form class="complex_form" id="create_message_form">
+    <form class="complex_form" id="complex_form">
       <div class="form_title">Create A New Project</div>
       <textarea id="project-name" class="form_element" placeholder="Enter a project name" required></textarea>
       <button type="submit" formaction="/workstation.html" class="btn">Create your Project!</button>
     </form>
+
+    <div>
+        <h3>Projects</h3>
+        <div id="projects"></div>
+    </div>
     
     <div id="tracks">
         <h3>Tracks</h3>
@@ -66,9 +74,9 @@
     </div>
     
     <footer>
-        <a href='/credits.html'>credits</a>
     </footer>
     <script src="js/api.js"></script>
     <script src="js/homepage.js"></script>
+    <script src="js/playlistapi.js"></script>
 </body>
 </html>

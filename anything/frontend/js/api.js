@@ -35,7 +35,17 @@ var api = (function(){
     var module = {};
     
 
-
+    /**
+     * Sign up to the web app
+     * 
+     * @param   {string}  username     username
+     * @param   {string}  password     password
+     * @param   {string}  familyName   familyName
+     * @param   {string}  givenName    givenName
+     * 
+     * sends a signup message to backend to create a local user object
+     * 
+     */
     module.signup_local = function(username, password, familyName, givenName){
         send("POST", "/signup/", {
             username: username,
@@ -48,27 +58,48 @@ var api = (function(){
        });
     };
     
-
-
+    /**
+     * Sign in to webgallery
+     * 
+     * @param   {string}  username     username
+     * @param   {string}  password     password
+     * 
+     * sends a signup message to backend to create session
+     * 
+     */
     module.signin_local = function(username, password){
         send("POST", "/signin/", {username: username, password: password}, function(err, res){
             if (err) return notifyErrorListeners(err);
+            notifyLoginListeners(getUsername());
             if (res == "success") {
                 window.location.replace("../homepage.html")
             }
        });
     };
     
-
-
+    /**
+     * Sign out of webgallery
+     * 
+     * sends a signout message to backend to destroy session
+     * 
+     */
     module.signout = function(){
         send("GET", "/signout/", null, function(err, res){
             if (err) return notifyErrorListeners(err);
+            notifyLoginListeners(getUsername());
        });
     };
 
 
-
+    /**
+     * Front end function to double check password
+     * 
+     * @param   {string}  password1     first password
+     * @param   {string}  password2     second password
+     * 
+     * Confirms that the re-entered password is the same
+     * 
+     */
     module.check_password = function(password1, password2) {
         if (password1 != password2)  {
             notifyErrorListeners("Passwords do not match");
@@ -78,6 +109,8 @@ var api = (function(){
     };
 
 
+
+
     /**     Local Variables     **/
 
     /** Local Variable Getters and Setters */
@@ -85,13 +118,28 @@ var api = (function(){
 
 
     /**     AJAX Get Function   **/
-    
+    let getUsername = function(callback){
+        send("GET", "/user_name/", null, callback);
+    }
+
+    let getProjList = function(callback){
+        send("GET", "/get_project_list/", null, callback);
+    }
 
 
     /**      Listeners          **/
     let errorListeners = [];
+    let loginListeners = [];
+    let projListListeners = [];
     
+    /**     Public notifier invokers  **/
+    module.invokeError = function(err) {
+        notifyErrorListeners(err);
+    }
 
+    module.invokeProjList = function() {
+        notifyProjListListeners();
+    }
 
     /**    Private Notifiers     **/
     function notifyErrorListeners(err){
@@ -100,12 +148,44 @@ var api = (function(){
         });
     }
 
+    function notifyLoginListeners(username){
+        loginListeners.forEach(function(listener){
+            listener(username);
+        });
+    };
+
+    function notifyProjListListeners(){
+        getProjList(function(err, projList) {
+            if (err) return notifyErrorListeners(err);
+            projListListeners.forEach(function(listener) {
+                listener(projList);
+            })
+        })
+    }
 
 
+    /**     Add Notifiers    **/
     module.onError = function(listener){
         errorListeners.push(listener);
     };
 
+    module.onLoginUpdate = function(listener){
+        loginListeners.push(listener);
+        getUsername(function(err, user_name) {
+            if (err) return notifyErrorListeners(err);
+            listener(user_name);
+        });
+    }
+
+    module.onProjListUpdate = function(listener) {
+        projListListeners.push(listener);
+        getProjList(function(err, projList) {
+            if (err) return notifyErrorListeners(err);
+            projListListeners.forEach(function(listener) {
+                listener(projList);
+            })
+        })
+    }
 
 
     return module;

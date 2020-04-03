@@ -3,8 +3,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const multer = require("multer");
-const Grid = require("gridfs-stream");
 const passport = require('passport');
 const session = require('express-session');
 
@@ -14,7 +12,7 @@ const session = require('express-session');
 const config = require('./config/config');
 const userSchemas = require('./config/models/user');
 const audioSchemas = require('./config/models/audio');
-const gridFsStorage = require('./config/gridfs');
+const gridfsSchemas = require('./config/models/gridfs');
 
 
 
@@ -23,26 +21,25 @@ mongoose.connect(config.mongo.url, config.mongo.options);
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongoDB connection error:'));
 db.once('open', function() {console.log('mongoDB connection successful')});
-let gfs = Grid(db, mongoose.mongo);
-gfs.collection('uploads');
-const track_upload = multer({gridFsStorage});
 let user_model = mongoose.model('users', userSchemas.User);
 let google_model = mongoose.model('google_users', userSchemas.Google);
 let local_model = mongoose.model('local_users', userSchemas.Local);
 let project_model = mongoose.model('project', audioSchemas.Project);
 let track_model = mongoose.model('track', audioSchemas.Track);
+let upload_file_model = mongoose.model('uploads.files', gridfsSchemas.File);
+let uploda_chunks_model = mongoose.model('uploads.chunks', gridfsSchemas.Chunks);
 
 
 
 /**     Initializing app      **/
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set('trust proxy', 1);
 app.use(cookieParser('cats are secretly planning to rule the world'));
 const cookieExpirationDate = new Date();
 const cookieExpirationDays = 365;
 cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDays);
-app.use(bodyParser.urlencoded({ extended: false }));
 /**     Initializing app - Session   **/
 app.use(session({
     secret: 'cats are secretly planning to rule the world',
@@ -61,9 +58,7 @@ app.use(passport.session());
 
 /**     Loading route re-direction   **/
 require('./config/passport')(passport);
-require('./config/routes')(app, passport, gfs, track_upload);
-
-
+require('./config/routes')(app, passport);
 
 /**     Listen to server    **/
 app.use(function (req, res, next){

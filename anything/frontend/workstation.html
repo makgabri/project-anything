@@ -6,72 +6,51 @@
     <link href="style/main.css" rel="stylesheet" type="text/css"/>
     <link href="style/track.css" rel="stylesheet" type="text/css"/>
     <link href="style/workstation.css" rel="stylesheet" type="text/css"/>
+    <link href="style/navigator.css" rel="stylesheet" type="text/css"/>
     <link href="style/track-editor.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <header>
-        <a href="/" id="title">Anything</a>
-        <div class="navbar">
-            <a class="homebar" href="/">
-                <span class="text-secondary">Home</span>
-            </a>
-            <div class="drop1">
-                <div class="dropdown">
-                <button class="dropbtn">
-                    File<i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a>New</a>
-                    <a>Open</a>
-                    <a>Save</a>
-                </div>
-                </div>
-            </div>
-    
-            <div class="drop2">
-                <div class="dropdown">
-                <button class="dropbtn">
-                    Edit<i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a>Crop</a>
-                    <a>Delete</a>
-                    <a>Copy</a>
-                    <a>Paste</a>
-                </div>
-                </div>
-            </div>
-    
-            <div class="drop3">
-                <div class="dropdown">
-                <button class="dropbtn">
-                    {{ username }} <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="/feedback">Feedback</a>    
-                    <a href="/logout">Logout</a>
-                </div>
-                </div>
-            </div>
+        <a href="/homepage.html" id="title"></a>
+        <div class='navigator'>
+            <div class='nav' id='signout_button'>Signout</div>
+            <div class='nav' id='credits'>Credits</div>
+            <div class='nav' id='about'>About</div>
+            <div class='nav' id='github'>Github</div>
         </div>
     </header>
     
     <p id="error_box"></p>
     
+    <!--div id="hidden_image_form">
+        <div id="upload_form">
+            <div class="form_title">
+                <div class="title">Upload an audio file</div>
+                <div class="close_button_icon"></div>
+            </div>
+            <input type="file" id="audio_file" class="form_element" name="audio" accept="audio/*" required>
+            <button type="submit" class="btn button">Make track</button>
+    
+        </div>
+
+    </div-->
+    <div class="track-drop-wrapper">
+        <div class="track-drop"></div>
+    </div>
+
     <div id="playlist"></div>
+
 
 
     <div class="track-editor">
         <div class="controls">
             <div class="btn-play btn btn-success"></div>
             <div class="btn-pause btn btn-warning"></div>
+            <div class="btn-stop btn btn-warning"></div>
+
             <div class="btn-fast-forward btn btn-success"></div>
             <div class="btn-rewind btn btn-success"></div>
-            <div class="end-icon"></div>
-            <div class="start-icon"></div>
 
-
-            <div class="btn-stop"></div>
             <div class="btn-cursor btn btn-default active" title="select cursor"></div>
             <div class="btn-select btn btn-default" title="select audio region"></div>
             <div class="btn-shift btn btn-default" title="shift audio in time"></div>
@@ -79,7 +58,7 @@
             <div class="btn-fadeout btn btn-default" title="set audio fade out"></div>
             <div class="btn-loop btn btn-success disabled" title="loop a selected segment of audio"></div>
             <div title="keep only the selected audio region for a track"
-            class="btn-trim-audio btn btn-primary disabled">Trim</div>
+            class="btn-trim-audio btn btn-primary disabled"></div>
             <div title="Download the current work as Wav file" class="btn btn-download btn-primary"></div>
         </div>
 
@@ -101,16 +80,15 @@
             <label for="master-gain">Master Volume</label>
             <input type="range" min="0" max="200" value="100" class="master-gain form-control" id="master-gain">
         </div>
-        
+
     </div>
     
     <footer>
-        <a href='/credits.html'>credits</a>
     </footer>
     <script src="js/api.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/workstation.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/bundle2.js"></script>
+    <script type="text/javascript" src="js/playlistbundle.js"></script>
 
 </body>
 </html>

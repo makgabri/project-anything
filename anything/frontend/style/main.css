@@ -8,22 +8,24 @@ body {
     background: linear-gradient(to left, #7700aa, #8800ff);
     text-align:center;
     color:#fff;
+    margin: 0;
 }
 
 header{
     display:flex;
-    margin-top:36px;
-    height: 64px;
-    justify-content:flex-end;
+    height: 80px;
+    background-color: #7602db;
+    justify-content: space-between;
+    border-bottom: solid 2px white;
 }
 
 header #title{
-    justify-content: left;
-    color: black;
-    text-decoration:none;
-    margin: 0px;
-    width: 500px;
-    font-size:48px;
+    background-image: url('../media/logo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:75%;
+    width: 100px;
+    margin-left: 20px;
 }
 
 .header_btn{
@@ -63,4 +65,8 @@ footer{
 
 .hidden{
     visibility: hidden;
+}
+
+ul{
+    text-align: left;
 }

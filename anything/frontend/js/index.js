@@ -14,16 +14,31 @@ window.onload = function(){
         error_box.style.visibility = "visible";
     });
 
-
-
     /**     UI Navigation    **/
-    // TODO: Check if logged in
+    // Re-directed to homepage if logged in
+    api.onLoginUpdate(function(username){
+        if (username) {
+            window.location.href = '/homepage.html';
+        }
+    });
+    document.getElementById('title').addEventListener('click', (function(e) {
+        window.location.href = '/';
+    }));
+    document.getElementById('credits').addEventListener('click', (function(e) {
+        window.location.href = '/credits.html';
+    }));
+    document.getElementById('github').addEventListener('click', (function(e) {
+        window.location.href = 'https://github.com/UTSCC09/project-anything';
+    }));
+    document.getElementById('about').addEventListener('click', (function(e) {
+        window.location.href = '/about.html';
+    }));
 
 
 
     /**     Adds Listeners to display action box    **/
     // Add/Changes form to login option
-    this.document.getElementById("login_btn").addEventListener('click', (function(e){
+    document.getElementById("login_btn").addEventListener('click', (function(e){
         let user_info = document.getElementById("user_info");
         user_info.innerHTML = '';
 
@@ -50,7 +65,7 @@ window.onload = function(){
     }));
 
     // Add/Changes form to signup option
-    this.document.getElementById("register_btn").addEventListener('click', (function(e){
+    document.getElementById("register_btn").addEventListener('click', (function(e){
         let user_info = document.getElementById("user_info");
         user_info.innerHTML = '';
 
@@ -86,7 +101,7 @@ window.onload = function(){
 
 
     // Add google login
-    this.document.getElementById("google_login").addEventListener('click', (function(e) {
+    document.getElementById("google_login").addEventListener('click', (function(e) {
         location.replace("/auth/google/")
     }))
 };

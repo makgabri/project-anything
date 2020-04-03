@@ -6,38 +6,77 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 /**     User Schema     **/
-// Note: author->key would be better reference to user schema
 const ProjectSchema = new Schema({
-    projectId: {
+    title: {
         type: String,
-        unique: true,
         require: true
     },
-    title: {
-        type: String
-    },
     author: {
-        type: String
+        type: String,
+        require: true
     },
     date: {
-        type: Date
+        type: Date,
+        require: true
     }
 });
 
 const TrackSchema = new Schema({
-    trackId: {
-        type: String,
-        unique: true,
+    _id: {
+        type: Schema.Types.ObjectId,
         require: true
     },
     projectId: {
-        type: String
+        type: String,
+        require: true
     },
-    src: {
-        type: String
+    author: {
+        type: String,
+        require: true
     },
     name: {
-        type: String
+        type: String,
+        require: true
+    },
+    gain: {
+        type: String,
+        default: ''
+    },
+    muted: {
+        type: Boolean,
+        default: false
+    },
+    soloed: {
+        type: Boolean,
+        default: false
+    },
+    start: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
+    },
+    fadeIn_duration: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
+    },
+    fadeOut_duration: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
+    },
+    cuein: {
+        type: Schema.Types.Number,
+        default: 0
+    },
+    cueout: {
+        type: Schema.Types.Number,
+        default: 0
+    },
+    waveOutlineColor: {
+        type: Schema.Types.String,
+        default: '#FFFFFF'
+    },
+    stereoPan: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
     }
 });
 
