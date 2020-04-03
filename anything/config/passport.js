@@ -45,7 +45,6 @@ module.exports = function(passport) {
                         provider: 'google'
                     }, function (err, new_user) {
                         if (err) return done(err);
-                    }).then(function(new_user) {
                         Google.create({
                             googleId: profile.id,
                             familyName: profile.name.familyName,
@@ -53,12 +52,13 @@ module.exports = function(passport) {
                         });
                         return done(null, new_user);
                     });
+                } else {
+                    Google.findOne( {googleId: profile.id }, function(err, google_user) {
+                        if (err) return done(err);
+                        if (!google_user) return done('Initialization error');
+                        return done(null, user);
+                    });
                 }
-                Google.findOne( {googleId: profile.id }, function(err, google_user) {
-                    if (err) return done(err);
-                    if (!google_user) return done('Initialization error');
-                    return done(null, user);
-                })
             });
         }
     ));

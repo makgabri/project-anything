@@ -37,6 +37,46 @@ const TrackSchema = new Schema({
     name: {
         type: String,
         require: true
+    },
+    gain: {
+        type: String,
+        default: ''
+    },
+    muted: {
+        type: Boolean,
+        default: false
+    },
+    soloed: {
+        type: Boolean,
+        default: false
+    },
+    start: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
+    },
+    fadeIn_duration: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
+    },
+    fadeOut_duration: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
+    },
+    cuein: {
+        type: Schema.Types.Number,
+        default: 0
+    },
+    cueout: {
+        type: Schema.Types.Number,
+        default: 0
+    },
+    waveOutlineColor: {
+        type: Schema.Types.String,
+        default: '#FFFFFF'
+    },
+    stereoPan: {
+        type: Schema.Types.Decimal128,
+        default: 0.0
     }
 });
 

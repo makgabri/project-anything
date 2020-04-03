@@ -142,3 +142,14 @@ exports.get_track_file = function(req, res, next) {
         })
     })
 }
+
+exports.update_track_option = function(req, res, next) {
+    // Todo: validate the option is within the option list
+    Track.findOne({_id: req.body.trackId}, function(err, track) {
+        if (err) return res.status(500).end(err);
+        if (!track) return res.status(400).json("TrackId: " + req.body.trackId + " does not exist");
+        if (track.author != req.session.passport.user) return res.status(401).json("You are not the owner of this track");
+        track[req.body.option] = req.body.newValue;
+        track.save();
+    })
+}

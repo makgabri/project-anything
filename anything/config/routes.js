@@ -47,6 +47,7 @@ module.exports = function(app, passport) {
     app.get('/get_track/:trackId/', auth.isLoggedIn, auth.validate('get_track'), auth.validate_errors, audio.get_track);
     app.get('/get_track_list/', auth.isLoggedIn, audio.get_track_list);
     app.delete('/delete_track/', auth.isLoggedIn, auth.validate('delete_track'), auth.validate_errors, audio.delete_track);
+    app.patch('/update_track/', auth.isLoggedIn, audio.update_track_option);
 
 
 
