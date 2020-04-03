@@ -70,7 +70,7 @@ app.use(function (req, res, next){
 app.use(express.static('frontend'));
 
 const https = require('https');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 /**     Start Server     **/
 let server = https.createServer(config.server, app).listen(PORT, function (err) {
