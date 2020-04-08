@@ -109,11 +109,63 @@ var api = (function(){
     };
 
 
+    /** Project and Track Operations **/
+    // create new project
+    module.addProject = function(title, author){
+        send("POST", "/add_project/", {title: title}, function(err, res){
+            if (err) return notifyErrorListeners(err);
+            notifyProjectListeners();
+         });
+    };
+
+    module.updateProjectTitle = function(newTitle) {
+        send("PATCH", "/project/"+getCurrProj()+"/title/", {newTitle: newTitle}, function(err, res){
+            if (err) return notifyErrorListeners(err);
+        });
+    }
+ 
+    // delete a track on a project
+    module.deleteTrack = function(trackId){
+        send("DELETE", "/delete_track/", {trackId: trackId}, function(err, res){
+            if (err) return notifyErrorListeners(err);
+            notifyTrackListeners();
+        });
+    }; 
+
+    // delete an project from the gallery given its projectId
+    module.deleteProject = function(projectId){
+        send("DELETE", "/delete_project/", {projectId: projectId}, function(err, res){
+            if (err) return notifyErrorListeners(err);
+            notifyProjectListeners();
+        });      
+    };
+
+    module.uploadTrack = function(projectId, file){
+        sendFiles(
+        "POST", "/upload_track/",
+        {  
+            projectId: projectId,
+            track: file,
+            // name is file name. Should make this default and optional parameter for name
+            name: file.str.split(/(\\|\/)/g).pop()
+        },
+        function(err,res){
+            if (err) return notifyErrorListeners(err);
+            notifyTrackListeners();
+        });
+    };
+
 
 
     /**     Local Variables     **/
 
     /** Local Variable Getters and Setters */
+    module.setCurrProj = function(newProjId) {
+        localStorage.setItem("currProj", newProjId);
+    }
+    let getCurrProj = function() {
+        return localStorage.getItem("currProj");
+    }
 
 
 
@@ -123,14 +175,24 @@ var api = (function(){
     }
 
     let getProjList = function(callback){
-        send("GET", "/get_project_list/", null, callback);
+        send("GET", "/project/user/", null, callback);
     }
+
+    let getProject = function(callback){
+        return send("GET", "/project/"+getCurrProj()+"/", null, callback);
+    };
+
+    let getTracks = function(callback){
+        send("GET", "/project/"+getCurrProj()+"/tracks/", null, callback);
+    };
 
 
     /**      Listeners          **/
     let errorListeners = [];
     let loginListeners = [];
     let projListListeners = [];
+    let projectListeners = [];
+    let trackListeners = [];
     
     /**     Public notifier invokers  **/
     module.invokeError = function(err) {
@@ -159,8 +221,26 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             projListListeners.forEach(function(listener) {
                 listener(projList);
-            })
-        })
+            });
+        });
+    }
+
+    function notifyProjectListeners(){
+        getProject(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            projectListeners.forEach(function(listener){
+                listener(res);
+            });
+        });  
+    }
+
+    function notifyTrackListeners(){
+        getTracks(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            trackListeners.forEach(function(listener){
+                listener(res);
+            });
+        }); 
     }
 
 
@@ -186,6 +266,24 @@ var api = (function(){
             })
         })
     }
+
+    module.onProjectUpdate = function(handler){
+        projectListeners.push(handler);
+        getProject(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            handler(res);
+        });  
+    };
+
+    module.onTrackUpdate = function(handler){
+        trackListeners.push(handler);
+        getTracks(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            handler(res);
+        });
+    };
+
+
 
 
     return module;

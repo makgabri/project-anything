@@ -15,15 +15,6 @@
         });
 
         /**     UI Navigation    **/
-        document.getElementById('credits').addEventListener('click', (function(e) {
-            window.location.href = '/credits.html';
-        }));
-        document.getElementById('github').addEventListener('click', (function(e) {
-            window.location.href = 'https://github.com/UTSCC09/project-anything';
-        }));
-        document.getElementById('about').addEventListener('click', (function(e) {
-            window.location.href = '/about.html';
-        }));
         document.getElementById("signout_button").addEventListener('click', function (e) {
             api.signout();
             window.location.href = '/';
@@ -49,7 +40,7 @@
                 e.preventDefault();
                 let title = document.querySelector("#project-name").value;
                 document.querySelector("#complex_form").reset();
-                playlistApi.addProject(title);
+                api.addProject(title);
             });
         });
 
@@ -66,7 +57,7 @@
                 projDiv.append(elmt);
 
                 elmt.addEventListener('click', function(e) {
-                    playlistApi.setCurrProj(project._id);
+                    api.setCurrProj(project._id);
                     window.location.href = '/workstation.html';
                 })
             })

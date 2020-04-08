@@ -73,4 +73,62 @@
 
 .playlist .controls {
     text-align: center;
+    background-color: blueviolet;
+}
+
+.playlist header {
+    background-color: blueviolet;
+    margin-bottom: 10px;
+}
+
+.playlist .playlist-tracks {
+    background-color: blueviolet;
+}
+
+.timebox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
+}
+
+.title_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.title {
+    vertical-align: middle;
+    padding: 0px 10px 0px 10px;
+    height: 80px;
+    font-size: 25px;
+}
+
+.edit_title {
+    background-image: url('../media/edit.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:75%;
+    width: 50px;
+    height: 70px;
+    margin-left: 20px;
+}
+
+.edit_title:hover {
+    cursor: pointer;
+}
+
+.save_title {
+    background-image: url('../media/save.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:75%;
+    width: 50px;
+    height: 70px;
+    margin-left: 20px;
+}
+
+.save_title:hover {
+    cursor: pointer;
 }

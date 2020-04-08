@@ -9,6 +9,8 @@
     padding: 27px 10px 0px 10px;
     height: 80px;
     font-size: 20px;
+    color: white;
+    text-decoration: none;
 }
 
 .nav:hover{

@@ -60,8 +60,9 @@ module.exports = function(app, passport) {
      * curl --verbose -k -H "Content-Type: application/json" -X DELETE -d '{"projectId":"1"}' -b cookie.txt https://localhost:3000/delete_project/
      **/
     app.post('/add_project/', auth.isLoggedIn, auth.validate('add_project'), auth.validate_errors, audio.add_project);
-    app.get('/get_project_list/', auth.isLoggedIn, audio.user_project_list);
-    app.get('/get_project/', auth.isLoggedIn, auth.validate('get_project'), auth.validate_errors, audio.get_project);
-    app.get('/project_track_list/',auth.isLoggedIn, auth.validate('get_project'), audio.project_track_list);
+    app.get('/project/user/', auth.isLoggedIn, audio.user_project_list);
+    app.get('/project/:projectId/', auth.isLoggedIn, auth.validate('get_project'), auth.validate_errors, audio.get_project);
+    app.patch('/project/:projectId/title/', auth.isLoggedIn, audio.new_project_title);
+    app.get('/project/:projectId/tracks/',auth.isLoggedIn, auth.validate('get_project'), audio.project_track_list);
     app.delete('/delete_project/', auth.isLoggedIn, auth.validate('delete_project'), auth.validate_errors, audio.delete_project);
 };

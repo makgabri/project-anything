@@ -19,6 +19,17 @@ exports.add_project = function(req, res, next) {
     })
 }
 
+exports.new_project_title = function(req, res, next) {
+    // Todo: validate the option is within the option list
+    Project.findOne({_id: req.params.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(400).json("ProjectId: " + req.params.projectId + " does not exist");
+        if (project.author != req.session.passport.user) return res.status(401).json("You are not the owner of this project");
+        project['title'] = req.body.newTitle;
+        project.save();
+    })
+}
+
 exports.user_project_list = function(req, res, next) {
     Project.find({author: req.session.passport.user},{_id:1,title:1}, function(err, proj_list) {
         if (err) return res.status(500).end(err);
@@ -27,11 +38,11 @@ exports.user_project_list = function(req, res, next) {
 }
 
 exports.project_track_list = function(req, res, next) {
-    Project.findOne({_id: req.projectId}, function(err, project) {
+    Project.findOne({_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
         if (!project) return res.status(400).json("Project: " + req.body.projectId + " does not exist");
         if (project.author != req.session.passport.user) return res.status(401).json("You can't edit other user's projects");
-        Track.find({projectId: req.projectId}, {_id:1, name:1},function(err, track_list) {
+        Track.find({projectId: req.params.projectId}, {_id:1, name:1},function(err, track_list) {
             if (err) return res.status(500).end(err);
             return res.status(200).json(track_list);
         });
@@ -39,7 +50,7 @@ exports.project_track_list = function(req, res, next) {
 }
 
 exports.get_project = function(req, res, next) {
-    Project.findOne({_id: req.body.projectId}, function(err, project) {
+    Project.findOne({_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
         return res.status(200).json(project);
     })

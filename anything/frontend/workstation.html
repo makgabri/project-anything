@@ -12,31 +12,26 @@
 <body>
     <header>
         <a href="/homepage.html" id="title"></a>
+        <div class="title_box">
+            <p class="title"></p>
+            <div id='edit_title'></div>
+            <div id='save_title'></div>
+        </div>
         <div class='navigator'>
             <div class='nav' id='signout_button'>Signout</div>
-            <div class='nav' id='credits'>Credits</div>
-            <div class='nav' id='about'>About</div>
-            <div class='nav' id='github'>Github</div>
+            <a href="/credits.html" class='nav' id='credits'>Credits</a>
+            <a href="/about.html" class='nav' id='about'>About</a>
+            <a href="https://github.com/UTSCC09/project-anything" class='nav' id='github'>Github</a>
         </div>
     </header>
     
     <p id="error_box"></p>
     
-    <!--div id="hidden_image_form">
-        <div id="upload_form">
-            <div class="form_title">
-                <div class="title">Upload an audio file</div>
-                <div class="close_button_icon"></div>
-            </div>
-            <input type="file" id="audio_file" class="form_element" name="audio" accept="audio/*" required>
-            <button type="submit" class="btn button">Make track</button>
-    
-        </div>
-
-    </div-->
     <div class="track-drop-wrapper">
         <div class="track-drop"></div>
     </div>
+    
+    <div class='load-progress'></div>
 
     <div id="playlist"></div>
 
@@ -62,7 +57,11 @@
             <div title="Download the current work as Wav file" class="btn btn-download btn-primary"></div>
         </div>
 
-        <label class="audio-pos">00:00:00.0</label>
+        <div class='timebox'>
+            <div>Start Time:<input type="text" class="audio-start"></div>
+            <div>End Time:<input type="text" class="audio-end"></div>
+            <div>Marker Time: <label class="audio-pos">00:00:00.0</label></div>
+        </div>
         <div class="checkbox">
             <label>
               <input type="checkbox" class="automatic-scroll"> Automatic Scroll
@@ -85,10 +84,11 @@
     
     <footer>
     </footer>
-    <script src="js/api.js"></script>
-    <script src="js/workstation.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/playlistbundle.js"></script>
+    <script src="js/waveform-playlist.var.js"></script>
+    <script src="js/workstation.js"></script>
+    <script src="js/eventemitter.js"></script>
+    <script src="js/api.js"></script>
 
 </body>
 </html>
