@@ -50,17 +50,32 @@
             projDiv.innerHTML = '';
 
             projList.forEach(function(project) {
+                let singleProjDiv = document.createElement('div');
+                singleProjDiv.className = 'project_div';
+
                 let elmt = document.createElement('button');
                 elmt.className = 'project_btn';
                 elmt.innerHTML = project.title;
 
-                projDiv.append(elmt);
+                let delProj = document.createElement('div');
+                delProj.className = 'project_delete';
+
+                singleProjDiv.append(elmt);
+                singleProjDiv.append(delProj);
+                projDiv.append(singleProjDiv);
 
                 elmt.addEventListener('click', function(e) {
                     api.setCurrProj(project._id);
                     window.location.href = '/workstation.html';
-                })
-            })
+                });
+
+                delProj.addEventListener('click', function(e) {
+                    let r = confirm("Are you sure you want to delete project: " + project.title);
+                    if (r == true) {
+                        api.deleteProject(project._id);
+                    }
+                });
+            });
         })
 
         document.querySelector("#pagination .prev-arrow").addEventListener("click", function(e){

@@ -39,8 +39,8 @@ const TrackSchema = new Schema({
         require: true
     },
     gain: {
-        type: String,
-        default: ''
+        type: Schema.Types.Decimal128,
+        default: 1.0
     },
     muted: {
         type: Boolean,
@@ -51,8 +51,8 @@ const TrackSchema = new Schema({
         default: false
     },
     start: {
-        type: Schema.Types.Decimal128,
-        default: 0.0
+        type: Schema.Types.Number,
+        default: 0
     },
     fadeIn_duration: {
         type: Schema.Types.Decimal128,
@@ -60,7 +60,7 @@ const TrackSchema = new Schema({
     },
     fadeOut_duration: {
         type: Schema.Types.Decimal128,
-        default: 0.0
+        default: 0.5
     },
     cuein: {
         type: Schema.Types.Number,

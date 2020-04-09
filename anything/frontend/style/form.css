@@ -70,4 +70,24 @@
     background: #3C3D3F;
     color: #ffffff;
     cursor: pointer;
-  }
+}
+
+.project_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.project_delete {
+    background-image: url('../media/delete-icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:75%;
+    width: 30px;
+    height: 70px;
+    margin-left: 20px;
+}
+
+.project_delete:hover {
+    cursor: pointer;
+}

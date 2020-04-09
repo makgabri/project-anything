@@ -142,16 +142,16 @@ test('App Audio - Uploading second track', function(t) {
     })
 })
 
-test('App Audio - Getting list of tracks', function(t) {
-    t.pass("Collecting a list fo all tracks owned by foobar");
-    agent
-        .get('/get_track_list/')
-        .expect(200)
-        .end(function(err, res) {
-            t.same(res.body.length, 2, 'Size of track list should be 2');
-            t.end();
-        });
-})
+// test('App Audio - Getting list of tracks', function(t) {
+//     t.pass("Collecting a list fo all tracks owned by foobar");
+//     agent
+//         .get('/get_track_list/')
+//         .expect(200)
+//         .end(function(err, res) {
+//             t.same(res.body.length, 2, 'Size of track list should be 2');
+//             t.end();
+//         });
+// })
 
 test('App Audio - Getting a track file', function(t) {
     t.pass("Getting a track file should be base64 encoded string");

@@ -1,5 +1,6 @@
+"use strict";
+
 var api = (function(){
-    "use strict";
 
     // Prepare send method via ajax
     function send(method, url, data, callback){
@@ -114,7 +115,7 @@ var api = (function(){
     module.addProject = function(title, author){
         send("POST", "/add_project/", {title: title}, function(err, res){
             if (err) return notifyErrorListeners(err);
-            notifyProjectListeners();
+            notifyProjListListeners();
          });
     };
 
@@ -126,7 +127,7 @@ var api = (function(){
  
     // delete a track on a project
     module.deleteTrack = function(trackId){
-        send("DELETE", "/delete_track/", {trackId: trackId}, function(err, res){
+        send("DELETE", "/track/"+trackId+'/', null, function(err, res){
             if (err) return notifyErrorListeners(err);
             notifyTrackListeners();
         });
@@ -134,20 +135,19 @@ var api = (function(){
 
     // delete an project from the gallery given its projectId
     module.deleteProject = function(projectId){
-        send("DELETE", "/delete_project/", {projectId: projectId}, function(err, res){
+        send("DELETE", "/project/"+projectId+"/", null, function(err, res){
             if (err) return notifyErrorListeners(err);
-            notifyProjectListeners();
+            notifyProjListListeners();
         });      
     };
 
-    module.uploadTrack = function(projectId, file){
-        sendFiles(
-        "POST", "/upload_track/",
+    module.uploadTrack = function(file){
+        sendFiles("POST", "/upload_track/",
         {  
-            projectId: projectId,
+            projectId: getCurrProj(),
             track: file,
             // name is file name. Should make this default and optional parameter for name
-            name: file.str.split(/(\\|\/)/g).pop()
+            name: file.name
         },
         function(err,res){
             if (err) return notifyErrorListeners(err);
@@ -155,6 +155,19 @@ var api = (function(){
         });
     };
 
+
+    module.updateTrack = function(trackId, option, newValue) {
+        send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+            if (err) return notifyErrorListeners(err);
+            notifyTrackListeners();
+        });
+    };
+
+    module.silentUpdateTrack = function(trackId, option, newValue) {
+        send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+            if (err) return notifyErrorListeners(err);
+        });
+    };
 
 
     /**     Local Variables     **/

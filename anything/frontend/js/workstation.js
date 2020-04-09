@@ -1,6 +1,6 @@
 "use strict";
 
-/**     Load Waveform Playlist    **/
+/**     Waveform Playlist init    **/
 var playlist = WaveformPlaylist.init({
     // DOM for playlist
     container: this.document.querySelector('#playlist'),
@@ -41,6 +41,8 @@ let saveTitle = function(e) {
     api.updateProjectTitle(newTitle);
 }
 
+
+
 /**     Load Website Functionality    **/
 window.onload = function(){
 
@@ -60,6 +62,87 @@ window.onload = function(){
         document.querySelector(".title").innerHTML = project.title;
     });
 
+    // Responsible for loading playlist
+    api.onTrackUpdate(function(trackList) {
+        playlist.getEventEmitter().emit("clear");
+
+        let to_load = [];
+        trackList.forEach(function(track) {
+            track['src'] = '/track/'+track._id+"/file/";
+            track['stereoPan'] = track['stereoPan'].$numberDecimal;
+            //track['start'] = track['start'].$numberDecimal;
+            track['gain'] = track['gain'].$numberDecimal;
+            track['fadeIn'] = {'duration': track['fadeIn_duration'].$numberDecimal};
+            track['fadeOut'] = {'duration': track['fadeOut_duration'].$numberDecimal};
+            to_load.push(track);
+        })
+        playlist.load(to_load).then(function(){
+            playlist.initExporter();
+        });
+    });
+
+    // Responsible for adding "change name" track option
+    api.onTrackUpdate(function(trackList) {
+        let changeNameDOM = document.querySelector("#change-track-name");
+        changeNameDOM.innerHTML = '';
+
+        trackList.forEach(function(track) {
+            let elmt = document.createElement('div');
+            elmt.className = 'track_option_action';
+
+            let name_elmt = document.createElement('div');
+            name_elmt.innerHTML = track.name;
+            name_elmt.style.width = '55%';
+        
+            let new_name_elmt = document.createElement('input');
+            new_name_elmt.type = 'text';
+            new_name_elmt.style.width = '20%';
+
+            let exec = document.createElement('button');
+            exec.innerHTML = 'change name';
+            exec.className = 'exec_btn';
+            
+            elmt.append(name_elmt);
+            elmt.append(new_name_elmt);
+            elmt.append(exec);
+
+            exec.addEventListener('click', function(e) {
+                api.updateTrack(track._id, 'name', new_name_elmt.value);
+            });
+
+            changeNameDOM.append(elmt);
+        });
+    });
+
+    // Responsible for deleteing a track
+    api.onTrackUpdate(function(trackList) {
+        let deleteTrackDOM = document.querySelector("#delete-track-name");
+        deleteTrackDOM.innerHTML = '';
+
+        trackList.forEach(function(track) {
+            let elmt = document.createElement('div');
+            elmt.className = 'track_option_action';
+
+            let name_elmt = document.createElement('div');
+            name_elmt.innerHTML = track.name;
+            name_elmt.style.width = '78%';
+        
+
+            let exec = document.createElement('button');
+            exec.innerHTML = 'delete track';
+            exec.className = 'exec_btn';
+            
+            elmt.append(name_elmt);
+            elmt.append(exec);
+
+            exec.addEventListener('click', function(e) {
+                api.deleteTrack(track._id);
+            });
+
+            deleteTrackDOM.append(elmt);
+        });
+    });
+
     document.querySelector("#edit_title").className = 'edit_title';
     document.querySelector("#edit_title").addEventListener('click', editTitle);
 
@@ -75,20 +158,6 @@ window.onload = function(){
         }
     });
 
-    playlist.load([
-        {
-            src: "audio-2.mp3",
-            name: "Track1"
-        },
-        {
-            src: "audio-file.mp3",
-            name: "Track2",      
-        }
-      ]).then(function() {
-        //initialize the WAV exporter.
-        playlist.initExporter();
-    });
-    
    
 
 }

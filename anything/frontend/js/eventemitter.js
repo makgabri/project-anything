@@ -111,6 +111,11 @@ function displayDownloadLink(link) {
 function displayLoadingData(info) {
     document.querySelector(".load-progress").innerHTML = info;
 }
+
+function getTrackIdBySrc(src) {
+    let src_split = src.split("/");
+    return (src_split[src_split.length-3]);
+}
 /** End of Helper Functions **/
 
 // Begin Event Emitter Methods
@@ -231,8 +236,8 @@ $container.on("drop", ".track-drop", function(e) {
   var dropEvent = e.originalEvent;
 
   for (var i = 0; i < dropEvent.dataTransfer.files.length; i++) {
-    ee.emit("newtrack", dropEvent.dataTransfer.files[i]);
-    console.log(dropEvent.dataTransfer.files[i]);
+    //ee.emit("newtrack", dropEvent.dataTransfer.files[i]);
+    api.uploadTrack(dropEvent.dataTransfer.files[i]);
   }
 });
 
@@ -250,7 +255,7 @@ document.querySelector(".automatic-scroll").addEventListener('change', function(
 
 
 /*
-* Code below receives updates from the playlist.
+* Code below responds to updates from the playlist.
 */
 ee.on("loadprogress", function(percent, src) {
     let name = src;
@@ -286,5 +291,47 @@ ee.on('finished', function () {
   }
 });
 
+ee.on('solo', function(track) {
+    let soloed_status = false;
 
+    playlist.soloedTracks.forEach(function(iter_track) {
+        if (getTrackIdBySrc(iter_track.src) == getTrackIdBySrc(track.src)) {
+            soloed_status = true;
+        }
+    });
+    api.silentUpdateTrack(getTrackIdBySrc(track.src), 'soloed', soloed_status);
+});
 
+ee.on('mute', function(track) {
+    let mute_status = false;
+
+    playlist.mutedTracks.forEach(function(iter_track) {
+        if (getTrackIdBySrc(iter_track.src) == getTrackIdBySrc(track.src)) {
+            mute_status = true;
+        }
+    });
+    api.silentUpdateTrack(getTrackIdBySrc(track.src), 'muted', mute_status);
+});
+
+ee.on('volumechange', function(volume, track) {
+    api.silentUpdateTrack(getTrackIdBySrc(track.src), 'gain', (volume/100));
+});
+
+ee.on('fadein', function (duration, track) {
+    api.silentUpdateTrack(getTrackIdBySrc(track.src), 'fadeIn_duration', duration);
+});
+
+ee.on('fadeout', function (duration, track) {
+    api.silentUpdateTrack(getTrackIdBySrc(track.src), 'fadeOut_duration', duration);
+});
+
+ee.on('shift', function (deltaTime, track) {
+    api.silentUpdateTrack(getTrackIdBySrc(track.src), 'start', track.getStartTime() + deltaTime);
+});
+
+ee.on('trim', function () {
+    let activeTrack = playlist.getActiveTrack();
+    api.silentUpdateTrack(getTrackIdBySrc(activeTrack.src), 'cuein', startTime);
+    api.silentUpdateTrack(getTrackIdBySrc(activeTrack.src), 'cueout', endTime);
+    api.silentUpdateTrack(getTrackIdBySrc(activeTrack.src), 'start', startTime);
+});
