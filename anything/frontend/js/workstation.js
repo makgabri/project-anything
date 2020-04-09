@@ -70,10 +70,15 @@ window.onload = function(){
         trackList.forEach(function(track) {
             track['src'] = '/track/'+track._id+"/file/";
             track['stereoPan'] = track['stereoPan'].$numberDecimal;
-            //track['start'] = track['start'].$numberDecimal;
             track['gain'] = track['gain'].$numberDecimal;
-            track['fadeIn'] = {'duration': track['fadeIn_duration'].$numberDecimal};
-            track['fadeOut'] = {'duration': track['fadeOut_duration'].$numberDecimal};
+            track['fadeIn'] = {
+                'duration': track['fadeIn_duration'].$numberDecimal,
+                'shape': track['fadeIn_shape']
+            };
+            track['fadeOut'] = {
+                'duration': track['fadeOut_duration'].$numberDecimal,
+                'shape': track['fadeOut_shape']
+            };
             to_load.push(track);
         })
         playlist.load(to_load).then(function(){
@@ -114,10 +119,10 @@ window.onload = function(){
         });
     });
 
-    // Responsible for deleteing a track
+    // Responsible for changing fade in shape
     api.onTrackUpdate(function(trackList) {
-        let deleteTrackDOM = document.querySelector("#delete-track-name");
-        deleteTrackDOM.innerHTML = '';
+        let changeFadeInShapeDOM = document.querySelector("#fadein-shape-name");
+        changeFadeInShapeDOM.innerHTML = '';
 
         trackList.forEach(function(track) {
             let elmt = document.createElement('div');
@@ -125,23 +130,74 @@ window.onload = function(){
 
             let name_elmt = document.createElement('div');
             name_elmt.innerHTML = track.name;
-            name_elmt.style.width = '78%';
+            name_elmt.style.width = '55%';
         
+            let new_fadeInShape_elmt = document.createElement('select');
+            new_fadeInShape_elmt.innerHTML = `
+                <option value="logarithmic">Logarithmic</option>
+                <option value="linear">Linear</option>
+                <option value="sCurve">sCurve</option>
+                <option value="exponential">Exponential</option>
+            `;
+            new_fadeInShape_elmt.value = track.fadeIn_shape;
+            new_fadeInShape_elmt.style.width = '20%';
 
             let exec = document.createElement('button');
-            exec.innerHTML = 'delete track';
+            exec.innerHTML = 'change fadeIn shape';
             exec.className = 'exec_btn';
             
             elmt.append(name_elmt);
+            elmt.append(new_fadeInShape_elmt);
             elmt.append(exec);
 
             exec.addEventListener('click', function(e) {
-                api.deleteTrack(track._id);
+                api.updateTrack(track._id, 'fadeIn_shape', new_fadeInShape_elmt.value);
             });
 
-            deleteTrackDOM.append(elmt);
+            changeFadeInShapeDOM.append(elmt);
         });
     });
+
+    // Responsible for changing fade out shape
+    api.onTrackUpdate(function(trackList) {
+        let changeFadeOutShapeDOM = document.querySelector("#fadeout-shape-name");
+        changeFadeOutShapeDOM.innerHTML = '';
+
+        trackList.forEach(function(track) {
+            let elmt = document.createElement('div');
+            elmt.className = 'track_option_action';
+
+            let name_elmt = document.createElement('div');
+            name_elmt.innerHTML = track.name;
+            name_elmt.style.width = '55%';
+        
+            let new_fadeOutShape_elmt = document.createElement('select');
+            new_fadeOutShape_elmt.innerHTML = `
+                <option value="logarithmic">Logarithmic</option>
+                <option value="linear">Linear</option>
+                <option value="sCurve">sCurve</option>
+                <option value="exponential">Exponential</option>
+            `;
+            new_fadeOutShape_elmt.value = track.fadeOut_shape;
+            new_fadeOutShape_elmt.style.width = '20%';
+
+            let exec = document.createElement('button');
+            exec.innerHTML = 'change fadeOut shape';
+            exec.className = 'exec_btn';
+            
+            elmt.append(name_elmt);
+            elmt.append(new_fadeOutShape_elmt);
+            elmt.append(exec);
+
+            exec.addEventListener('click', function(e) {
+                api.updateTrack(track._id, 'fadeOutshape', new_fadeOutShape_elmt.value);
+            });
+
+            changeFadeOutShapeDOM.append(elmt);
+        });
+    });
+
+    
 
     document.querySelector("#edit_title").className = 'edit_title';
     document.querySelector("#edit_title").addEventListener('click', editTitle);

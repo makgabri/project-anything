@@ -54,13 +54,23 @@ const TrackSchema = new Schema({
         type: Schema.Types.Number,
         default: 0
     },
+    fadeIn_shape: {
+        type: String,
+        enum: ["logarithmic", "linear", "sCurve", "exponential"],
+        default: "logarithmic"
+    },
     fadeIn_duration: {
         type: Schema.Types.Decimal128,
         default: 0.0
     },
     fadeOut_duration: {
         type: Schema.Types.Decimal128,
-        default: 0.5
+        default: 0.1
+    },
+    fadeOut_shape: {
+        type: String,
+        enum: ["logarithmic", "linear", "sCurve", "exponential"],
+        default: "logarithmic"
     },
     cuein: {
         type: Schema.Types.Number,

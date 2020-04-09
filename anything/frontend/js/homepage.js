@@ -31,8 +31,7 @@
             if (username){
                 let elmt = document.querySelector('#welcome_message');
                 elmt.innerHTML = `
-                    <h3>Hello ${username.familyName} ${username.givenName}</h3>
-                    <h3>These are your tracks</h3>
+                    <h3>Welcome ${username.familyName} ${username.givenName} to anything</h3>
                 `
             }
 

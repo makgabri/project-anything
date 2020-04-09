@@ -313,6 +313,10 @@ ee.on('mute', function(track) {
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'muted', mute_status);
 });
 
+ee.on('delete', function(track) {
+    api.deleteTrack(getTrackIdBySrc(track.src));
+})
+
 ee.on('volumechange', function(volume, track) {
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'gain', (volume/100));
 });

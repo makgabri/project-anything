@@ -22,8 +22,8 @@ exports.add_project = function(req, res, next) {
 exports.new_project_title = function(req, res, next) {
     Project.findOne({_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
-        if (!project) return res.status(404).json("ProjectId: " + req.params.projectId + " does not exist");
-        if (project.author != req.session.passport.user) return res.status(401).json("You are not the owner of this project");
+        if (!project) return res.status(404).end("ProjectId: " + req.params.projectId + " does not exist");
+        if (project.author != req.session.passport.user) return res.status(401).end("You are not the owner of this project");
         project['title'] = req.body.newTitle;
         project.save();
     })
@@ -39,8 +39,8 @@ exports.user_project_list = function(req, res, next) {
 exports.project_track_list = function(req, res, next) {
     Project.findOne({_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
-        if (!project) return res.status(404).json("Project: " + req.body.projectId + " does not exist");
-        if (project.author != req.session.passport.user) return res.status(401).json("You can't edit other user's projects");
+        if (!project) return res.status(404).end("Project: " + req.body.projectId + " does not exist");
+        if (project.author != req.session.passport.user) return res.status(401).end("You can't edit other user's projects");
         Track.find({projectId: req.params.projectId}, function(err, track_list) {
             if (err) return res.status(500).end(err);
             return res.status(200).json(track_list);
@@ -88,8 +88,8 @@ exports.delete_project = function(req, res, next) {
 exports.delete_track = function(req, res, next) {
     Track.findOne({_id: req.params.trackId}, function(err, track) {
         if (err) return res.status(500).end(err);
-        if (!track) return res.status(404).json("Track: " + req.params.trackId + " not found");
-        if (track.author != req.session.passport.user) return res.status(401).json("TrackId: "+req.params.trackId+" does not belong to you");
+        if (!track) return res.status(404).end("Track: " + req.params.trackId + " not found");
+        if (track.author != req.session.passport.user) return res.status(401).end("TrackId: "+req.params.trackId+" does not belong to you");
         Upload_Chunks.deleteMany({files_id: track._id}, function(err, n) {
             if (err) return res.status(500).end(err);
             Upload_Files.deleteOne({_id: track._id}, function(err, n) {
@@ -99,7 +99,7 @@ exports.delete_track = function(req, res, next) {
     });
     Track.deleteOne({_id: req.params.trackId}, function(err, n) {
         if (err) return res.status(500).end(err);
-        return res.status(200).json("Track: " + req.params.trackId + " has been deleted");
+        return res.json("Track: " + req.params.trackId + " has been deleted");
     });
 }
 
@@ -107,7 +107,7 @@ exports.delete_track = function(req, res, next) {
 exports.upload_audio_track = function(req, res, next) {
     Project.findOne({_id: req.body.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
-        if (!project) return res.status(404).json("Project: " + req.body.projectId + " does not exist");
+        if (!project) return res.status(404).end("Project: " + req.body.projectId + " does not exist");
         Track.create({
             _id: req.file.id,
             projectId: req.body.projectId,
@@ -124,8 +124,8 @@ exports.upload_audio_track = function(req, res, next) {
 exports.track_info = function(req, res, next) {
     Track.findOne({_id: req.params.trackId}, function(err, track) {
         if (err) return res.status(500).end(err);
-        if (!track) return res.status(404).json("TrackId: " + req.params.trackId + " does not exist");
-        if (track.author != req.session.passport.user) return res.status(401).json("You are not the owner of this track");
+        if (!track) return res.status(404).end("TrackId: " + req.params.trackId + " does not exist");
+        if (track.author != req.session.passport.user) return res.status(401).end("You are not the owner of this track");
         return res.status(200).json(track);
     })
 }
@@ -134,15 +134,15 @@ exports.track_info = function(req, res, next) {
 exports.get_track = function(req, res, next) {
     Track.findOne({_id: req.params.trackId}, function(err, trackObj) {
         if (err) return res.status(500).end(err);
-        if (!trackObj) return res.status(404).json("Trackid: "+req.params.trackId+" does not exist");
-        if (trackObj.author != req.session.passport.user) return res.status(401).json("You are not the owner of this track");
+        if (!trackObj) return res.status(404).end("Trackid: "+req.params.trackId+" does not exist");
+        if (trackObj.author != req.session.passport.user) return res.status(401).end("You are not the owner of this track");
     });
     Upload_Files.findOne({_id: req.params.trackId}, function(err, track) {
         if (err) return res.status(500).end(err);
-        if (!track) return res.status(404).json("TrackId: " + req.params.trackId + " does not exist");
+        if (!track) return res.status(404).end("TrackId: " + req.params.trackId + " does not exist");
         Upload_Chunks.find({files_id: req.params.trackId}, null, {sort:{n: 1}}, function(err,chunks) {
             if (err) return res.status(500).end(err);
-            if (!chunks) return res.status(500).json("Chunks of file not found");
+            if (!chunks) return res.status(500).end("Chunks of file not found");
             let fileData = [];
             for (let i=0; i<chunks.length; i++) {
                 fileData.push(chunks[i].data.toString('base64'));
@@ -165,8 +165,8 @@ exports.update_track_option = function(req, res, next) {
     // Todo: validate the option is within the option list
     Track.findOne({_id: req.params.trackId}, function(err, track) {
         if (err) return res.status(500).end(err);
-        if (!track) return res.status(404).json("TrackId: " + req.params.trackId + " does not exist");
-        if (track.author != req.session.passport.user) return res.status(401).json("You are not the owner of this track");
+        if (!track) return res.status(404).end("TrackId: " + req.params.trackId + " does not exist");
+        if (track.author != req.session.passport.user) return res.status(401).end("You are not the owner of this track");
         track[req.body.option] = req.body.newValue;
         track.save();
         return res.status(200).json("Succesfully change option");

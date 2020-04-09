@@ -5955,7 +5955,11 @@ var WaveformPlaylist =
 	        onclick: function onclick() {
 	          _this2.ee.emit('mute', _this2);
 	        }
-	      }, ['Mute']), (0, _h2.default)('span.btn.btn-default.btn-xs.btn-solo' + soloClass, {
+	      }, ['Mute']), (0, _h2.default)('span.btn.btn-default.btn-xs.btn-delete' + soloClass, {
+	        onclick: function onclick() {
+				_this2.ee.emit('delete', _this2);
+			}
+	      }, ['Delete']),(0, _h2.default)('span.btn.btn-default.btn-xs.btn-solo' + soloClass, {
 	        onclick: function onclick() {
 	          _this2.ee.emit('solo', _this2);
 	        }
