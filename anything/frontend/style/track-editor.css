@@ -233,7 +233,8 @@
     background-repeat: no-repeat;
     background-position: center;
 
-}.btn-download{
+}
+.btn-download-ready{
     display: flex;
     float: right;
     margin: 25px 25px 25px 25px;
@@ -244,6 +245,34 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+.btn-download-notready{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    opacity: 10%;
+    background-image: url('../media/download.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.btn-download-notready:hover{
+    cursor: none;
+}
+
+.btn-render{
+    display: flex;
+    float: right;
+    margin: 25px 25px 25px 25px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/rendering.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .audio-pos, .checkbox{
     color: #001a33;
 }

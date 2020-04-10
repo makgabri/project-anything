@@ -96,11 +96,10 @@ function updateSelect(start, end) {
  * Used to prepare link to download audio
  */
 function displayDownloadLink(link) {
-    var dateString = (new Date()).toISOString();
     var $link = $("<a/>", {
         'href': link,
-        'download': 'waveformplaylist' + dateString + '.wav',
-        'text': 'Download mix ' + dateString,
+        'download': document.querySelector(".title").innerHTML + '.wav',
+        'text': 'Download mix ' + document.querySelector(".title").innerHTML,
         'class': 'btn btn-small btn-download-link'
     });
 
@@ -210,7 +209,7 @@ document.querySelector(".btn-trim-audio").addEventListener('click', function(e){
 });
 
 // Download Audio Button
-document.querySelector(".btn-download").addEventListener('click', function(e){
+document.querySelector(".btn-render").addEventListener('click', function(e){
     ee.emit('startaudiorendering', 'wav');
 });
 
@@ -273,11 +272,19 @@ ee.on("audiosourcesloaded", function() {
 
 ee.on('audiorenderingfinished', function (type, data) {
   if (type == 'wav'){
-    if (downloadUrl) {
-      window.URL.revokeObjectURL(downloadUrl);
+
+    let downloadBtn = document.querySelector("#download_button");
+
+    if (!downloadUrl) {
+        downloadBtn.classList.remove('btn-download-notready');
+        downloadBtn.classList.add('btn-download-ready');
+    } else {
+        window.URL.revokeObjectURL(downloadUrl);
     }
+
     downloadUrl = window.URL.createObjectURL(data);
-    displayDownloadLink(downloadUrl);
+    downloadBtn.href = downloadUrl;
+    downloadBtn.download = document.querySelector(".title").innerHTML + '.wav';
   }
 });
 
