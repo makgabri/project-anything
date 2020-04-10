@@ -5,12 +5,25 @@ const GridFsStorage = require("multer-gridfs-storage");
   
 
 /**     Loading gridfs     **/
-module.exports = new GridFsStorage({
+exports.trackGFS = new GridFsStorage({
     url: config.mongo.url,
     options: { useNewUrlParser: true, useUnifiedTopology: true},
     file: function(req, file) {
         return {      
             bucketName: 'uploads',       
+            //Setting collection name, default name is fs      
+            filename: file.originalname,     
+            //Setting file name to original name of file    
+        }
+    }
+})
+
+exports.pubProjGFS = new GridFsStorage({
+    url: config.mongo.url,
+    options: { useNewUrlParser: true, useUnifiedTopology: true},
+    file: function(req, file) {
+        return {      
+            bucketName: 'publicProj',       
             //Setting collection name, default name is fs      
             filename: file.originalname,     
             //Setting file name to original name of file    

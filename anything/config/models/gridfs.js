@@ -37,6 +37,39 @@ const ChunksSchema = new Schema({
     n: {
         type: Schema.Types.Number
     }
+});
+
+const PublicProjectFileSchema = new Schema({
+    length: {
+        type: Schema.Types.Number
+    },
+    chunkSize: {
+        type: Schema.Types.Number
+    },
+    uploadDate: {
+        type: Schema.Types.Date
+    },
+    md5: {
+        type: Schema.Types.String
+    },
+    filename: {
+        type: Schema.Types.String
+    },
+    contentType: {
+        type: Schema.Types.String
+    }
+});
+
+const PublicProjectChunksSchema = new Schema({
+    data: {
+        type: Schema.Types.Buffer
+    },
+    files_id: {
+        type: Schema.Types.ObjectId
+    },
+    n: {
+        type: Schema.Types.Number
+    }
 })
 
 
@@ -49,5 +82,7 @@ const ChunksSchema = new Schema({
 
 module.exports = {
     File: FileSchema,
-    Chunks: ChunksSchema
+    Chunks: ChunksSchema,
+    PubProj: PublicProjectFileSchema,
+    PubChunk: PublicProjectChunksSchema
 }

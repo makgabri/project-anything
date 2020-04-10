@@ -120,7 +120,12 @@ var api = (function(){
     };
 
     module.updateProjectTitle = function(newTitle) {
-        send("PATCH", "/project/"+getCurrProj()+"/title/", {newTitle: newTitle}, function(err, res){
+        let currProj = getCurrProj();
+        if (!currProj) {
+            return notifyErrorListeners("Go to homepage to select a project");
+        }
+    
+        send("PATCH", "/project/"+currProj+"/title/", {newTitle: newTitle}, function(err, res){
             if (err) return notifyErrorListeners(err);
         });
     }
@@ -142,9 +147,14 @@ var api = (function(){
     };
 
     module.uploadTrack = function(file){
+        let currProj = getCurrProj();
+        if (!currProj) {
+            return notifyErrorListeners("Go to homepage to select a project");
+        }
+
         sendFiles("POST", "/upload_track/",
         {  
-            projectId: getCurrProj(),
+            projectId: currProj,
             track: file,
             // name is file name. Should make this default and optional parameter for name
             name: file.name
@@ -192,11 +202,19 @@ var api = (function(){
     }
 
     let getProject = function(callback){
-        return send("GET", "/project/"+getCurrProj()+"/", null, callback);
+        let currProj = getCurrProj();
+        if (!currProj) {
+            return notifyErrorListeners("Go to homepage to select a project");
+        }
+        send("GET", "/project/"+currProj+"/", null, callback);
     };
 
     let getTracks = function(callback){
-        send("GET", "/project/"+getCurrProj()+"/tracks/", null, callback);
+        let currProj = getCurrProj();
+        if (!currProj) {
+            return notifyErrorListeners("Go to homepage to select a project");
+        }
+        send("GET", "/project/"+currProj+"/tracks/", null, callback);
     };
 
 
@@ -297,6 +315,14 @@ var api = (function(){
     };
 
 
+
+    /**     Automatic Refresher     **/
+    module.homepage_refresh = function(){
+        setTimeout(function(e){
+            notifyProjListListeners();
+            module.homepage_refresh();
+        }, 2000);
+    };
 
 
     return module;

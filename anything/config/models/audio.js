@@ -18,6 +18,14 @@ const ProjectSchema = new Schema({
     date: {
         type: Date,
         require: true
+    },
+    isPublic: {
+        type: Schema.Types.Boolean,
+        default: false
+    },
+    pubFile_id: {
+        type: Schema.Types.ObjectId,
+        required: false
     }
 });
 
@@ -61,11 +69,11 @@ const TrackSchema = new Schema({
     },
     fadeIn_duration: {
         type: Schema.Types.Decimal128,
-        default: 0.0
+        default: 0.01
     },
     fadeOut_duration: {
         type: Schema.Types.Decimal128,
-        default: 0.1
+        default: 0.01
     },
     fadeOut_shape: {
         type: String,

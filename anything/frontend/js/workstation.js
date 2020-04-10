@@ -190,7 +190,7 @@ window.onload = function(){
             elmt.append(exec);
 
             exec.addEventListener('click', function(e) {
-                api.updateTrack(track._id, 'fadeOutshape', new_fadeOutShape_elmt.value);
+                api.updateTrack(track._id, 'fadeOut_shape', new_fadeOutShape_elmt.value);
             });
 
             changeFadeOutShapeDOM.append(elmt);

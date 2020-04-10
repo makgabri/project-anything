@@ -85,7 +85,7 @@
             api.navComments(1);
         });
         
-
+        api.homepage_refresh();
 
     }
 }());

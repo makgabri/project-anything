@@ -6,6 +6,8 @@ const Project = mongoose.model('project');
 const Track = mongoose.model('track');
 const Upload_Files = mongoose.model('uploads.files');
 const Upload_Chunks = mongoose.model('uploads.chunks');
+const pubProj_Files = mongoose.model('publicProj.files');
+const pubProj_Chunks = mongoose.model('publicProj.chunks');
 
 /**     Project Operations    **/
 exports.add_project = function(req, res, next) {
@@ -82,6 +84,66 @@ exports.delete_project = function(req, res, next) {
     })
 }
 
+/** Public Project Operations **/
+exports.upload_public_project = function(req, res, next) {
+    Project.findOne({_id: req.params.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(404).end("Project: " + req.body.projectId + " does not exist");
+        if (project.author != req.session.passport.user) {
+            // TODO: remove the "just added" audio file from pubProj
+            return res.status(401).end("You can't edit other user's projects");
+        }
+        project['pubFile_id'] = req.file.id;
+        return res.status(200).json(project);
+    });
+}
+
+
+exports.get_pubProj = function(req, res, next) {
+    Project.findOne({_id: req.params.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(404).end("ProjectId: "+req.params.projectId+" does not exist");
+        if (project.author != req.session.passport.user) return res.status(401).end("You are not the owner of this track");
+        pubProj_Files.findOne({_id: project.pubFile_id}, function(err, projectFile) {
+            if (err) return res.status(500).end(err);
+            if (!projectFile) return res.status(404).end("ProjectFile: " + req.params.projectId + " does not exist");
+            pubProj_Chunks.find({files_id: project.pubFile_id}, null, {sort:{n: 1}}, function(err,chunks) {
+                if (err) return res.status(500).end(err);
+                if (!chunks) return res.status(500).end("Chunks of file not found");
+                let fileData = [];
+                for (let i=0; i<chunks.length; i++) {
+                    fileData.push(chunks[i].data.toString('base64'));
+                }
+    
+                let final_file = Buffer.from(fileData.join(''), 'base64');
+    
+                res.writeHead(200, {
+                    'Content-Type': projectFile.contentType,
+                    'Content-Length': final_file.length
+                });
+                return res.end(final_file);
+            })
+        })
+    });
+}
+
+
+exports.delete_pubProj = function(req, res, next) {
+    Project.findOne({_id: req.params.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) return res.status(404).end("Track: " + req.params.projectId + " not found");
+        if (project.author != req.session.passport.user) return res.status(401).end("ProjectId: "+req.params.projectId+" does not belong to you");
+        Upload_Chunks.deleteMany({files_id: project.pubFile_id}, function(err, n) {
+            if (err) return res.status(500).end(err);
+            Upload_Files.deleteOne({_id: project.pubFile_id}, function(err, n) {
+                if (err) return res.status(500).end(err);
+                return res.json("Successfully removed pubProject File")
+            });
+        });
+    });
+}
+
+
 
 
 /**     Track Operations    **/
@@ -147,9 +209,11 @@ exports.get_track = function(req, res, next) {
             for (let i=0; i<chunks.length; i++) {
                 fileData.push(chunks[i].data.toString('base64'));
             }
-            let audio_string = 'data:' + track.contentType + ';base64' + fileData.join('');
+            
+            // How to turn chunks into base64 encoded string:
+            // let audio_string = 'data:' + track.contentType + ';base64' + fileData.join('');
 
-            let final_file = Buffer.from(fileData.join(''), 'base64')
+            let final_file = Buffer.from(fileData.join(''), 'base64');
 
             res.writeHead(200, {
                 'Content-Type': track.contentType,

@@ -8,7 +8,7 @@ const audio = require('../routes/audio');
 const auth = require('../routes/authentication');
 const gridFsStorage = require('./gridfs');
 
-let track_upload = null;
+let pubProj_upload = null;
 
 
 
@@ -38,11 +38,11 @@ module.exports = function(app, passport) {
 
 
     /**     CRUD for Tracks     **/
-    gridFsStorage.on('connection', function(db) {
-        console.log("GridFS connection successful");
-        track_upload = multer({ storage: gridFsStorage });
-        app.post('/upload_track/', auth.isLoggedIn, track_upload.single('track'), auth.validate('add_track'), auth.validate_errors, audio.upload_audio_track);
-    })
+    gridFsStorage.trackGFS.on('connection', function(db) {
+        console.log("GridFS track connection successful");
+        pubProj_upload = multer({ storage: gridFsStorage.trackGFS });
+        app.post('/upload_track/', auth.isLoggedIn, pubProj_upload.single('track'), auth.validate('add_track'), auth.validate_errors, audio.upload_audio_track);
+    });
     app.get('/track/:trackId/file/', auth.isLoggedIn, auth.validate('get_track'), auth.validate_errors, audio.get_track);
     app.get('/track/:trackId/info/', auth.isLoggedIn, audio.track_info);
     app.delete('/track/:trackId/', auth.isLoggedIn, auth.validate('delete_track'), auth.validate_errors, audio.delete_track);
@@ -64,4 +64,13 @@ module.exports = function(app, passport) {
     app.patch('/project/:projectId/title/', auth.isLoggedIn, audio.new_project_title);
     app.get('/project/:projectId/tracks/',auth.isLoggedIn, auth.validate('get_project'), audio.project_track_list);
     app.delete('/project/:projectId/', auth.isLoggedIn, auth.validate('delete_project'), auth.validate_errors, audio.delete_project);
+    
+    /** CRUD for public projects **/
+    gridFsStorage.pubProjGFS.on('connection', function(db) {
+        console.log("GridFS public project connection successful");
+        pubProj_upload = multer({ storage: gridFsStorage.pubProjGFS });
+        app.post('/project/:projectId/file/', auth.isLoggedIn, pubProj_upload.single('pubProj'), audio.upload_public_project);
+    });
+    app.get('/project/:projectId/file/', auth.isLoggedIn, audio.get_pubProj);
+    app.delete('/project/:projectId/file/', auth.isLoggedIn, audio.delete_pubProj);
 };

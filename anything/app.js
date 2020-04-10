@@ -27,7 +27,9 @@ let local_model = mongoose.model('local_users', userSchemas.Local);
 let project_model = mongoose.model('project', audioSchemas.Project);
 let track_model = mongoose.model('track', audioSchemas.Track);
 let upload_file_model = mongoose.model('uploads.files', gridfsSchemas.File);
-let uploda_chunks_model = mongoose.model('uploads.chunks', gridfsSchemas.Chunks);
+let upload_chunks_model = mongoose.model('uploads.chunks', gridfsSchemas.Chunks);
+let pubProj_file_model = mongoose.model('publicProj.files', gridfsSchemas.PubProj);
+let pubProj_chunks_model = mongoose.model('publicProj.chunks', gridfsSchemas.PubChunk);
 
 
 
