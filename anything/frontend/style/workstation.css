@@ -87,8 +87,15 @@
 .timebox {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    margin-bottom: 15px;
+    justify-content: flex-start;
+    width: 60%;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+.timedisplay {
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .title_box {

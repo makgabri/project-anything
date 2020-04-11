@@ -75,6 +75,7 @@ module.exports = function(app, passport) {
         app.post('/project/:projectId/file/', auth.isLoggedIn, audio.prep_upload_public_project, pubProj_upload.single('pubProj'), audio.upload_public_project);
     });
     app.get('/public_project/', auth.isLoggedIn, audio.get_pubProj_list);
+    app.get('/public_project/size/', auth.isLoggedIn, audio.get_pubProj_pageSize);
     app.get('/project/:projectId/file/', auth.isLoggedIn, audio.get_pubProj);
     app.delete('/project/:projectId/file/', auth.isLoggedIn, audio.delete_pubProj);
 };

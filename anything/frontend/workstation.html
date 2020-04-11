@@ -63,7 +63,7 @@
             <div class="btn-shift cbtn btn btn-default" title="shift audio in time"></div>
             <div class="btn-fadein cbtn btn btn-default" title="set audio fade in"></div>
             <div class="btn-fadeout cbtn btn btn-default" title="set audio fade out"></div>
-            <div class="btn-loop cbtn btn btn-success disabled" title="loop a selected segment of audio"></div>
+            <div class="btn-loop cbtn btn btn-success disabled" id='loop_button' title="loop a selected segment of audio"></div>
             <div title="keep only the selected audio region for a track"
             class="btn-trim-audio cbtn btn btn-primary disabled"></div>
             <div title="Render the current work as Wav file" id='record_button' class="cbtn btn btn-render btn-primary"></div>
@@ -71,15 +71,18 @@
         </div>
 
         <div class='timebox'>
-            <div>Start Time:<input type="text" class="audio-start"></div>
-            <div>End Time:<input type="text" class="audio-end"></div>
-            <div>Marker Time: <label class="audio-pos">00:00:00.0</label></div>
+            <div class='timedisplay'>Start Time:<input type="text" class="audio-start"></div>
+            <div class='timedisplay'>End Time:<input type="text" class="audio-end"></div>
+            <div class='timedisplay'>Marker Time: <label class="audio-pos">00:00:00.0</label></div>
         </div>
         <div class="checkbox">
             <label>
               <input type="checkbox" class="automatic-scroll"> Automatic Scroll
             </label>
         </div>
+        <div class='btn-zoom-in'></div>
+        <div class='btn-zoom-out'></div>
+        <div class='btn-undo' title="undo the latest action"></div>
 
         <div class="track-list">
 

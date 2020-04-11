@@ -141,6 +141,17 @@ function stopRecording() {
     recordedBlob = blobToFile(recordedBlob, 'Recording.oog')
     api.uploadTrack(recordedBlob);
 }
+
+function changeLoopState(state) {
+    isLooping = state;
+    if (state) {
+        document.getElementById('loop_button').classList.remove('btn-loop');
+        document.getElementById('loop_button').classList.add('btn-loop-red');
+    } else {
+        document.getElementById('loop_button').classList.remove('btn-loop-red');
+        document.getElementById('loop_button').classList.add('btn-loop');
+    }
+}
 /** End of Helper Functions **/
 
 // Begin Event Emitter Methods
@@ -178,13 +189,21 @@ document.querySelector(".btn-play").addEventListener('click', function(e){
 
 // Pause Button
 document.querySelector(".btn-pause").addEventListener('click', function(e){
-    isLooping = false;
+    if (isLooping) {
+        document.getElementById('loop_button').classList.remove('btn-loop-red');
+        document.getElementById('loop_button').classList.add('btn-loop');
+        isLooping = false;
+    }
     ee.emit("pause");
 });
 
 // Stop Button
 document.querySelector(".btn-stop").addEventListener('click', function(e){
-    isLooping = false;
+    if (isLooping) {
+        document.getElementById('loop_button').classList.remove('btn-loop-red');
+        document.getElementById('loop_button').classList.add('btn-loop');
+        isLooping = false;
+    }
     if (recording) {
         let recordingDOM = document.querySelector("#record_button");
         recordingDOM.classList.add('btn-record');
@@ -192,6 +211,16 @@ document.querySelector(".btn-stop").addEventListener('click', function(e){
         recording = false;
     }
     ee.emit("stop");
+});
+
+// Zoom in
+document.querySelector(".btn-zoom-in").addEventListener('click', function(e) {
+    ee.emit('zoomin');
+});
+
+// Zoom out
+document.querySelector(".btn-zoom-out").addEventListener('click', function(e) {
+    ee.emit('zoomout');
 });
 
 // Record Button
@@ -211,14 +240,30 @@ document.querySelector(".btn-record").addEventListener('click', function(e) {
 
 // Rewind Button
 document.querySelector(".btn-rewind").addEventListener('click', function(e){
-    isLooping = false;
+    if (isLooping) {
+        document.getElementById('loop_button').classList.remove('btn-loop-red');
+        document.getElementById('loop_button').classList.add('btn-loop');
+        isLooping = false;
+    }
     ee.emit("rewind");
 });
 
 // Fastforward Button
 document.querySelector(".btn-fast-forward").addEventListener('click', function(e){
-    isLooping = false;
+    if (isLooping) {
+        document.getElementById('loop_button').classList.remove('btn-loop-red');
+        document.getElementById('loop_button').classList.add('btn-loop');
+        isLooping = false;
+    }
     ee.emit("fastforward");
+});
+
+// Change to Looping State
+document.querySelector(".btn-loop").addEventListener('click', function(e) {
+    isLooping = true;
+    document.getElementById('loop_button').classList.remove('btn-loop');
+    document.getElementById('loop_button').classList.add('btn-loop-red');
+    playoutPromises = playlist.play(startTime, endTime);
 });
 
 // Change Cursor State Button
@@ -237,6 +282,11 @@ document.querySelector(".btn-select").addEventListener('click', function(e){
 document.querySelector(".btn-shift").addEventListener('click', function(e){
     ee.emit("statechange", "shift");
     toggleActive(this);
+});
+
+// Undo Option
+document.querySelector('.btn-undo').addEventListener('click', function(e) {
+    api.undoUpdate();
 });
 
 // Fade in Button
@@ -355,6 +405,7 @@ ee.on('solo', function(track) {
             soloed_status = true;
         }
     });
+    api.setChangedItems(['soloed']);
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'soloed', soloed_status);
 });
 
@@ -366,6 +417,7 @@ ee.on('mute', function(track) {
             mute_status = true;
         }
     });
+    api.setChangedItems(['muted']);
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'muted', mute_status);
 });
 
@@ -374,23 +426,28 @@ ee.on('delete', function(track) {
 })
 
 ee.on('volumechange', function(volume, track) {
+    api.setChangedItems(['gain']);
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'gain', (volume/100));
 });
 
 ee.on('fadein', function (duration, track) {
+    api.setChangedItems(['fadeIn_duration']);
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'fadeIn_duration', duration);
 });
 
 ee.on('fadeout', function (duration, track) {
+    api.setChangedItems(['fadeOut_duration']);
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'fadeOut_duration', duration);
 });
 
 ee.on('shift', function (deltaTime, track) {
+    api.setChangedItems(['start']);
     api.silentUpdateTrack(getTrackIdBySrc(track.src), 'start', track.getStartTime() + deltaTime);
 });
 
 ee.on('trim', function () {
     let activeTrack = playlist.getActiveTrack();
+    api.setChangedItems(['cuein', 'cueout', 'start']);
     api.silentUpdateTrack(getTrackIdBySrc(activeTrack.src), 'cuein', startTime);
     api.silentUpdateTrack(getTrackIdBySrc(activeTrack.src), 'cueout', endTime);
     api.silentUpdateTrack(getTrackIdBySrc(activeTrack.src), 'start', startTime);

@@ -131,13 +131,21 @@ exports.get_pubProj_list = function (req, res, next) {
     // Mongoose: Weak API for sort & limit b/c need to query whole thing before limit.
     Project.find({isPublic: true})
         .sort({publicDate: -1})
-        .limit(page*10)
+        .skip(page*3)
+        .limit(3)
         .select({author: 1, title: 1, publicDate: 1, pubFile_id: 1})
         .exec(function(err, pubProjs) {
             if (err) return res.status(500).end(err);
             return res.status(200).json(pubProjs);
         });
 };
+
+exports.get_pubProj_pageSize = function(req, res, next) {
+    pubProj_Files.countDocuments({}, function(err, n){ 
+        if (err) return res.status(500).end(err);
+        return res.status(200).json(Math.ceil(n/3));
+    });
+}
 
 exports.get_pubProj = function(req, res, next) {
     Project.findOne({pubFile_id: req.params.projectId}, function(err, project) {

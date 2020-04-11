@@ -114,6 +114,7 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .btn-play{
     background-image: url('../media/play-button.png');
 }
@@ -169,6 +170,10 @@
     background-image: url('../media/loop.png');
 }
 
+.btn-loop-red{
+    background-image: url('../media/loop_red.png');
+}
+
 .btn-download-ready{
     background-image: url('../media/download.png');
 }
@@ -180,6 +185,56 @@
 
 .btn-render{
     background-image: url('../media/rendering.png');
+}
+
+.btn-undo{
+    background-image: url('../media/undo.png');
+    margin-right: 20px;
+    margin-left: 100px;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btn-undo:hover {
+    cursor: pointer;
+}
+
+.btn-zoom-in{
+    background-image: url('../media/zoom-in.png');
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btn-zoom-out{
+    background-image: url('../media/zoom-out.png');
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btn-zoom-in:hover {
+    cursor: pointer;
+}
+
+.btn-zoom-out:hover {
+    cursor: pointer;
+}
+
+.automatic-scroll {
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
 
 .audio-pos, .checkbox{

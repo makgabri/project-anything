@@ -93,14 +93,34 @@
                 `;
                 publicProjectDOM.append(elmt);
             });
-        });
 
-        document.querySelector("#pagination .prev-arrow").addEventListener("click", function(e){
-            api.navComments(-1);
-        });
+            let prevDOM = document.querySelector(".prev-arrow");
+            let nextDOM = document.querySelector(".next-arrow");
+            let curr_page = api.getHomePage();
 
-        document.querySelector("#pagination .next-arrow").addEventListener("click", function(e){
-            api.navComments(1);
+            api.get_max_home_page(function(err, n) {
+                if ((curr_page+1) < n) {
+                    nextDOM.classList.remove('nav-empty');
+                    nextDOM.style.cursor = 'pointer';
+                    nextDOM.addEventListener('click', function(e) {
+                        api.setHomePage(curr_page+1);
+                    }, {once: true});
+                } else {
+                    nextDOM.classList.add('nav-empty');
+                    nextDOM.style.cursor = 'not-allowed';
+                }
+            });
+
+            if (curr_page > 0) {
+                prevDOM.classList.remove('nav-empty');
+                prevDOM.style.cursor = 'pointer';
+                prevDOM.addEventListener('click', function(e) {
+                    if (curr_page == 1) prevDOM.classList.add('nav-empty');
+                    api.setHomePage(curr_page-1);
+                }, {once: true});
+            } else {
+                prevDOM.style.cursor = 'not-allowed';
+            }
         });
         
         api.homepage_refresh();

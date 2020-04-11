@@ -16,7 +16,8 @@ let playlist = WaveformPlaylist.init({
         show: true,
         width: 150
     },
-    waveHeight: 123
+    waveHeight: 123,
+    zoomLevels: [512, 1024, 2048, 4096]
 });
 
 
@@ -136,6 +137,7 @@ window.onload = function(){
             elmt.append(exec);
 
             exec.addEventListener('click', function(e) {
+                api.setChangedItems(['name']);
                 api.updateTrack(track._id, 'name', new_name_elmt.value);
             });
 
@@ -175,6 +177,7 @@ window.onload = function(){
             elmt.append(exec);
 
             exec.addEventListener('click', function(e) {
+                api.setChangedItems(['fadeIn_shape']);
                 api.updateTrack(track._id, 'fadeIn_shape', new_fadeInShape_elmt.value);
             });
 
@@ -214,6 +217,7 @@ window.onload = function(){
             elmt.append(exec);
 
             exec.addEventListener('click', function(e) {
+                api.setChangedItems(['fadeOut_shape']);
                 api.updateTrack(track._id, 'fadeOut_shape', new_fadeOutShape_elmt.value);
             });
 

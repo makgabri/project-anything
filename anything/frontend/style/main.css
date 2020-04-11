@@ -35,28 +35,6 @@ header #title{
     margin-right:5px;
 }
 
-.prev-arrow{
-    display: flex;
-    flex: 5%;
-    width: 50px;
-    height: 50px;
-    background-image: url('../media/prev.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.next-arrow{
-    display: flex;
-    flex: 5%;
-    width: 50px;
-    height: 50px;
-    background-image: url('../media/next.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
 footer{
     margin-top: 20px;
     margin-bottom: 20px;

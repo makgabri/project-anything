@@ -163,17 +163,38 @@ var api = (function(){
 
 
     module.updateTrack = function(trackId, option, newValue) {
-        send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+        send("GET", "/track/"+trackId+"/info/", null, function(err, currTrackState) {
             if (err) return notifyErrorListeners(err);
-            notifyTrackListeners();
+            previousState = currTrackState;
+            send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+                if (err) return notifyErrorListeners(err);
+                notifyTrackListeners();
+            });
         });
     };
 
+
     module.silentUpdateTrack = function(trackId, option, newValue) {
-        send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+        send("GET", "/track/"+trackId+"/info/", null, function(err, currTrackState) {
             if (err) return notifyErrorListeners(err);
+            previousState = currTrackState;
+            send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+                if (err) return notifyErrorListeners(err);
+            });
         });
     };
+
+
+    module.undoUpdate = function() {
+        for (let i = 0; i < changed_items.length; i++) {
+            if (i == (changed_items.length - 1)) {
+                module.updateTrack(previousState._id, changed_items[i], previousState[changed_items[i]]);
+            } else {
+                module.silentUpdateTrack(previousState._id, changed_items[i], previousState[changed_items[i]]);
+            }
+        }
+    }
+
 
     module.makeProjectPublic = function() {
         let currProj = getCurrProj();
@@ -206,6 +227,8 @@ var api = (function(){
 
     /**     Local Variables     **/
     let homepage_page = 0;
+    let previousState;
+    let changed_items;
 
     /** Local Variable Getters and Setters */
     module.setCurrProj = function(newProjId) {
@@ -213,6 +236,16 @@ var api = (function(){
     }
     let getCurrProj = function() {
         return localStorage.getItem("currProj");
+    }
+    module.setHomePage = function(new_page) {
+        homepage_page = new_page;
+        notifyPubProjectListeners();
+    }
+    module.getHomePage = function() {
+        return homepage_page;
+    }
+    module.setChangedItems = function(newList) {
+        changed_items = newList;
     }
 
 
@@ -242,6 +275,9 @@ var api = (function(){
         send("GET", '/public_project/?page=' + homepage_page, null, callback);
     };
 
+    module.get_max_home_page = function(callback) {
+        send("GET", "/public_project/size/", null, callback);
+    };
 
     /**      Listeners          **/
     let errorListeners = [];
@@ -300,7 +336,7 @@ var api = (function(){
         }); 
     }
 
-    function notiferyPubProjectListeners(){
+    function notifyPubProjectListeners(){
         getPubProjects(function(err, pubProjList){
             if (err) return notifyErrorListeners(err);
             pubProjectListeners.forEach(function(listener){
