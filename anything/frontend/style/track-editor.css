@@ -104,158 +104,71 @@
     cursor: pointer;
 }
 
-.btn-play{
+.cbtn{
     display: flex;
     float: right;
     margin: 25px 25px 25px 25px;
     width: 50px;
     height: 50px;
-    background-image: url('../media/play-button.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+.btn-play{
+    background-image: url('../media/play-button.png');
 }
 
 .btn-pause{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/pause.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .btn-stop{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/stop-button.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+}
+
+.btn-record{
+    background-image: url('../media/microphone.png');
 }
 
 .btn-fast-forward{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/end.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .btn-rewind{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/start.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
   
 .btn-select{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/select-button.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-
 }
 .btn-cursor{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/cursor.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 
 .btn-trim-audio{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/trim.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 .btn-shift{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/shift.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 .btn-fadein{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/fadein.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 .btn-fadeout{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/fadeout.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+}
 
+.btn-loop{
+    background-image: url('../media/loop.png');
 }
 .btn-download-ready{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/download.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+
 }
 .btn-download-notready{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     opacity: 10%;
     background-image: url('../media/download.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 .btn-download-notready:hover{
     cursor: none;

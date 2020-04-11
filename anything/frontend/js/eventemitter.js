@@ -160,6 +160,10 @@ document.querySelector(".btn-stop").addEventListener('click', function(e){
     isLooping = false;
     ee.emit("stop");
 });
+// Record Button
+$container.on("click", ".btn-record", function() {
+    ee.emit("record");
+  });
 
 // Rewind Button
 document.querySelector(".btn-rewind").addEventListener('click', function(e){

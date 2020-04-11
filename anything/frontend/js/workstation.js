@@ -1,7 +1,36 @@
 "use strict";
+let userMediaStream;
+let constraints = { audio: true };
+
+navigator.getUserMedia = (navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.msGetUserMedia);
+
+function gotStream(stream) {
+  userMediaStream = stream;
+  playlist.initRecorder(userMediaStream);
+  $(".btn-record").removeClass("disabled");
+}
+
+function logError(err) {
+  console.error(err);
+}
+
+if (navigator.mediaDevices) {
+  navigator.mediaDevices.getUserMedia(constraints)
+  .then(gotStream)
+  .catch(logError);
+} else if (navigator.getUserMedia && 'MediaRecorder' in window) {
+  navigator.getUserMedia(
+    constraints,
+    gotStream,
+    logError
+  );
+}
 
 /**     Waveform Playlist init    **/
-var playlist = WaveformPlaylist.init({
+let playlist = WaveformPlaylist.init({
     // DOM for playlist
     container: this.document.querySelector('#playlist'),
     state: 'cursor',
