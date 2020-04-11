@@ -194,7 +194,7 @@
 .pub_item_wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     width: 48%;
 }
 
@@ -206,6 +206,7 @@
     background: #ffffff;
     border: 2px #3C3D3F solid;
     padding: 2px 10px 2px 10px;
+    margin: 5px 0px 5px 0px;
 }
 
 .pub_btn:hover {

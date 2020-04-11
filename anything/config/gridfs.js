@@ -23,7 +23,7 @@ exports.pubProjGFS = new GridFsStorage({
     options: { useNewUrlParser: true, useUnifiedTopology: true},
     file: function(req, file) {
         return {      
-            bucketName: 'publicProj',       
+            bucketName: 'public',       
             //Setting collection name, default name is fs      
             filename: file.originalname,     
             //Setting file name to original name of file    

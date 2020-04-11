@@ -29,8 +29,8 @@ if (reset) {
     let track_model = mongoose.model('track', audioSchemas.Track);
     let upload_file_model = mongoose.model('uploads.files', gridfsSchemas.File);
     let upload_chunks_model = mongoose.model('uploads.chunks', gridfsSchemas.Chunks);
-    let pubProj_Files = mongoose.model('publicProj.files', gridfsSchemas.PubProj);
-    let pubProj_Chunks = mongoose.model('publicProj.chunks', gridfsSchemas.PubChunk);
+    let pubProj_Files = mongoose.model('public.files', gridfsSchemas.PubProj);
+    let pubProj_Chunks = mongoose.model('public.chunks', gridfsSchemas.PubChunk);
 
     project_model.collection.drop();
     track_model.collection.drop();

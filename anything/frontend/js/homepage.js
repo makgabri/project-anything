@@ -75,7 +75,25 @@
                     }
                 });
             });
-        })
+        });
+
+        api.onPubProjectUpdate(function(pubProjList) {
+            let publicProjectDOM = document.getElementById("public_project_container");
+            publicProjectDOM.innerHTML = '';
+            pubProjList.forEach(function(pubProject) {
+                let elmt = document.createElement('div');
+                elmt.className = 'container-audio';
+                elmt.innerHTML = `
+                    <div class="track-title">${pubProject.title}</div>
+                    <div class="track-author">Uploaded By: ${pubProject.author}</div>
+                    <audio controls loop preload="auto">
+                        <source src="/project/${pubProject.pubFile_id}/file/" type="audio/wav"> 
+                    </audio>
+                    <div class="track-date">Last Published: ${pubProject.publicDate}</div>
+                `;
+                publicProjectDOM.append(elmt);
+            });
+        });
 
         document.querySelector("#pagination .prev-arrow").addEventListener("click", function(e){
             api.navComments(-1);
@@ -89,3 +107,4 @@
 
     }
 }());
+

@@ -66,12 +66,15 @@ module.exports = function(app, passport) {
     app.get('/project/:projectId/tracks/',auth.isLoggedIn, auth.validate('get_project'), audio.project_track_list);
     app.delete('/project/:projectId/', auth.isLoggedIn, auth.validate('delete_project'), auth.validate_errors, audio.delete_project);
     
+
+
     /** CRUD for public projects **/
     pubProjGFS.on('connection', function(db) {
         console.log("GridFS public project connection successful");
         pubProj_upload = multer({ storage: pubProjGFS });
         app.post('/project/:projectId/file/', auth.isLoggedIn, audio.prep_upload_public_project, pubProj_upload.single('pubProj'), audio.upload_public_project);
     });
+    app.get('/public_project/', auth.isLoggedIn, audio.get_pubProj_list);
     app.get('/project/:projectId/file/', auth.isLoggedIn, audio.get_pubProj);
     app.delete('/project/:projectId/file/', auth.isLoggedIn, audio.delete_pubProj);
 };

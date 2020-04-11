@@ -170,7 +170,7 @@ var api = (function(){
     };
 
     module.silentUpdateTrack = function(trackId, option, newValue) {
-        sendFiles("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+        send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
             if (err) return notifyErrorListeners(err);
         });
     };
@@ -205,6 +205,7 @@ var api = (function(){
 
 
     /**     Local Variables     **/
+    let homepage_page = 0;
 
     /** Local Variable Getters and Setters */
     module.setCurrProj = function(newProjId) {
@@ -237,6 +238,10 @@ var api = (function(){
         send("GET", "/project/"+currProj+"/tracks/", null, callback);
     };
 
+    let getPubProjects = function(callback) {
+        send("GET", '/public_project/?page=' + homepage_page, null, callback);
+    };
+
 
     /**      Listeners          **/
     let errorListeners = [];
@@ -244,6 +249,7 @@ var api = (function(){
     let projListListeners = [];
     let projectListeners = [];
     let trackListeners = [];
+    let pubProjectListeners = [];
     
     /**     Public notifier invokers  **/
     module.invokeError = function(err) {
@@ -294,6 +300,15 @@ var api = (function(){
         }); 
     }
 
+    function notiferyPubProjectListeners(){
+        getPubProjects(function(err, pubProjList){
+            if (err) return notifyErrorListeners(err);
+            pubProjectListeners.forEach(function(listener){
+                listener(pubProjList);
+            });
+        }); 
+    }
+
 
     /**     Add Notifiers    **/
     module.onError = function(listener){
@@ -306,7 +321,7 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             listener(user_name);
         });
-    }
+    };
 
     module.onProjListUpdate = function(listener) {
         projListListeners.push(listener);
@@ -314,25 +329,33 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             projListListeners.forEach(function(listener) {
                 listener(projList);
-            })
-        })
-    }
+            });
+        });
+    };
 
-    module.onProjectUpdate = function(handler){
-        projectListeners.push(handler);
+    module.onProjectUpdate = function(listener){
+        projectListeners.push(listener);
         getProject(function(err, res){
             if (err) return notifyErrorListeners(err);
-            handler(res);
+            listener(res);
         });  
     };
 
-    module.onTrackUpdate = function(handler){
-        trackListeners.push(handler);
+    module.onTrackUpdate = function(listener){
+        trackListeners.push(listener);
         getTracks(function(err, res){
             if (err) return notifyErrorListeners(err);
-            handler(res);
+            listener(res);
         });
     };
+
+    module.onPubProjectUpdate = function(listener) {
+        pubProjectListeners.push(listener);
+        getPubProjects(function(err, pubProjList) {
+            if (err) return notifyErrorListeners(err);
+            listener(pubProjList);
+        })
+    }
 
 
 

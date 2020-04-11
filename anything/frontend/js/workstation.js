@@ -84,6 +84,8 @@ window.onload = function(){
         }
     });
 
+    
+
     // Responsible for loading playlist
     api.onTrackUpdate(function(trackList) {
         playlist.getEventEmitter().emit("clear");
@@ -227,7 +229,7 @@ window.onload = function(){
         api.makeProjectPublic();
     });
 
-    document.querySelector("#priv_btn_exec").addEventListener("click", function(e) {
+    document.getElementById("priv_btn_exec").addEventListener("click", function(e) {
         api.makeProjectPrivate();
     });
 
