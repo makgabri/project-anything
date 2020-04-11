@@ -151,7 +151,6 @@ exports.get_pubProj = function(req, res, next) {
     Project.findOne({pubFile_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
         if (!project) return res.status(404).end("ProjectId: "+req.params.projectId+" does not exist");
-        if (project.author != req.session.passport.user) return res.status(401).end("You are not the owner of this track");
         pubProj_Files.findOne({_id: project.pubFile_id}, function(err, projectFile) {
             if (err) return res.status(500).end(err);
             if (!projectFile) return res.status(404).end("ProjectFile: " + req.params.projectId + " does not exist");
