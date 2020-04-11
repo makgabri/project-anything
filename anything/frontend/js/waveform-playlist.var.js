@@ -1764,13 +1764,17 @@ var WaveformPlaylist =
 	            _this.recordingTrack.setPlayout(new _Playout2.default(_this.ac, audioBuffer));
 	            _this.adjustDuration();
 	          });
-	          _this.working = true;
+              _this.working = true;
 	        }
 	      };
 	
 	      this.mediaRecorder.onstop = function () {
+            let recording = new Blob(_this.chunks, { type: 'audio/ogg; codecs=opus' });
+            recording.lastModifiedDate = new Date();
+            recording.name = 'Recording.oog';
+            api.uploadTrack(recording);
 	        _this.chunks = [];
-	        _this.working = false;
+            _this.working = false;
 	      };
 	
 	      this.recorderWorker = new _inlineWorker2.default(_recorderWorker2.default);

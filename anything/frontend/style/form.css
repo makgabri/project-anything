@@ -48,6 +48,7 @@
 .btn:hover {
   background: #3C3D3F;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .project_btn{

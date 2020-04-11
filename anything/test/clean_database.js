@@ -9,7 +9,7 @@
 
 
 // Change true to reset
-const reset = false;
+const reset = true;
 
 if (reset) {
     /**     Required Node Libraries     **/
@@ -28,10 +28,16 @@ if (reset) {
     let project_model = mongoose.model('project', audioSchemas.Project);
     let track_model = mongoose.model('track', audioSchemas.Track);
     let upload_file_model = mongoose.model('uploads.files', gridfsSchemas.File);
-    let uploda_chunks_model = mongoose.model('uploads.chunks', gridfsSchemas.Chunks);
+    let upload_chunks_model = mongoose.model('uploads.chunks', gridfsSchemas.Chunks);
+    let pubProj_Files = mongoose.model('publicProj.files', gridfsSchemas.PubProj);
+    let pubProj_Chunks = mongoose.model('publicProj.chunks', gridfsSchemas.PubChunk);
 
     project_model.collection.drop();
     track_model.collection.drop();
     upload_file_model.collection.drop();
-    uploda_chunks_model.collection.drop();
+    upload_chunks_model.collection.drop();
+    pubProj_Files.collection.drop();
+    pubProj_Chunks.collection.drop();
+    console.log("Done dropping");
+
 }

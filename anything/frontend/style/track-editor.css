@@ -130,6 +130,10 @@
     background-image: url('../media/microphone.png');
 }
 
+.btn-record-live{
+    background-image: url('../media/microphone_red.png');
+}
+
 .btn-fast-forward{
     background-image: url('../media/end.png');
 }
@@ -145,16 +149,18 @@
     background-image: url('../media/cursor.png');
 }
 
-
 .btn-trim-audio{
     background-image: url('../media/trim.png');
 }
+
 .btn-shift{
     background-image: url('../media/shift.png');
 }
+
 .btn-fadein{
     background-image: url('../media/fadein.png');
 }
+
 .btn-fadeout{
     background-image: url('../media/fadeout.png');
 }
@@ -162,28 +168,18 @@
 .btn-loop{
     background-image: url('../media/loop.png');
 }
+
 .btn-download-ready{
     background-image: url('../media/download.png');
-
 }
+
 .btn-download-notready{
     opacity: 10%;
     background-image: url('../media/download.png');
 }
-.btn-download-notready:hover{
-    cursor: none;
-}
 
 .btn-render{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/rendering.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .audio-pos, .checkbox{
@@ -342,15 +338,12 @@
 
 
 
-
-/* Do this in JS!*/
-
 .track-drop {
     border: 2px dashed #001a33; 
     color: #001a33;
-    height: 50px; 
+    height: 100px; 
     margin: 1em 0;
-    width: 30%;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -382,4 +375,8 @@
 
 .controls .btn:hover{
     cursor:pointer;
+}
+
+.controls .btn-download-notready:hover {
+    cursor: not-allowed;
 }

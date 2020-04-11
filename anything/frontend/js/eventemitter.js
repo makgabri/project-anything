@@ -7,7 +7,7 @@
 function cueFormatters(format) {
     // Function to convert time into string
     function clockFormat(seconds, decimals) {
-        var hours,
+        let hours,
             minutes,
             secs,
             result;
@@ -20,7 +20,7 @@ function cueFormatters(format) {
         return result;
     }
     // Dictionary to convert corresponding time
-    var formats = {
+    let formats = {
         "seconds": function (seconds) {
             return seconds.toFixed(0);
         },
@@ -59,8 +59,8 @@ function updateTime(time) {
  * Toggles a node as active
  */
 function toggleActive(node) {
-    var active = node.parentNode.querySelectorAll('.active');
-    var i = 0, len = active.length;
+    let active = node.parentNode.querySelectorAll('.active');
+    let i = 0, len = active.length;
 
     for (; i < len; i++) {
         active[i].classList.remove('active');
@@ -96,7 +96,7 @@ function updateSelect(start, end) {
  * Used to prepare link to download audio
  */
 function displayDownloadLink(link) {
-    var $link = $("<a/>", {
+    let $link = $("<a/>", {
         'href': link,
         'download': document.querySelector(".title").innerHTML + '.wav',
         'text': 'Download mix ' + document.querySelector(".title").innerHTML,
@@ -108,18 +108,44 @@ function displayDownloadLink(link) {
 }
 
 function displayLoadingData(info) {
-    document.querySelector(".load-progress").innerHTML = info;
+    if (info){
+        document.querySelector(".load-progress").innerHTML = `
+            <img class='loading' src='../media/loading.gif'><br>
+            ${info}
+        `;
+    } else {
+        document.querySelector(".load-progress").innerHTML = '';
+    }
 }
 
 function getTrackIdBySrc(src) {
     let src_split = src.split("/");
     return (src_split[src_split.length-3]);
 }
+
+function blobToFile(blob, fileName){
+    blob.lastModifiedDate = new Date();
+    blob.name = fileName;
+    return blob;
+}
+
+function stopRecording() {
+    ee.emit("stop");
+
+    let recordingDOM = document.querySelector("#record_button");
+    recordingDOM.classList.add('btn-record');
+    recordingDOM.classList.remove('btn-record-live');
+
+    recording = false;
+    let recordedBlob = playlist.mediaRecorder.requestData();
+    recordedBlob = blobToFile(recordedBlob, 'Recording.oog')
+    api.uploadTrack(recordedBlob);
+}
 /** End of Helper Functions **/
 
 // Begin Event Emitter Methods
-var ee = playlist.getEventEmitter();
-var $container = $("body");
+let ee = playlist.getEventEmitter();
+let $container = $("body");
 
 /** Load timebox **/
 let timeBox = document.querySelector(".audio-pos");
@@ -127,8 +153,8 @@ let audioStart = document.querySelector(".audio-start");
 let audioEnd = document.querySelector(".audio-end");
 let format = "hh:mm:ss.uuu";
 let audioPos = 0;
-var startTime = 0;
-var endTime = 0;
+let startTime = 0;
+let endTime = 0;
 updateSelect(startTime, endTime);
 updateTime(audioPos);
 ee.on("select", updateSelect);
@@ -136,10 +162,11 @@ ee.on("timeupdate", updateTime);
 
 
 
-/** Variables for playlist **/
-var downloadUrl;
-var isLooping = false;
-var playoutPromises;
+/** letiables for playlist **/
+let downloadUrl;
+let isLooping = false;
+let playoutPromises;
+let recording = false;
 
 
 
@@ -158,12 +185,29 @@ document.querySelector(".btn-pause").addEventListener('click', function(e){
 // Stop Button
 document.querySelector(".btn-stop").addEventListener('click', function(e){
     isLooping = false;
+    if (recording) {
+        let recordingDOM = document.querySelector("#record_button");
+        recordingDOM.classList.add('btn-record');
+        recordingDOM.classList.remove('btn-record-live');
+        recording = false;
+    }
     ee.emit("stop");
 });
+
 // Record Button
-$container.on("click", ".btn-record", function() {
-    ee.emit("record");
-  });
+document.querySelector(".btn-record").addEventListener('click', function(e) {
+    if (recording) {
+        ee.emit("stop");
+        this.classList.add('btn-record');
+        this.classList.remove('btn-record-live');
+        recording = false;
+    } else {
+        recording = true;
+        this.classList.remove('btn-record');
+        this.classList.add('btn-record-live');
+        ee.emit("record");
+    }
+});
 
 // Rewind Button
 document.querySelector(".btn-rewind").addEventListener('click', function(e){
@@ -214,6 +258,7 @@ document.querySelector(".btn-trim-audio").addEventListener('click', function(e){
 
 // Download Audio Button
 document.querySelector(".btn-render").addEventListener('click', function(e){
+    if (playlist.tracks.length == 0) return api.invokeError("Project musn't be empty")
     ee.emit('startaudiorendering', 'wav');
 });
 
@@ -236,9 +281,9 @@ $container.on("drop", ".track-drop", function(e) {
   e.preventDefault();
   e.target.classList.remove("drag-enter");
 
-  var dropEvent = e.originalEvent;
+  let dropEvent = e.originalEvent;
 
-  for (var i = 0; i < dropEvent.dataTransfer.files.length; i++) {
+  for (let i = 0; i < dropEvent.dataTransfer.files.length; i++) {
     //ee.emit("newtrack", dropEvent.dataTransfer.files[i]);
     api.uploadTrack(dropEvent.dataTransfer.files[i]);
   }

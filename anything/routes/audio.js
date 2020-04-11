@@ -85,15 +85,31 @@ exports.delete_project = function(req, res, next) {
 }
 
 /** Public Project Operations **/
+exports.prep_upload_public_project = function(req, res, next) {
+    Project.findOne({_id: req.params.projectId}, function(err, project) {
+        if (err) return res.status(500).end(err);
+        if (!project) {
+            if (project.author != req.session.passport.user) return res.status(401).end("ProjectId: "+req.params.projectId+" does not belong to you");
+            pubProj_Chunks.deleteMany({files_id: project.pubFile_id}, function(err, n) {
+                if (err) return res.status(500).end(err);
+                pubProj_Files.deleteOne({_id: project.pubFile_id}, function(err, n) {
+                    if (err) return res.status(500).end(err);
+                    next();
+                });
+            });
+        } else {
+            next();
+        }
+    });
+}
+
 exports.upload_public_project = function(req, res, next) {
     Project.findOne({_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
-        if (!project) return res.status(404).end("Project: " + req.body.projectId + " does not exist");
-        if (project.author != req.session.passport.user) {
-            // TODO: remove the "just added" audio file from pubProj
-            return res.status(401).end("You can't edit other user's projects");
-        }
         project['pubFile_id'] = req.file.id;
+        project['isPublic'] = true;
+        project['publicDate'] = new Date();
+        project.save();
         return res.status(200).json(project);
     });
 }
@@ -131,13 +147,14 @@ exports.get_pubProj = function(req, res, next) {
 exports.delete_pubProj = function(req, res, next) {
     Project.findOne({_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
-        if (!project) return res.status(404).end("Track: " + req.params.projectId + " not found");
+        if (!project) return res.status(404).end("ProjectId: " + req.params.projectId + " not found");
         if (project.author != req.session.passport.user) return res.status(401).end("ProjectId: "+req.params.projectId+" does not belong to you");
-        Upload_Chunks.deleteMany({files_id: project.pubFile_id}, function(err, n) {
+        project['isPublic'] = false;
+        pubProj_Chunks.deleteMany({files_id: project.pubFile_id}, function(err, n) {
             if (err) return res.status(500).end(err);
-            Upload_Files.deleteOne({_id: project.pubFile_id}, function(err, n) {
+            pubProj_Files.deleteOne({_id: project.pubFile_id}, function(err, n) {
                 if (err) return res.status(500).end(err);
-                return res.json("Successfully removed pubProject File")
+                return res.status(200).json("Successfully removed pubProject File")
             });
         });
     });

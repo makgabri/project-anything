@@ -36,7 +36,7 @@ let pubProj_chunks_model = mongoose.model('publicProj.chunks', gridfsSchemas.Pub
 /**     Initializing app      **/
 const app = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
 app.use(cookieParser('cats are secretly planning to rule the world'));
 const cookieExpirationDate = new Date();

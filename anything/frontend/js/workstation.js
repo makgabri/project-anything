@@ -1,33 +1,4 @@
 "use strict";
-let userMediaStream;
-let constraints = { audio: true };
-
-navigator.getUserMedia = (navigator.getUserMedia ||
-  navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia ||
-  navigator.msGetUserMedia);
-
-function gotStream(stream) {
-  userMediaStream = stream;
-  playlist.initRecorder(userMediaStream);
-  $(".btn-record").removeClass("disabled");
-}
-
-function logError(err) {
-  console.error(err);
-}
-
-if (navigator.mediaDevices) {
-  navigator.mediaDevices.getUserMedia(constraints)
-  .then(gotStream)
-  .catch(logError);
-} else if (navigator.getUserMedia && 'MediaRecorder' in window) {
-  navigator.getUserMedia(
-    constraints,
-    gotStream,
-    logError
-  );
-}
 
 /**     Waveform Playlist init    **/
 let playlist = WaveformPlaylist.init({
@@ -47,6 +18,16 @@ let playlist = WaveformPlaylist.init({
     },
     waveHeight: 123
 });
+
+
+/** Local Variables **/
+let userMediaStream;
+let constraints = { audio: true };
+
+navigator.getUserMedia = (navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.msGetUserMedia);
 
 
 /** Helper Functions **/
@@ -70,6 +51,11 @@ let saveTitle = function(e) {
     api.updateProjectTitle(newTitle);
 }
 
+let gotStream = function(stream) {
+    userMediaStream = stream;
+    playlist.initRecorder(userMediaStream);
+    $(".btn-record").removeClass("disabled");
+}
 
 
 /**     Load Website Functionality    **/
@@ -89,6 +75,13 @@ window.onload = function(){
     /** Project Handlers **/
     api.onProjectUpdate(function(project) {
         document.querySelector(".title").innerHTML = project.title;
+        if (project.isPublic) {
+            document.querySelector("#pub_status").innerHTML = `Current Status: Public`;
+            document.querySelector("#pub_date").innerHTML = `Last Published: ${project.publicDate.toString()}`;
+        } else {
+            document.querySelector("#pub_status").innerHTML = `Current Status: Private`;
+            document.querySelector("#pub_date").innerHTML = '';
+        }
     });
 
     // Responsible for loading playlist
@@ -226,10 +219,17 @@ window.onload = function(){
         });
     });
 
-    
-
+    // Add functionality
     document.querySelector("#edit_title").className = 'edit_title';
     document.querySelector("#edit_title").addEventListener('click', editTitle);
+
+    document.querySelector("#pub_btn_exec").addEventListener("click", function(e) {
+        api.makeProjectPublic();
+    });
+
+    document.querySelector("#priv_btn_exec").addEventListener("click", function(e) {
+        api.makeProjectPrivate();
+    });
 
     /**     UI Navigation    **/
     document.getElementById("signout_button").addEventListener('click', function(e) {
@@ -242,6 +242,20 @@ window.onload = function(){
             window.location.href = '/';
         }
     });
+
+
+    /** Recording Function **/
+    if (navigator.mediaDevices) {
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then(gotStream)
+        .catch(api.invokeError);
+    } else if (navigator.getUserMedia && 'MediaRecorder' in window) {
+        navigator.getUserMedia(
+          constraints,
+          gotStream,
+          api.invokeError
+        );
+    }
 
    
 

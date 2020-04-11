@@ -26,6 +26,10 @@ const ProjectSchema = new Schema({
     pubFile_id: {
         type: Schema.Types.ObjectId,
         required: false
+    },
+    publicDate: {
+        type: Schema.Types.Date,
+        required: false
     }
 });
 

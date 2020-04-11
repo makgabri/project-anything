@@ -27,28 +27,23 @@
     
     <p id="error_box"></p>
     
-    <div class="track-drop-wrapper">
-        <div class="track-drop"></div>
-        <!-- TODO: Add "slider" -->
-        <!-- Code for slider
-            <label class="switch" id="toggle">
-              <input type="checkbox" id="checked">
-              <span class="slider"></span>
-            </label>
-        -->
-        <!-- Code for checked action
-            this.document.getElementById("checked").addEventListener('change', (function(e){
-        if (this.checked){
-            document.getElementById('upload_info').style.display = 'none';
-            document.getElementById('add_image_form').style.border = 'none';
-        } else {
-            document.getElementById('upload_info').style.display = 'block';
-            document.getElementById('add_image_form').style.border = '2px #3C3D3F solid';
-        }
-    }));
-        -->
+    <div class='project_major_ops'>
+        <div class="track-drop-wrapper">
+            <div class="track-drop"></div>
+        </div>
+        
+        <div class="pub_status_wrapper">
+            <div class="pub_item_wrapper">
+                <div id='pub_status'></div>
+                <div id='pub_date'></div>
+            </div>
+            <div class="pub_item_wrapper">
+                <div id="pub_btn_exec" class='pub_btn'>Publish</div>
+                <div id="priv_btn_exec" class='pub_btn'>Private</div>
+            </div>
+        </div>
     </div>
-    
+
     <div class='load-progress'></div>
 
     <div id="playlist"></div>
@@ -61,11 +56,8 @@
             <div class="btn-pause cbtn btn btn-warning"></div>
             <div class="btn-stop cbtn btn btn-danger"></div>
             <div class="btn-record cbtn btn btn-danger disabled"></div>
-
-
             <div class="btn-fast-forward cbtn btn btn-success"></div>
             <div class="btn-rewind cbtn btn btn-success"></div>
-
             <div class="btn-cursor cbtn btn btn-default active" title="select cursor"></div>
             <div class="btn-select cbtn btn btn-default" title="select audio region"></div>
             <div class="btn-shift cbtn btn btn-default" title="shift audio in time"></div>
@@ -74,7 +66,7 @@
             <div class="btn-loop cbtn btn btn-success disabled" title="loop a selected segment of audio"></div>
             <div title="keep only the selected audio region for a track"
             class="btn-trim-audio cbtn btn btn-primary disabled"></div>
-            <div title="Render the current work as Wav file" class="cbtn btn btn-render btn-primary"></div>
+            <div title="Render the current work as Wav file" id='record_button' class="cbtn btn btn-render btn-primary"></div>
             <a title="Download the current work as Wav file" id='download_button' class="cbtn btn btn-download-notready btn-primary"></a>
         </div>
 

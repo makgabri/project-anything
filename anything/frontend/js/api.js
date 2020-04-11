@@ -88,6 +88,7 @@ var api = (function(){
         send("GET", "/signout/", null, function(err, res){
             if (err) return notifyErrorListeners(err);
             notifyLoginListeners(getUsername());
+            localStorage.removeItem("currProj");
        });
     };
 
@@ -121,14 +122,12 @@ var api = (function(){
 
     module.updateProjectTitle = function(newTitle) {
         let currProj = getCurrProj();
-        if (!currProj) {
-            return notifyErrorListeners("Go to homepage to select a project");
-        }
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
     
         send("PATCH", "/project/"+currProj+"/title/", {newTitle: newTitle}, function(err, res){
             if (err) return notifyErrorListeners(err);
         });
-    }
+    };
  
     // delete a track on a project
     module.deleteTrack = function(trackId){
@@ -148,15 +147,12 @@ var api = (function(){
 
     module.uploadTrack = function(file){
         let currProj = getCurrProj();
-        if (!currProj) {
-            return notifyErrorListeners("Go to homepage to select a project");
-        }
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
 
         sendFiles("POST", "/upload_track/",
         {  
             projectId: currProj,
             track: file,
-            // name is file name. Should make this default and optional parameter for name
             name: file.name
         },
         function(err,res){
@@ -174,8 +170,36 @@ var api = (function(){
     };
 
     module.silentUpdateTrack = function(trackId, option, newValue) {
-        send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+        sendFiles("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
             if (err) return notifyErrorListeners(err);
+        });
+    };
+
+    module.makeProjectPublic = function() {
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+        if (playlist.tracks.length == 0) return notifyErrorListeners("Project musn't be empty");
+        document.querySelector("#pub_status").innerHTML = `<img class='loading' src='../media/loading.gif'>`;
+        playlist.ee.emit('startaudiorendering', 'wav');
+
+        ee.once('audiorenderingfinished', function (type, data) {
+            let to_upload = data;
+            to_upload.lastModifiedDate = new Date();
+            to_upload.name = document.querySelector(".title").innerHTML;
+            sendFiles("POST", "/project/"+currProj+"/file/", {pubProj: to_upload}, function(err, res) {
+                if (err) return notifyErrorListeners(err);
+                document.querySelector("#pub_status").innerHTML = '';
+                notifyProjectListeners();
+            });
+        });
+    };
+
+    module.makeProjectPrivate = function() {
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+        send("DELETE", "/project/"+currProj+"/file/", null, function(err, res) {
+            if (err) return notifyErrorListeners(err);
+            notifyProjectListeners();
         });
     };
 
@@ -203,17 +227,13 @@ var api = (function(){
 
     let getProject = function(callback){
         let currProj = getCurrProj();
-        if (!currProj) {
-            return notifyErrorListeners("Go to homepage to select a project");
-        }
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
         send("GET", "/project/"+currProj+"/", null, callback);
     };
 
     let getTracks = function(callback){
         let currProj = getCurrProj();
-        if (!currProj) {
-            return notifyErrorListeners("Go to homepage to select a project");
-        }
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
         send("GET", "/project/"+currProj+"/tracks/", null, callback);
     };
 
