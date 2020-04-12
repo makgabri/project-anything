@@ -69,11 +69,11 @@ app.use(function (req, res, next){
 
 app.use(express.static('frontend'));
 
-const https = require('https');
+const http = require('http');
 const PORT = process.env.PORT || 3000;
 
 /**     Start Server     **/
-let server = https.createServer(config.server, app).listen(PORT, function (err) {
+let server = http.createServer(config.server, app).listen(PORT, function (err) {
     if (err) console.log(err);
     else console.log("HTTPS server on http://localhost:%s", PORT);
 });

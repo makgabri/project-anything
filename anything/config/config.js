@@ -13,7 +13,7 @@ const config = {
         cert: fs.readFileSync(__dirname + '/server/server.crt')
     },
     mongo: {
-        url: 'mongodb+srv://anything:cscc09@anything-omsw1.mongodb.net/test?retryWrites=true&w=majority',
+        url: process.env.MONGODB_URI || 'mongodb+srv://anything:cscc09@anything-omsw1.mongodb.net/test?retryWrites=true&w=majority',
         options: {
             useNewUrlParser: true,
             keepAlive: 1,
