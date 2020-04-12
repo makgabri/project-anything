@@ -36,26 +36,40 @@ const cookie = require('cookie');
  * @api {post} /signup/ Create a local user
  * @apiVersion 1.0.0
  * @apiName sign_up_local
+ * @apiGroup User
  * @apiPermission public
  *
  * @apiDescription Creates a local user account. 
+ * 
+ * @apiParam {String}   username      Username of the local user created
+ * @apiParam {String}   password      Password for the account
+ * @apiParam {String}   familyName    Family Name of user
+ * @apiParam {String}   givenName     Given Name of user
  *
  * @apiExample {curl} Curl example
- * curl -H "Content-Type: application/json" -X POST -d '{"familyName":"Foo","givenName":"Bar","username":"Foobar","password":"123"}' https://localhost:3000/signup/
+ * curl -H "Content-Type: application/json" -X POST -d '{"familyName":"Foo","givenName":"Bar","username":"Foobar","password":"123"}' https://https://project-anything.herokuapp.com/signup/
  *
- * @apiSuccess {String}   username      username of the local user created
+ * @apiSuccess {String}   username      Username of the local user created
  * @apiSuccess {String}   familyName    Family Name of user
  * @apiSuccess {String}   givenName     Given Name of user
+ * 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "username": "Foobar",
+ *       "familyName": "Foo",
+ *       "givenName": "Bar"
+ *     }
  *
- * @apiError FamilyNameNotFound familyName must exist
- * @apiError FamilyNameInvalid family name must be alphanumeric
- * @apiError GivenNameNotFound givenName must exist
- * @apiError GivenNameInvalid given name must be alphanumeric
- * @apiError UsernameNotFound Username must exist
- * @apiError UsernameInvalid Username must be alphanumeric
- * @apiError UsernameExist username Foobar already exists
- * @apiError PasswordNotFound Password must exist
- * @apiError PasswordInvalid Password must contain only alphanumeric and certain special characters
+ * @apiError (400) FamilyNameNotFound familyName must exist
+ * @apiError (400) FamilyNameInvalid family name must be alphanumeric
+ * @apiError (400) GivenNameNotFound givenName must exist
+ * @apiError (400) GivenNameInvalid given name must be alphanumeric
+ * @apiError (400) UsernameNotFound Username must exist
+ * @apiError (400) UsernameInvalid Username must be alphanumeric
+ * @apiError (409) UsernameExists username Foobar already exists
+ * @apiError (400) PasswordNotFound Password must exist
+ * @apiError (400) PasswordInvalid Password must contain only alphanumeric and certain special characters
  *
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400 Bad Request
@@ -97,30 +111,51 @@ exports.sign_up_local = function(req, res, next) {
 };
 
 /**
- * Sign in to local account
+ * @api {post} /signin/ Sign in as a local user
+ * @apiVersion 1.0.0
+ * @apiName sign_in_local
+ * @apiGroup User
+ * @apiPermission public
+ *
+ * @apiDescription Signs in as a local user and returns the cookie. If using a web browser, cookie will be saved to browser. Otherwise please save the cookie and send it back when requesting for 'user' level requests.
+ *
+ * @apiParam {String}   username      Username of the local user created
+ * @apiParam {String}   password      Password for the account
  * 
- * Authentication has already successed here. Ensure session is saved
- * and return succeess message.
+ * @apiExample {curl} Curl example
+ * curl -H "Content-Type: application/json" -X POST -d '{"username":"Foobar","password":"123"}' -c cookie.txt  https://https://project-anything.herokuapp.com/signin/
+ *
+ * @apiSuccess {String} success successfully logged in
  * 
- * Errors include:
- *      1. (500) - Serverside Error
- * 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     "success"
+ *
+ * @apiError (400) UsernameNotFound Username must exist
+ * @apiError (400) PasswordNotFound Password must exist
+ * @apiError (401) InvalidCredentials Incorrect username or password
+ *
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     "Incorrect username or password"
  */
-exports.sign_in_local = function(req, res, next) {
-    req.session.save(function(err) {
-        if (err) return res.status(500).end(err);
-        return res.status(200).json('success');
-    })
-}
+// Method removed here. Work needs to be done when passport and app are alive -> transferred to routes.js
+
+
 
 /**
- * Sign in to google account
- * 
- * Authentication has already successed here. Ensure session is saved
- * and return succeess message.
- * 
- * Errors include:
- *      1. (500) - Serverside Error
+ * @api {get} /auth/google/ Sign in via google
+ * @apiVersion 1.0.0
+ * @apiName sign_in_google
+ * @apiGroup User
+ * @apiPermission public
+ *
+ * @apiDescription Signs in as a google user. In order to properly utilize this, you will need to log in through the homepage of the web application. Google log in cannot be done by console because they have a user interface that guides you through logging into google. Upon curling, you will recieve a re-direct url along with cookies that need to be used for google to confirm communication.
+ *
+ * @apiExample {curl} Curl example
+ * curl -H "Content-Type: application/json" -X GET https://https://project-anything.herokuapp.com/auth/google/
+ *
+ * @apiSuccess {String} success redirect to homepage.html
  * 
  */
 exports.sign_in_google = function(req, res, next) {
@@ -131,48 +166,63 @@ exports.sign_in_google = function(req, res, next) {
 }
 
 /**
- * Sign out of all accounts
+ * @api {get} /signout/ Sign out of current account
+ * @apiVersion 1.0.0
+ * @apiName sign_out
+ * @apiGroup User
+ * @apiPermission user authenticated
+ *
+ * @apiDescription Signs out of any logged in user. This means that if you were signed in through local or google, you will sign out of the current session. Provide the cookie and it will be destroyed.
+ *
+ * @apiExample {curl} Curl example
+ * curl -H "Content-Type: application/json" -X GET -b cookie.txt -c cookie.txt https://https://project-anything.herokuapp.com/signout/
+ *
+ * @apiSuccess {String} success succesfully logged out
  * 
- * Signs out of current account and destroys session
- * 
- * Errors include:
- *      2. (400) - Not signed in at all so cannot signout
- * 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     "succesfully logged out"
+ *
+ * @apiError (401) NotSignedIn You are not logged in
+ *
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     "Incorrect username or password"
  */
 exports.sign_out = function(req, res, next) {
-    if (!req.isAuthenticated()) return res.status(400).end("You are not signed in");
     req.logout();
     req.session.destroy();
-    res.setHeader('Set-Cookie', cookie.serialize('key', '', {
-        path : '/', 
-        maxAge: 60 * 60 * 24 * 7 // 1 week in number of seconds
-    }));
-    res.redirect('/');
+    res.status(200).json("succesfully logged out");
 };
 
-/**
- * Get current user's key
- * 
- * Get session's key
- * 
- */
-exports.get_user_key = function(req, res, next) {
-    return res.status(200).json(req.session.passport.user);
-}
 
 /**
- * Get user's name
+ * @api {get} /user_name/ Gets full name of user
+ * @apiVersion 1.0.0
+ * @apiName get_user_name
+ * @apiGroup User
+ * @apiPermission user authenticated
+ *
+ * @apiDescription Retrieves the full name of the currently logged in user. This is specified at register and if you signed in through google, this retrieves your family and given name from your google account.
+ *
+ * @apiExample {curl} Curl example
+ * curl -H "Content-Type: application/json" -X GET -b cookie.txt https://https://project-anything.herokuapp.com/user_name/
+ *
+ * @apiSuccess {String} givenName Given name of user
+ * @apiSuccess {String} familyName Family name of user
  * 
- * Errors include:
- *      1. (500) - Error on inserting comment object into database
- *      2. (400) - User does not exist in database
- * 
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "familyName": "Foo",
+ *       "givenName": "Bar"
+ *     }
  */
 exports.get_user_name = function(req, res, next) {
     if (!req.isAuthenticated()) return res.status(200).json('');
     User.findOne({key : req.session.passport.user}, function(err, user) {
         if (err) return res.status(500).json("Database error");
-        if (!user) return res.status(400).json("Database could not find user with key: " + req.session.passport.user);
+        if (!user) return res.status(500).json("Database could not find user with key: " + req.session.passport.user);
         if (user.provider == "google") {
             // Look at google db
             Google.findOne({googleId : user.key}, function(err, google_user) {

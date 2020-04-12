@@ -18,12 +18,12 @@ module.exports = function(passport) {
         function(username, password, done) {
           User.findOne({ key: username }, function (err, user) {
             if (err) return done(err);
-            if (!user) return done('Incorrect username or password', false);
+            if (!user) return done(null, false, {message: 'Incorrect username or password'});
 
             Local.findOne({username: username}, function(err, local_user) {
                 if (err) return done(err);
                 if (!local_user) return done(null, false);
-                if (!local_user.verifyPassword(password)) return done('Incorrect username or password', false);
+                if (!local_user.verifyPassword(password))done(null, false, {message: 'Incorrect username or password'});
                 return done(null, user);
             });
           });

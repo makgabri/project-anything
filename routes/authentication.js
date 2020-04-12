@@ -4,7 +4,6 @@ const { check, validationResult } = require('express-validator');
 
 exports.isLoggedIn = function(req, res, next) {
     if (req.isAuthenticated()) return next();
-    // Redirect to login page or prevent access
     return res.status(401).json('You are not logged in');
 }
 
@@ -48,6 +47,16 @@ exports.validate = function(method) {
             ]
         }
 
+        // Validating new title project
+        case 'new_title_project': {
+            return [
+                check('title').exists().withMessage('title must exist'),
+                check('title').isAlphanumeric().withMessage('title must be alphanumeric'),
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
+            ]
+        }
+
         // Validating get project
         case 'get_project': {
             return [
@@ -82,11 +91,67 @@ exports.validate = function(method) {
             ]
         }
 
+        // Validating update track
+        case 'update_track': {
+            return [
+                check('trackId').exists().withMessage('trackId must exist'),
+                check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric'),
+                check('option').exists().withMessage('option must exist'),
+                check('option').isIn([
+                    "name",
+                    "gain",
+                    "muted",
+                    "soloed",
+                    "start",
+                    "fadeIn_shape",
+                    "fadeIn_duration",
+                    "fadeOut_shape",
+                    "fadeOut_duration",
+                    "cuein",
+                    "cueout",
+                    "waveOutlineColor",
+                    "stereoPan"]).withMessage("option type is invalid, refer to API for valid option types"),
+                check('newValue').exists().withMessage('newValue must exist'),
+                check('newValue').escape()
+            ]
+        }
+
         // Validating delete track
         case 'delete_track': {
             return [
                 check('trackId').exists().withMessage('trackId must exist'),
                 check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric')
+            ]
+        }
+
+        // Validating upload_public_project
+        case 'upload_public_project': {
+            return [
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
+            ]
+        }
+
+        // Validating public_project_list
+        case 'public_project_list': {
+            return [
+                check('page').isInt().withMessage('page must be integer')
+            ]
+        }
+
+        // Validating get_public_project_file
+        case 'public_project_file': {
+            return [
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
+            ]
+        }
+
+        // Validating delete_public_project
+        case 'delete_public_project': {
+            return [
+                check('projectId').exists().withMessage('projectId must exist'),
+                check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
             ]
         }
     }

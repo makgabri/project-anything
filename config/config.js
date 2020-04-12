@@ -3,8 +3,8 @@
 /**     Required Node Libraries     **/
 const fs = require('fs');
 
-// TODO:
-// Correctly re-make
+// Public releasing doesn't expose public information. Possible breaches are passwords which are stored as hashes.
+// Best practise is to keep this private
 
 // Configuration for all settings
 const config = {
