@@ -156,7 +156,6 @@ function changeLoopState(state) {
 
 // Begin Event Emitter Methods
 let ee = playlist.getEventEmitter();
-let $container = $("body");
 
 /** Load timebox **/
 let timeBox = document.querySelector(".audio-pos");
@@ -313,25 +312,25 @@ document.querySelector(".btn-render").addEventListener('click', function(e){
 });
 
 //track drop
-$container.on("dragenter", ".track-drop", function(e) {
+document.querySelector(".track-drop").addEventListener('dragenter', function(e){
   e.preventDefault();
   e.target.classList.add("drag-enter");
 });
 
-$container.on("dragover", ".track-drop", function(e) {
+document.querySelector(".track-drop").addEventListener('dragover', function(e){
   e.preventDefault();
 });
 
-$container.on("dragleave", ".track-drop", function(e) {
+document.querySelector(".track-drop").addEventListener('dragleave', function(e){
   e.preventDefault();
   e.target.classList.remove("drag-enter");
 });
 
-$container.on("drop", ".track-drop", function(e) {
+document.querySelector(".track-drop").addEventListener('drop', function(e){
   e.preventDefault();
   e.target.classList.remove("drag-enter");
 
-  let dropEvent = e.originalEvent;
+  let dropEvent = e;
 
   for (let i = 0; i < dropEvent.dataTransfer.files.length; i++) {
     //ee.emit("newtrack", dropEvent.dataTransfer.files[i]);
