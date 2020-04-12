@@ -24,7 +24,7 @@ const config = {
     google: {
         clientID: "861730907678-ao4imte1fuui41kfe2kvcvl61dgnag7t.apps.googleusercontent.com",
         clientSecret: "Fmfqalc8_Cq2ziF45IpOqePx",
-        callbackURL: 'https://localhost:3000/auth/google/callback/'
+        callbackURL: 'https://project-anything.herokuapp.com/auth/google/callback/'
     }
 };
 
