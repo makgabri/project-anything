@@ -3,7 +3,6 @@
 const { check, validationResult } = require('express-validator');
 
 exports.isLoggedIn = function(req, res, next) {
-    // Check if authenticated by google login
     if (req.isAuthenticated()) return next();
     // Redirect to login page or prevent access
     return res.status(401).json('You are not logged in');

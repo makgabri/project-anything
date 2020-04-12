@@ -12,31 +12,39 @@
 <body>
     <header>
         <a href="/homepage.html" id="title"></a>
+        <div class="title_box">
+            <p class="title"></p>
+            <div id='edit_title'></div>
+            <div id='save_title'></div>
+        </div>
         <div class='navigator'>
             <div class='nav' id='signout_button'>Signout</div>
-            <div class='nav' id='credits'>Credits</div>
-            <div class='nav' id='about'>About</div>
-            <div class='nav' id='github'>Github</div>
+            <a href="/credits.html" class='nav' id='credits'>Credits</a>
+            <a href="/about.html" class='nav' id='about'>About</a>
+            <a href="https://github.com/UTSCC09/project-anything" class='nav' id='github'>Github</a>
         </div>
     </header>
     
     <p id="error_box"></p>
     
-    <!--div id="hidden_image_form">
-        <div id="upload_form">
-            <div class="form_title">
-                <div class="title">Upload an audio file</div>
-                <div class="close_button_icon"></div>
-            </div>
-            <input type="file" id="audio_file" class="form_element" name="audio" accept="audio/*" required>
-            <button type="submit" class="btn button">Make track</button>
-    
+    <div class='project_major_ops'>
+        <div class="track-drop-wrapper">
+            <div class="track-drop"></div>
         </div>
-
-    </div-->
-    <div class="track-drop-wrapper">
-        <div class="track-drop"></div>
+        
+        <div class="pub_status_wrapper">
+            <div class="pub_item_wrapper">
+                <div id='pub_status'></div>
+                <div id='pub_date'></div>
+            </div>
+            <div class="pub_item_wrapper">
+                <div id="pub_btn_exec" class='pub_btn'>Publish</div>
+                <div id="priv_btn_exec" class='pub_btn'>Private</div>
+            </div>
+        </div>
     </div>
+
+    <div class='load-progress'></div>
 
     <div id="playlist"></div>
 
@@ -44,34 +52,56 @@
 
     <div class="track-editor">
         <div class="controls">
-            <div class="btn-play btn btn-success"></div>
-            <div class="btn-pause btn btn-warning"></div>
-            <div class="btn-stop btn btn-warning"></div>
-
-            <div class="btn-fast-forward btn btn-success"></div>
-            <div class="btn-rewind btn btn-success"></div>
-
-            <div class="btn-cursor btn btn-default active" title="select cursor"></div>
-            <div class="btn-select btn btn-default" title="select audio region"></div>
-            <div class="btn-shift btn btn-default" title="shift audio in time"></div>
-            <div class="btn-fadein btn btn-default" title="set audio fade in"></div>
-            <div class="btn-fadeout btn btn-default" title="set audio fade out"></div>
-            <div class="btn-loop btn btn-success disabled" title="loop a selected segment of audio"></div>
+            <div class="btn-play cbtn btn btn-success"></div>
+            <div class="btn-pause cbtn btn btn-warning"></div>
+            <div class="btn-stop cbtn btn btn-danger"></div>
+            <div class="btn-record cbtn btn btn-danger disabled"></div>
+            <div class="btn-fast-forward cbtn btn btn-success"></div>
+            <div class="btn-rewind cbtn btn btn-success"></div>
+            <div class="btn-cursor cbtn btn btn-default active" title="select cursor"></div>
+            <div class="btn-select cbtn btn btn-default" title="select audio region"></div>
+            <div class="btn-shift cbtn btn btn-default" title="shift audio in time"></div>
+            <div class="btn-fadein cbtn btn btn-default" title="set audio fade in"></div>
+            <div class="btn-fadeout cbtn btn btn-default" title="set audio fade out"></div>
+            <div class="btn-loop cbtn btn btn-success disabled" id='loop_button' title="loop a selected segment of audio"></div>
             <div title="keep only the selected audio region for a track"
-            class="btn-trim-audio btn btn-primary disabled"></div>
-            <div title="Download the current work as Wav file" class="btn btn-download btn-primary"></div>
+            class="btn-trim-audio cbtn btn btn-primary disabled"></div>
+            <div title="Render the current work as Wav file" id='record_button' class="cbtn btn btn-render btn-primary"></div>
+            <a title="Download the current work as Wav file" id='download_button' class="cbtn btn btn-download-notready btn-primary"></a>
         </div>
 
-        <label class="audio-pos">00:00:00.0</label>
-        <div class="checkbox">
-            <label>
-              <input type="checkbox" class="automatic-scroll"> Automatic Scroll
-            </label>
+        <div class='timebox'>
+            <div class='timedisplay'>
+                Start Time:
+                <input type="text" class="audio-start"></div>
+            <div class='timedisplay'>
+                End Time:
+                <input type="text" class="audio-end"></div>
+            <div class='timedisplay'>
+                Marker Time:
+                <label class="audio-pos">00:00:00.0</label></div>
         </div>
+ 
+            <label class="checkbox">Automatic Scroll
+              <input type="checkbox" class="automatic-scroll" checked="checked"> 
+              <span class="checkmark"></span>
+
+            </label>
+
+        <div class='btn-zoom-in'></div>
+        <div class='btn-zoom-out'></div>
+        <div class='btn-undo' title="undo the latest action"></div>
 
         <div class="track-list">
 
-        <!--put some editing stuff-->
+            <div class='track_option'>
+                <div class='track_option_title'>Change name of a track</div>
+                <div id='change-track-name'></div>
+                <div class='track_option_title'>Change fade in shape</div>
+                <div id='fadein-shape-name'></div>
+                <div class='track_option_title'>Change fade out shape</div>
+                <div id='fadeout-shape-name'></div>
+            </div>
 
         </div>
 
@@ -85,10 +115,11 @@
     
     <footer>
     </footer>
-    <script src="js/api.js"></script>
-    <script src="js/workstation.js"></script>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/playlistbundle.js"></script>
+    <script src="js/waveform-playlist.var.js"></script>
+    <script src="js/workstation.js"></script>
+    <script src="js/eventemitter.js"></script>
+    <script src="js/api.js"></script>
 
 </body>
 </html>

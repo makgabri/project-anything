@@ -104,148 +104,158 @@
     cursor: pointer;
 }
 
-.btn-play{
+.cbtn{
     display: flex;
     float: right;
     margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
-    background-image: url('../media/play-button.png');
+    width: 40px;
+    height: 40px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.btn-play{
+    background-image: url('../media/play-button.png');
 }
 
 .btn-pause{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/pause.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .btn-stop{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/stop-button.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+}
+
+.btn-record{
+    background-image: url('../media/microphone.png');
+}
+
+.btn-record-live{
+    background-image: url('../media/microphone_red.png');
 }
 
 .btn-fast-forward{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/end.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .btn-rewind{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/start.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
   
 .btn-select{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/select-button.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-
 }
 .btn-cursor{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/cursor.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
-
 
 .btn-trim-audio{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
     background-image: url('../media/trim.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 }
-.btn-shift{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
-    background-image: url('../media/shift.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-.btn-fadein{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
-    background-image: url('../media/fadein.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-.btn-fadeout{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
-    background-image: url('../media/fadeout.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
 
-}.btn-download{
-    display: flex;
-    float: right;
-    margin: 25px 25px 25px 25px;
-    width: 50px;
-    height: 50px;
+.btn-shift{
+    background-image: url('../media/shift.png');
+}
+
+.btn-fadein{
+    background-image: url('../media/fadein.png');
+}
+
+.btn-fadeout{
+    background-image: url('../media/fadeout.png');
+}
+
+.btn-loop{
+    background-image: url('../media/loop.png');
+}
+
+.btn-loop-red{
+    background-image: url('../media/loop_red.png');
+}
+
+.btn-download-ready{
     background-image: url('../media/download.png');
+}
+
+.btn-download-notready{
+    opacity: 10%;
+    background-image: url('../media/download.png');
+}
+
+.btn-render{
+    background-image: url('../media/rendering.png');
+}
+
+.btn-undo{
+    background-image: url('../media/undo.png');
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 15px;
+
+    width: 30px;
+    height: 30px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
-.audio-pos, .checkbox{
+
+.btn-undo:hover {
+    cursor: pointer;
+}
+
+.btn-zoom-in{
+    background-image: url('../media/zoom-in.png');
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 15px;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btn-zoom-out{
+    background-image: url('../media/zoom-out.png');
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 15px;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.btn-zoom-in:hover {
+    cursor: pointer;
+}
+
+.btn-zoom-out:hover {
+    cursor: pointer;
+}
+
+.checkbox {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    color:#001a33;
+}
+
+.timebox{
     color: #001a33;
+    font-size: 14px;
+
+}
+
+.timedisplay input, .audio-pos{
+    background-color: transparent;
+    color: #001a33;
+    border: solid 2px #001a33;
+    text-align:right;
+    font-size: 14px;
+    padding: 5px;
+    margin-left: 10px;
 }
 
 
@@ -327,7 +337,7 @@
 .playlist .controls label:before { 
     content: "\f027"; 
     color: black; 
-    font-size: 18px; 
+    font-size: 14px; 
     padding-right: 5px; 
     -moz-osx-font-smoothing: grayscale;
 }
@@ -335,7 +345,7 @@
 .playlist .controls label:after { 
     content: "\f028"; 
     color: black; 
-    font-size: 18px; 
+    font-size: 14px; 
     padding-left: 5px; 
 }
 
@@ -400,15 +410,12 @@
 
 
 
-
-/* Do this in JS!*/
-
 .track-drop {
     border: 2px dashed #001a33; 
     color: #001a33;
-    height: 50px; 
+    height: 80px; 
     margin: 1em 0;
-    width: 30%;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -440,4 +447,136 @@
 
 .controls .btn:hover{
     cursor:pointer;
+}
+
+.controls .btn-download-notready:hover {
+    cursor: not-allowed;
+}
+
+.checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+/* Hide the browser's default checkbox */
+.checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+  
+/* Create a custom checkbox */
+    .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+  
+/* On mouse-over, add a grey background color */
+.checkbox:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+  
+/* When the checkbox is checked, add a blue background */
+.checkbox input:checked ~ .checkmark {
+    background-color: #001a33;
+}
+  
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+/* Show the checkmark when checked */
+.checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+  
+/* Style the checkmark/indicator */
+.checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.track_option{
+    color: #001a33;
+    font-size: 16px;
+
+}
+.track_option_action input{
+    background-color: transparent;
+    color: #001a33;
+    border: solid 2px #001a33;
+    text-align:right;
+    font-size: 14px;
+    padding: 2px;
+}
+
+.exec_btn{
+    font-size: 14px;
+}
+
+ /* body select.select_box */ 
+ select { 
+    display: block;
+    padding: 10px 70px 10px 13px; 
+    max-width: 100%; 
+    height: 50px; 
+    border: 1px solid #e3e3e3; 
+    border-radius: 3px; 
+    background: url("https://i.ibb.co/b7xjLrB/selectbox-arrow.png") right center no-repeat; 
+    background-color:#001a33; 
+    color: orange; 
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px; 
+    appearance: none; 
+    /* this is must */ -webkit-appearance: none; 
+    -moz-appearance: none; 
+  } 
+  
+  /* body select.select_box option */ 
+  select option { 
+    display: block;
+    padding: 0 4px; 
+    color: orange;
+    background-color:#333;
+  } 
+
+
+  /* width */
+::-webkit-scrollbar{
+    width: 10px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb{
+    background: orange;
+    border-radius: 10px;
 }

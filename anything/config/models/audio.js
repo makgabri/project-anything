@@ -18,6 +18,18 @@ const ProjectSchema = new Schema({
     date: {
         type: Date,
         require: true
+    },
+    isPublic: {
+        type: Schema.Types.Boolean,
+        default: false
+    },
+    pubFile_id: {
+        type: Schema.Types.ObjectId,
+        required: false
+    },
+    publicDate: {
+        type: Schema.Types.Date,
+        required: false
     }
 });
 
@@ -39,8 +51,8 @@ const TrackSchema = new Schema({
         require: true
     },
     gain: {
-        type: String,
-        default: ''
+        type: Schema.Types.Decimal128,
+        default: 1.0
     },
     muted: {
         type: Boolean,
@@ -51,16 +63,26 @@ const TrackSchema = new Schema({
         default: false
     },
     start: {
-        type: Schema.Types.Decimal128,
-        default: 0.0
+        type: Schema.Types.Number,
+        default: 0
+    },
+    fadeIn_shape: {
+        type: String,
+        enum: ["logarithmic", "linear", "sCurve", "exponential"],
+        default: "logarithmic"
     },
     fadeIn_duration: {
         type: Schema.Types.Decimal128,
-        default: 0.0
+        default: 0.01
     },
     fadeOut_duration: {
         type: Schema.Types.Decimal128,
-        default: 0.0
+        default: 0.01
+    },
+    fadeOut_shape: {
+        type: String,
+        enum: ["logarithmic", "linear", "sCurve", "exponential"],
+        default: "logarithmic"
     },
     cuein: {
         type: Schema.Types.Number,

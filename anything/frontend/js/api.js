@@ -1,5 +1,6 @@
+"use strict";
+
 var api = (function(){
-    "use strict";
 
     // Prepare send method via ajax
     function send(method, url, data, callback){
@@ -87,6 +88,7 @@ var api = (function(){
         send("GET", "/signout/", null, function(err, res){
             if (err) return notifyErrorListeners(err);
             notifyLoginListeners(getUsername());
+            localStorage.removeItem("currProj");
        });
     };
 
@@ -109,11 +111,142 @@ var api = (function(){
     };
 
 
+    /** Project and Track Operations **/
+    // create new project
+    module.addProject = function(title, author){
+        send("POST", "/add_project/", {title: title}, function(err, res){
+            if (err) return notifyErrorListeners(err);
+            notifyProjListListeners();
+         });
+    };
+
+    module.updateProjectTitle = function(newTitle) {
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+    
+        send("PATCH", "/project/"+currProj+"/title/", {newTitle: newTitle}, function(err, res){
+            if (err) return notifyErrorListeners(err);
+        });
+    };
+ 
+    // delete a track on a project
+    module.deleteTrack = function(trackId){
+        send("DELETE", "/track/"+trackId+'/', null, function(err, res){
+            if (err) return notifyErrorListeners(err);
+            notifyTrackListeners();
+        });
+    }; 
+
+    // delete an project from the gallery given its projectId
+    module.deleteProject = function(projectId){
+        send("DELETE", "/project/"+projectId+"/", null, function(err, res){
+            if (err) return notifyErrorListeners(err);
+            notifyProjListListeners();
+        });      
+    };
+
+    module.uploadTrack = function(file){
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+
+        sendFiles("POST", "/upload_track/",
+        {  
+            projectId: currProj,
+            track: file,
+            name: file.name
+        },
+        function(err,res){
+            if (err) return notifyErrorListeners(err);
+            notifyTrackListeners();
+        });
+    };
+
+
+    module.updateTrack = function(trackId, option, newValue) {
+        send("GET", "/track/"+trackId+"/info/", null, function(err, currTrackState) {
+            if (err) return notifyErrorListeners(err);
+            previousState = currTrackState;
+            send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+                if (err) return notifyErrorListeners(err);
+                notifyTrackListeners();
+            });
+        });
+    };
+
+
+    module.silentUpdateTrack = function(trackId, option, newValue) {
+        send("GET", "/track/"+trackId+"/info/", null, function(err, currTrackState) {
+            if (err) return notifyErrorListeners(err);
+            previousState = currTrackState;
+            send("PATCH", "/track/"+trackId+"/", {option: option, newValue: newValue}, function(err, res) {
+                if (err) return notifyErrorListeners(err);
+            });
+        });
+    };
+
+
+    module.undoUpdate = function() {
+        for (let i = 0; i < changed_items.length; i++) {
+            if (i == (changed_items.length - 1)) {
+                module.updateTrack(previousState._id, changed_items[i], previousState[changed_items[i]]);
+            } else {
+                module.silentUpdateTrack(previousState._id, changed_items[i], previousState[changed_items[i]]);
+            }
+        }
+    }
+
+
+    module.makeProjectPublic = function() {
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+        if (playlist.tracks.length == 0) return notifyErrorListeners("Project musn't be empty");
+        document.querySelector("#pub_status").innerHTML = `<img class='loading' src='../media/loading.gif'>`;
+        playlist.ee.emit('startaudiorendering', 'wav');
+
+        ee.once('audiorenderingfinished', function (type, data) {
+            let to_upload = data;
+            to_upload.lastModifiedDate = new Date();
+            to_upload.name = document.querySelector(".title").innerHTML;
+            sendFiles("POST", "/project/"+currProj+"/file/", {pubProj: to_upload}, function(err, res) {
+                if (err) return notifyErrorListeners(err);
+                document.querySelector("#pub_status").innerHTML = '';
+                notifyProjectListeners();
+            });
+        });
+    };
+
+    module.makeProjectPrivate = function() {
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+        send("DELETE", "/project/"+currProj+"/file/", null, function(err, res) {
+            if (err) return notifyErrorListeners(err);
+            notifyProjectListeners();
+        });
+    };
 
 
     /**     Local Variables     **/
+    let homepage_page = 0;
+    let previousState;
+    let changed_items;
 
     /** Local Variable Getters and Setters */
+    module.setCurrProj = function(newProjId) {
+        localStorage.setItem("currProj", newProjId);
+    }
+    let getCurrProj = function() {
+        return localStorage.getItem("currProj");
+    }
+    module.setHomePage = function(new_page) {
+        homepage_page = new_page;
+        notifyPubProjectListeners();
+    }
+    module.getHomePage = function() {
+        return homepage_page;
+    }
+    module.setChangedItems = function(newList) {
+        changed_items = newList;
+    }
 
 
 
@@ -123,14 +256,36 @@ var api = (function(){
     }
 
     let getProjList = function(callback){
-        send("GET", "/get_project_list/", null, callback);
+        send("GET", "/project/user/", null, callback);
     }
 
+    let getProject = function(callback){
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+        send("GET", "/project/"+currProj+"/", null, callback);
+    };
+
+    let getTracks = function(callback){
+        let currProj = getCurrProj();
+        if (!currProj) return notifyErrorListeners("Go to homepage to select a project");
+        send("GET", "/project/"+currProj+"/tracks/", null, callback);
+    };
+
+    let getPubProjects = function(callback) {
+        send("GET", '/public_project/?page=' + homepage_page, null, callback);
+    };
+
+    module.get_max_home_page = function(callback) {
+        send("GET", "/public_project/size/", null, callback);
+    };
 
     /**      Listeners          **/
     let errorListeners = [];
     let loginListeners = [];
     let projListListeners = [];
+    let projectListeners = [];
+    let trackListeners = [];
+    let pubProjectListeners = [];
     
     /**     Public notifier invokers  **/
     module.invokeError = function(err) {
@@ -159,8 +314,35 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             projListListeners.forEach(function(listener) {
                 listener(projList);
-            })
-        })
+            });
+        });
+    }
+
+    function notifyProjectListeners(){
+        getProject(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            projectListeners.forEach(function(listener){
+                listener(res);
+            });
+        });  
+    }
+
+    function notifyTrackListeners(){
+        getTracks(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            trackListeners.forEach(function(listener){
+                listener(res);
+            });
+        }); 
+    }
+
+    function notifyPubProjectListeners(){
+        getPubProjects(function(err, pubProjList){
+            if (err) return notifyErrorListeners(err);
+            pubProjectListeners.forEach(function(listener){
+                listener(pubProjList);
+            });
+        }); 
     }
 
 
@@ -175,7 +357,7 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             listener(user_name);
         });
-    }
+    };
 
     module.onProjListUpdate = function(listener) {
         projListListeners.push(listener);
@@ -183,9 +365,43 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             projListListeners.forEach(function(listener) {
                 listener(projList);
-            })
+            });
+        });
+    };
+
+    module.onProjectUpdate = function(listener){
+        projectListeners.push(listener);
+        getProject(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            listener(res);
+        });  
+    };
+
+    module.onTrackUpdate = function(listener){
+        trackListeners.push(listener);
+        getTracks(function(err, res){
+            if (err) return notifyErrorListeners(err);
+            listener(res);
+        });
+    };
+
+    module.onPubProjectUpdate = function(listener) {
+        pubProjectListeners.push(listener);
+        getPubProjects(function(err, pubProjList) {
+            if (err) return notifyErrorListeners(err);
+            listener(pubProjList);
         })
     }
+
+
+
+    /**     Automatic Refresher     **/
+    module.homepage_refresh = function(){
+        setTimeout(function(e){
+            notifyProjListListeners();
+            module.homepage_refresh();
+        }, 2000);
+    };
 
 
     return module;

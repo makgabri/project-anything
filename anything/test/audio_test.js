@@ -92,7 +92,7 @@ test('App Project - Creating project3', function(t) {
 test('App Project - Getting list of project titles', function(t) {
     t.pass("Collecting a list fo all title projects owned by foobar")
     agent
-        .get('/get_project_list/')
+        .get('/project/user/')
         .expect(200)
         .end(function(err, res) {
             t.same(res.body.length, 3, 'Size of project list should be 3');
@@ -104,10 +104,9 @@ test('App Project - Getting a specific project', function(t) {
     t.pass("Getting specific project details");
     project_model.findOne({title:'test', author: 'foobar'}, function(err, project) {
         agent
-            .get('/get_project/')
+            .get('/project/'+project._id+'/')
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
-            .send({projectId: project._id})
             .expect(200)
             .end(function(err, res) {
                 t.same(res.body.title, 'test', 'title of project should be test');
@@ -143,16 +142,16 @@ test('App Audio - Uploading second track', function(t) {
     })
 })
 
-test('App Audio - Getting list of tracks', function(t) {
-    t.pass("Collecting a list fo all tracks owned by foobar");
-    agent
-        .get('/get_track_list/')
-        .expect(200)
-        .end(function(err, res) {
-            t.same(res.body.length, 2, 'Size of track list should be 2');
-            t.end();
-        });
-})
+// test('App Audio - Getting list of tracks', function(t) {
+//     t.pass("Collecting a list fo all tracks owned by foobar");
+//     agent
+//         .get('/get_track_list/')
+//         .expect(200)
+//         .end(function(err, res) {
+//             t.same(res.body.length, 2, 'Size of track list should be 2');
+//             t.end();
+//         });
+// })
 
 test('App Audio - Getting a track file', function(t) {
     t.pass("Getting a track file should be base64 encoded string");

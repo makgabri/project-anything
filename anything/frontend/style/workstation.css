@@ -64,7 +64,6 @@
 .track-area{
     width: 100%;
     height: 50%;
-    border-radius: 5px;
     border-style: solid;
     color: rgb(26, 25, 25);
     overflow: scroll;
@@ -73,4 +72,152 @@
 
 .playlist .controls {
     text-align: center;
+    background-color: blueviolet;
+}
+
+.playlist header {
+    background-color: blueviolet;
+    margin-bottom: 10px;
+}
+
+.playlist .playlist-tracks {
+    background-color: blueviolet;
+}
+
+.timebox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 60%;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+.timedisplay {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.title_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.title {
+    vertical-align: middle;
+    padding: 0px 10px 0px 10px;
+    height: 80px;
+    font-size: 25px;
+}
+
+.edit_title {
+    background-image: url('../media/edit.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:75%;
+    width: 30px;
+    height: 70px;
+    margin-left: 20px;
+}
+
+.edit_title:hover {
+    cursor: pointer;
+}
+
+.save_title {
+    background-image: url('../media/save.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:75%;
+    width: 30px;
+    height: 70px;
+    margin-left: 20px;
+}
+
+.save_title:hover {
+    cursor: pointer;
+}
+
+.track_option {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    margin: 10px 0px 10px 10px;
+}
+
+.track_option_title {
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+.track_option_action {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.exec_btn{
+    width: 15%;
+    text-align:center;
+    font-size: 20px;
+    color: #3C3D3F;
+    background: #ffffff;
+    border: 2px #3C3D3F solid;
+    padding: 10px 20px 10px 20px;
+    margin-top: 10px;
+}
+
+.exec_btn:hover {
+    background: #3C3D3F;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.loading {
+    height: 50px; 
+}
+
+.project_major_ops {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.track-drop-wrapper {
+    width: 45%;
+}
+
+.pub_status_wrapper {
+    width: 45%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border: 2px #3C3D3F solid;
+}
+
+.pub_item_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 48%;
+}
+
+.pub_btn{
+    width: 100%;
+    text-align:center;
+    font-size: 20px;
+    color: #3C3D3F;
+    background: #ffffff;
+    border: 2px #3C3D3F solid;
+    padding: 2px 10px 2px 10px;
+    margin: 5px 0px 5px 0px;
+}
+
+.pub_btn:hover {
+    background: #3C3D3F;
+    color: #ffffff;
+    cursor: pointer;
 }

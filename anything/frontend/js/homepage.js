@@ -15,15 +15,6 @@
         });
 
         /**     UI Navigation    **/
-        document.getElementById('credits').addEventListener('click', (function(e) {
-            window.location.href = '/credits.html';
-        }));
-        document.getElementById('github').addEventListener('click', (function(e) {
-            window.location.href = 'https://github.com/UTSCC09/project-anything';
-        }));
-        document.getElementById('about').addEventListener('click', (function(e) {
-            window.location.href = '/about.html';
-        }));
         document.getElementById("signout_button").addEventListener('click', function (e) {
             api.signout();
             window.location.href = '/';
@@ -40,8 +31,7 @@
             if (username){
                 let elmt = document.querySelector('#welcome_message');
                 elmt.innerHTML = `
-                    <h3>Hello ${username.familyName} ${username.givenName}</h3>
-                    <h3>These are your tracks</h3>
+                    <h3>Welcome ${username.familyName} ${username.givenName} to anything</h3>
                 `
             }
 
@@ -49,7 +39,7 @@
                 e.preventDefault();
                 let title = document.querySelector("#project-name").value;
                 document.querySelector("#complex_form").reset();
-                playlistApi.addProject(title);
+                api.addProject(title);
             });
         });
 
@@ -59,28 +49,82 @@
             projDiv.innerHTML = '';
 
             projList.forEach(function(project) {
+                let singleProjDiv = document.createElement('div');
+                singleProjDiv.className = 'project_div';
+
                 let elmt = document.createElement('button');
                 elmt.className = 'project_btn';
                 elmt.innerHTML = project.title;
 
-                projDiv.append(elmt);
+                let delProj = document.createElement('div');
+                delProj.className = 'project_delete';
+
+                singleProjDiv.append(elmt);
+                singleProjDiv.append(delProj);
+                projDiv.append(singleProjDiv);
 
                 elmt.addEventListener('click', function(e) {
-                    playlistApi.setCurrProj(project._id);
+                    api.setCurrProj(project._id);
                     window.location.href = '/workstation.html';
-                })
-            })
-        })
+                });
 
-        document.querySelector("#pagination .prev-arrow").addEventListener("click", function(e){
-            api.navComments(-1);
+                delProj.addEventListener('click', function(e) {
+                    let r = confirm("Are you sure you want to delete project: " + project.title);
+                    if (r == true) {
+                        api.deleteProject(project._id);
+                    }
+                });
+            });
         });
 
-        document.querySelector("#pagination .next-arrow").addEventListener("click", function(e){
-            api.navComments(1);
+        api.onPubProjectUpdate(function(pubProjList) {
+            let publicProjectDOM = document.getElementById("public_project_container");
+            publicProjectDOM.innerHTML = '';
+            pubProjList.forEach(function(pubProject) {
+                let elmt = document.createElement('div');
+                elmt.className = 'container-audio';
+                elmt.innerHTML = `
+                    <div class="track-title">${pubProject.title}</div>
+                    <div class="track-author">Uploaded By: ${pubProject.author}</div>
+                    <audio controls loop preload="auto">
+                        <source src="/project/${pubProject.pubFile_id}/file/" type="audio/wav"> 
+                    </audio>
+                    <div class="track-date">Last Published: ${pubProject.publicDate}</div>
+                `;
+                publicProjectDOM.append(elmt);
+            });
+
+            let prevDOM = document.querySelector(".prev-arrow");
+            let nextDOM = document.querySelector(".next-arrow");
+            let curr_page = api.getHomePage();
+
+            api.get_max_home_page(function(err, n) {
+                if ((curr_page+1) < n) {
+                    nextDOM.classList.remove('nav-empty');
+                    nextDOM.style.cursor = 'pointer';
+                    nextDOM.addEventListener('click', function(e) {
+                        api.setHomePage(curr_page+1);
+                    }, {once: true});
+                } else {
+                    nextDOM.classList.add('nav-empty');
+                    nextDOM.style.cursor = 'not-allowed';
+                }
+            });
+
+            if (curr_page > 0) {
+                prevDOM.classList.remove('nav-empty');
+                prevDOM.style.cursor = 'pointer';
+                prevDOM.addEventListener('click', function(e) {
+                    if (curr_page == 1) prevDOM.classList.add('nav-empty');
+                    api.setHomePage(curr_page-1);
+                }, {once: true});
+            } else {
+                prevDOM.style.cursor = 'not-allowed';
+            }
         });
         
-
+        api.homepage_refresh();
 
     }
 }());
+

@@ -9,10 +9,41 @@
     padding: 27px 10px 0px 10px;
     height: 80px;
     font-size: 20px;
+    color: white;
+    text-decoration: none;
 }
 
 .nav:hover{
     background-color: #5c02ac;
     border-bottom: solid 2px white;
     cursor: pointer;
+}
+
+.arrows{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.prev-arrow{
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/prev.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.next-arrow{
+    width: 50px;
+    height: 50px;
+    background-image: url('../media/next.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nav-empty{
+    opacity: 30%;
 }

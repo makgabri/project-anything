@@ -2,7 +2,6 @@
     width: 66%;
     height: auto;
     margin:20px auto;
-    border-radius: 10px;
     border: 2px #3C3D3F solid;
     padding:20px 10px 10px 10px;
     display:flex;
@@ -16,7 +15,6 @@
     padding:10px 0px 10px 25px;
     color:white;
     background-color: #3C3D3F;
-    border-radius: 7px 7px 0px 0px;
 }
 
 .complex_form .form_radio{
@@ -28,7 +26,6 @@
 .complex_form .form_element{
      margin-bottom:10px;
      font-size: 20px;
-     border-radius:10px;
      padding:5px 10px 5px 10px;
 }
 .complex_form .element{
@@ -40,7 +37,6 @@
 }
 
 .btn{
-    border-radius:10px;
     text-align:center;
     font-size: 20px;
     color: #3C3D3F;
@@ -52,10 +48,10 @@
 .btn:hover {
   background: #3C3D3F;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .project_btn{
-    border-radius:10px;
     width: 61%;
     text-align:center;
     font-size: 20px;
@@ -70,4 +66,24 @@
     background: #3C3D3F;
     color: #ffffff;
     cursor: pointer;
-  }
+}
+
+.project_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.project_delete {
+    background-image: url('../media/delete-icon.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:75%;
+    width: 30px;
+    height: 70px;
+    margin-left: 20px;
+}
+
+.project_delete:hover {
+    cursor: pointer;
+}
