@@ -71,7 +71,7 @@ app.use(function (req, res, next){
 
 app.use(express.static('frontend'));
 
-const http = require('http');
+const http = (process.env.PORT) ? require('http') : require('https');
 const PORT = process.env.PORT || 3000;
 
 /**     Start Server     **/
