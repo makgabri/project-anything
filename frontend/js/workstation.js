@@ -78,7 +78,7 @@ window.onload = function(){
         document.querySelector(".title").innerHTML = project.title;
         if (project.isPublic) {
             document.querySelector("#pub_status").innerHTML = `Current Status: Public`;
-            document.querySelector("#pub_date").innerHTML = `Last Published: ${project.publicDate.toString()}`;
+            document.querySelector("#pub_date").innerHTML = `Last Published: ${api.dateToPrettyString(project.publicDate)}`;
         } else {
             document.querySelector("#pub_status").innerHTML = `Current Status: Private`;
             document.querySelector("#pub_date").innerHTML = '';
