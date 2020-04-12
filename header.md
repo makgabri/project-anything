@@ -87,7 +87,7 @@ Click this button for the project to zoom out.
 Click this button to undo the most recent change. Becareful considerate when making changes because only the most recent action can be undone.
 <img src="https://project-anything.herokuapp.com/media/undo.png" alt="drawing" width="60"/><br>
 The following buttons are found to the left of the track which clearly indicate what they do. Mute, solo or delete the track.
-<img src="https://project-anything.herokuapp.com/media/doc/Track_Button.JPG" alt="drawing" width="100"/><br>
+<img src="https://project-anything.herokuapp.com/media/doc/Track_Buttons.JPG" alt="drawing" width="100"/><br>
 
 There are several options that can also be found below the buttons. These are pretty self explanitory as it indicates what can be changed, the new change value if there is one and the execute button which execute the changes you want.
 
