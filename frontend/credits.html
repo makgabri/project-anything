@@ -11,23 +11,45 @@
     <header>
         <div id="title" class="home"></div>
         <div id='navigator' class='navigator'>
-            <div class='nav' id='credits'>Credits</div>
-            <div class='nav' id='about'>About</div>
-            <div class='nav' id='github'>Github</div>
+            <a href="/credits.html" class='nav' id='credits'>Credits</a>
+            <a href="/about.html" class='nav' id='about'>About</a>
+            <a href="https://github.com/UTSCC09/project-anything" class='nav' id='github'>Github</a>
     </header>
     
-    <h2>Buttons</h2>
+    <h2>Images/Icons</h2>
     <ul>
         <li>
-            Select, Stop, Cursor, Trim, Shift, Fadein, Download <br>
-            Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+            Select, Stop, Cursor, Trim, Shift, Fadein, Download Icons made by <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons">Roundicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
         </li>
         <li>Edit Icon made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
         <li>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
         <li>Render made by <a href="https://www.flaticon.com/authors/skyclick" title="Skyclick">Skyclick</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
-        <li>Icons made by <a href="https://www.flaticon.com/authors/prosymbols" title="Prosymbols">Prosymbols</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
-        <li>Icons made by <a href="https://www.flaticon.com/authors/tomas-knop" title="Tomas Knop">Tomas Knop</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
-        <li>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
+        <li>Zoom in icon made by <a href="https://www.flaticon.com/authors/prosymbols" title="Prosymbols">Prosymbols</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
+        <li>Zoom out icon made by <a href="https://www.flaticon.com/authors/tomas-knop" title="Tomas Knop">Tomas Knop</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
+        <li>Undo icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></li>
+        <li>Icon made using <a href='https://www.freelogodesign.org/'>FreeLogo Design</a></li>
+    </ul>
+    <h2>API</h2>
+    <ul>
+        <li><a href='https://github.com/expressjs/cookie-parser'>cookie-parser</a> used to read cookies</li>
+        <li><a href='https://github.com/expressjs/cookie-session'>cookie-session</a> used to set session in cookie</li>
+        <li><a href='https://github.com/expressjs/cors'>cors</a> used to allow cors being set between requests</li>
+        <li><a href='https://expressjs.com/'>express</a> used as middleware for log in sessions</li>
+        <li><a href='https://github.com/expressjs/session'>express-session</a> used as middleware for log in sessions</li>
+        <li><a href='https://express-validator.github.io/'>express-validator</a> used as middleware for validating requests</li>
+        <li><a href='https://github.com/aheckmann/gridfs-stream'>gridfs-stream</a> used for uploading files to mongodb</li>
+        <li><a href='https://mochajs.org/'>mocha</a> used to run tests</li>
+        <li><a href='https://mongoosejs.com/'>mongoose</a> used at backend to communicate with mongodb</li>
+        <li><a href='https://www.npmjs.com/package/mongoose-gridfs'>mongoose-gridfs</a> used at backend to communicate with mongodb for files</li>
+        <li><a href='https://github.com/expressjs/multer'>multer</a> used to be able to stream the file data being upload to be stored accordingly</li>
+        <li><a href='https://www.npmjs.com/package/multer-gridfs-storage'>multer-gridfs-storage</a> used as middleware for gridfs to communicate with multer and vice versa</li>
+        <li><a href='https://www.npmjs.com/package/nodemon'>nodemon</a> used to run application locally for testing</li>
+        <li><a href='http://www.passportjs.org/'>passport</a> used as middleware to authenticate session</li>
+        <li><a href='http://www.passportjs.org/packages/passport-google-oauth20/'>passport-google-oauth</a> used as middleware to authenticate google accounts</li>
+        <li><a href='http://www.passportjs.org/packages/passport-local/'>passport-local</a> used as middleware to authenticate local accounts</li>
+        <li><a href='https://github.com/visionmedia/supertest'>supertest</a> used for creating tests to ensure application runs smoothly</li>
+        <li><a href='https://www.npmjs.com/package/waveform-playlist'>waveform-playlist</a> used for front end to edit music tracks</li>
+        <li><a href='https://wavesurfer-js.org/'>wavesurfer</a> used to display audio as waveforms</li>
     </ul>
     <h2>HTML, CSS and Javascript code</h2>
     <ul>
@@ -37,6 +59,7 @@
         <li>GridFS Guide found from <a href="https://medium.com/@kavitanambissan/uploading-and-retrieving-a-file-from-gridfs-using-multer-958dfc9255e8">Medium Blog</a> posted by Kative Nambissan Ganguli</li>
         <li>Passport snipets found from <a href="http://www.passportjs.org/">Passport guide</a></li>
         <li>Supertest snipets found from <a href="https://github.com/visionmedia/supertest">Supertest github</a></li>
+        <li>Blob to file method found from <a href="https://stackoverflow.com/questions/27159179/how-to-convert-blob-to-file-in-javascript/29390393">Stack overflow question</a></li>
     </ul>
     <h2>Theory</h2>
     <ul>

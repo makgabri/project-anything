@@ -33,19 +33,33 @@ const cookie = require('cookie');
 
 
 /**
- * Create Account Locally
- * 
- * @param   {string}  req.body.username    Username
- * @param   {string}  req.body.password    Password
- * @param   {string}  req.body.familyName  familyName
- * @param   {string}  req.body.givenName   givenName
- * 
- * Recieving key/value pairs from body to creating a user
- * 
- * Errors include:
- *      1. (500) - Error on inserting user object into database
- *      2. (409) - Username already exists
- * 
+ * @api {post} /signup/ Create a local user
+ * @apiVersion 1.0.0
+ * @apiName sign_up_local
+ * @apiPermission public
+ *
+ * @apiDescription Creates a local user account. 
+ *
+ * @apiExample {curl} Curl example
+ * curl -H "Content-Type: application/json" -X POST -d '{"familyName":"Foo","givenName":"Bar","username":"Foobar","password":"123"}' https://localhost:3000/signup/
+ *
+ * @apiSuccess {String}   username      username of the local user created
+ * @apiSuccess {String}   familyName    Family Name of user
+ * @apiSuccess {String}   givenName     Given Name of user
+ *
+ * @apiError FamilyNameNotFound familyName must exist
+ * @apiError FamilyNameInvalid family name must be alphanumeric
+ * @apiError GivenNameNotFound givenName must exist
+ * @apiError GivenNameInvalid given name must be alphanumeric
+ * @apiError UsernameNotFound Username must exist
+ * @apiError UsernameInvalid Username must be alphanumeric
+ * @apiError UsernameExist username Foobar already exists
+ * @apiError PasswordNotFound Password must exist
+ * @apiError PasswordInvalid Password must contain only alphanumeric and certain special characters
+ *
+ * @apiErrorExample Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     "familyName must exist"
  */
 exports.sign_up_local = function(req, res, next) {
     var username = req.body.username;
@@ -71,7 +85,12 @@ exports.sign_up_local = function(req, res, next) {
                 hashed_password: saltedHash,
                 password: req.body.password
             }).then(function(new_local_user) {
-                return res.status(200).json("user " + username + " signed up");
+                let user_data = {
+                    'username': new_local_user.username,
+                    'familyName': new_local_user.familyName,
+                    'givenName': new_local_user.givenName
+                }
+                return res.status(200).json(user_data);
             });
         });
     });

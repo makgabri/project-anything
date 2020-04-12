@@ -224,6 +224,10 @@ var api = (function(){
         });
     };
 
+    module.dateToPrettyString = function(date) {
+        let dateObj = new Date(date);
+        return dateObj.toDateString() + " " + dateObj.toLocaleTimeString();
+    }
 
     /**     Local Variables     **/
     let homepage_page = 0;

@@ -89,7 +89,7 @@
                     <audio controls loop preload="auto">
                         <source src="/project/${pubProject.pubFile_id}/file/" type="audio/wav"> 
                     </audio>
-                    <div class="track-date">Last Published: ${pubProject.publicDate}</div>
+                    <div class="track-date">Last Published: ${api.dateToPrettyString(pubProject.publicDate)}</div>
                 `;
                 publicProjectDOM.append(elmt);
             });

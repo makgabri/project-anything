@@ -4,7 +4,9 @@
 const multer = require("multer");
 
 const users = require('../routes/users');
-const audio = require('../routes/audio');
+const project = require('../routes/project');
+const track = require('../routes/track');
+const public_project = require('../routes/public_project');
 const auth = require('../routes/authentication');
 const trackGFS = require('./gridfs').trackGFS;
 const pubProjGFS = require('./gridfs').pubProjGFS;
@@ -42,12 +44,12 @@ module.exports = function(app, passport) {
     trackGFS.on('connection', function(db) {
         console.log("GridFS track connection successful");
         pubProj_upload = multer({ storage: trackGFS });
-        app.post('/upload_track/', auth.isLoggedIn, pubProj_upload.single('track'), auth.validate('add_track'), auth.validate_errors, audio.upload_audio_track);
+        app.post('/upload_track/', auth.isLoggedIn, pubProj_upload.single('track'), auth.validate('add_track'), auth.validate_errors, track.upload_audio_track);
     });
-    app.get('/track/:trackId/file/', auth.isLoggedIn, auth.validate('get_track'), auth.validate_errors, audio.get_track);
-    app.get('/track/:trackId/info/', auth.isLoggedIn, audio.track_info);
-    app.delete('/track/:trackId/', auth.isLoggedIn, auth.validate('delete_track'), auth.validate_errors, audio.delete_track);
-    app.patch('/track/:trackId/', auth.isLoggedIn, audio.update_track_option);
+    app.get('/track/:trackId/file/', auth.isLoggedIn, auth.validate('get_track'), auth.validate_errors, track.get_track);
+    app.get('/track/:trackId/info/', auth.isLoggedIn, track.track_info);
+    app.delete('/track/:trackId/', auth.isLoggedIn, auth.validate('delete_track'), auth.validate_errors, track.delete_track);
+    app.patch('/track/:trackId/', auth.isLoggedIn, track.update_track_option);
 
 
 
@@ -59,12 +61,12 @@ module.exports = function(app, passport) {
      * Get project
      * curl --verbose -k -H "Content-Type: application/json" -X DELETE -d '{"projectId":"1"}' -b cookie.txt https://localhost:3000/delete_project/
      **/
-    app.post('/add_project/', auth.isLoggedIn, auth.validate('add_project'), auth.validate_errors, audio.add_project);
-    app.get('/project/user/', auth.isLoggedIn, audio.user_project_list);
-    app.get('/project/:projectId/', auth.isLoggedIn, auth.validate('get_project'), auth.validate_errors, audio.get_project);
-    app.patch('/project/:projectId/title/', auth.isLoggedIn, audio.new_project_title);
-    app.get('/project/:projectId/tracks/',auth.isLoggedIn, auth.validate('get_project'), audio.project_track_list);
-    app.delete('/project/:projectId/', auth.isLoggedIn, auth.validate('delete_project'), auth.validate_errors, audio.delete_project);
+    app.post('/add_project/', auth.isLoggedIn, auth.validate('add_project'), auth.validate_errors, project.add_project);
+    app.get('/project/user/', auth.isLoggedIn, project.user_project_list);
+    app.get('/project/:projectId/', auth.isLoggedIn, auth.validate('get_project'), auth.validate_errors, project.get_project);
+    app.patch('/project/:projectId/title/', auth.isLoggedIn, project.new_project_title);
+    app.get('/project/:projectId/tracks/',auth.isLoggedIn, auth.validate('get_project'), project.project_track_list);
+    app.delete('/project/:projectId/', auth.isLoggedIn, auth.validate('delete_project'), auth.validate_errors, project.delete_project);
     
 
 
@@ -72,10 +74,10 @@ module.exports = function(app, passport) {
     pubProjGFS.on('connection', function(db) {
         console.log("GridFS public project connection successful");
         pubProj_upload = multer({ storage: pubProjGFS });
-        app.post('/project/:projectId/file/', auth.isLoggedIn, audio.prep_upload_public_project, pubProj_upload.single('pubProj'), audio.upload_public_project);
+        app.post('/project/:projectId/file/', auth.isLoggedIn, public_project.prep_upload_public_project, pubProj_upload.single('pubProj'), public_project.upload_public_project);
     });
-    app.get('/public_project/', auth.isLoggedIn, audio.get_pubProj_list);
-    app.get('/public_project/size/', auth.isLoggedIn, audio.get_pubProj_pageSize);
-    app.get('/project/:projectId/file/', auth.isLoggedIn, audio.get_pubProj);
-    app.delete('/project/:projectId/file/', auth.isLoggedIn, audio.delete_pubProj);
+    app.get('/public_project/', auth.isLoggedIn, public_project.get_pubProj_list);
+    app.get('/public_project/size/', auth.isLoggedIn, public_project.get_pubProj_pageSize);
+    app.get('/project/:projectId/file/', auth.isLoggedIn, public_project.get_pubProj);
+    app.delete('/project/:projectId/file/', auth.isLoggedIn, public_project.delete_pubProj);
 };
