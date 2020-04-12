@@ -14,16 +14,6 @@ window.onload = function(){
     });
 
     /**     UI Navigation    **/
-    document.getElementById('credits').addEventListener('click', (function(e) {
-        window.location.href = '/credits.html';
-    }));
-    document.getElementById('github').addEventListener('click', (function(e) {
-        window.location.href = 'https://github.com/UTSCC09/project-anything';
-    }));
-    document.getElementById('about').addEventListener('click', (function(e) {
-        window.location.href = '/about.html';
-    }));
-
     api.onLoginUpdate(function(username){
         if (username) {
             let elmt = document.createElement('div');
