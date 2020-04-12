@@ -13,7 +13,7 @@ const config = {
         cert: fs.readFileSync(__dirname + '/server/server.crt')
     },
     mongo: {
-        url: 'mongodb+srv://anything:cscc09@anything-omsw1.mongodb.net/test?retryWrites=true&w=majority',
+        url: process.env.MONGODB_URI || 'mongodb+srv://anything:cscc09@anything-omsw1.mongodb.net/test?retryWrites=true&w=majority',
         options: {
             useNewUrlParser: true,
             keepAlive: 1,
@@ -24,7 +24,7 @@ const config = {
     google: {
         clientID: "861730907678-ao4imte1fuui41kfe2kvcvl61dgnag7t.apps.googleusercontent.com",
         clientSecret: "Fmfqalc8_Cq2ziF45IpOqePx",
-        callbackURL: 'https://localhost:3000/auth/google/callback/'
+        callbackURL: 'https://project-anything.herokuapp.com/auth/google/callback/'
     }
 };
 
