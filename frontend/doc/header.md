@@ -8,7 +8,7 @@ can change your project back to private.
 
 ## <span id="api-creating-user">Creating a user</span>
 
-Easily create a new account by clicking on register at the homepage and enter the required fields.
+Easily create a new account by clicking on register at the homepage and enter the required fields. Please note that password must be at least 8 characters, contains 1 capital letter, 1 lower case letter and 1 number.
 ![Photo](https://project-anything.herokuapp.com/media/doc/Signup.JPG "API Image")
 
 ## <span id="api-logging-in">Logging in a user</span>

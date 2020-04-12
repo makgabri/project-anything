@@ -25,7 +25,7 @@ exports.validate = function(method) {
                 check('username').exists().withMessage('Username must exist'),
                 check('username').isAlphanumeric().withMessage('Username must be alphanumeric'),
                 check('password').exists().withMessage('Password must exist'),
-                check('password').matches(/^[a-zA-Z0-9!@#$%^&*()=_+,.?]*$/).withMessage("Password must contain only alphanumeric and certain special characters")
+                check('password').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage("Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number")
             ]
         }
 
@@ -35,7 +35,7 @@ exports.validate = function(method) {
                 check('username').exists().withMessage('Username must exist'),
                 check('username').isAlphanumeric().withMessage('Username must be alphanumeric'),
                 check('password').exists().withMessage('Password must exist'),
-                check('password').matches(/^[a-zA-Z0-9!@#$%^&*()=_+,.?]*$/).withMessage("Password must contain only alphanumeric and certain special characters")
+                check('password').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage("Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number")
             ]
         }
 

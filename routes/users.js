@@ -69,7 +69,7 @@ const cookie = require('cookie');
  * @apiError (400) UsernameInvalid Username must be alphanumeric
  * @apiError (409) UsernameExists username Foobar already exists
  * @apiError (400) PasswordNotFound Password must exist
- * @apiError (400) PasswordInvalid Password must contain only alphanumeric and certain special characters
+ * @apiError (400) PasswordInvalid Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number
  *
  * @apiErrorExample Response (example):
  *     HTTP/1.1 400 Bad Request
@@ -132,8 +132,10 @@ exports.sign_up_local = function(req, res, next) {
  *     "success"
  *
  * @apiError (400) UsernameNotFound Username must exist
+ * @apiError (400) UsernameInvalid Username must be alphanumeric
  * @apiError (400) PasswordNotFound Password must exist
  * @apiError (401) InvalidCredentials Incorrect username or password
+ * @apiError (400) PasswordInvalid Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number
  *
  * @apiErrorExample Response (example):
  *     HTTP/1.1 401 Unauthorized

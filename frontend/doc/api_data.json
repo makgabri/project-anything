@@ -2073,8 +2073,20 @@
           {
             "group": "400",
             "optional": false,
+            "field": "UsernameInvalid",
+            "description": "<p>Username must be alphanumeric</p>"
+          },
+          {
+            "group": "400",
+            "optional": false,
             "field": "PasswordNotFound",
             "description": "<p>Password must exist</p>"
+          },
+          {
+            "group": "400",
+            "optional": false,
+            "field": "PasswordInvalid",
+            "description": "<p>Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number</p>"
           }
         ],
         "401": [
@@ -2296,7 +2308,7 @@
             "group": "400",
             "optional": false,
             "field": "PasswordInvalid",
-            "description": "<p>Password must contain only alphanumeric and certain special characters</p>"
+            "description": "<p>Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number</p>"
           }
         ],
         "409": [
