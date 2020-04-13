@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -69,18 +70,18 @@ exports.prep_upload_public_project = function(req, res, next) {
             next();
         }
     });
-}
+};
 
 exports.upload_public_project = function(req, res, next) {
     Project.findOne({_id: req.params.projectId}, function(err, project) {
         if (err) return res.status(500).end(err);
-        project['pubFile_id'] = req.file.id;
-        project['isPublic'] = true;
-        project['publicDate'] = new Date();
+        project.pubFile_id = req.file.id;
+        project.isPublic = true;
+        project.publicDate = new Date();
         project.save();
         return res.status(200).json(project);
     });
-}
+};
 
 
 /**
@@ -167,7 +168,7 @@ exports.get_pubProj_pageSize = function(req, res, next) {
         if (err) return res.status(500).end(err);
         return res.status(200).json(Math.ceil(n/3));
     });
-}
+};
 
 /**
  * @api {get} /project/:projectId/file/ Get the public project file
@@ -258,13 +259,13 @@ exports.delete_pubProj = function(req, res, next) {
         if (err) return res.status(500).end(err);
         if (!project) return res.status(404).end("ProjectId: " + req.params.projectId + " not found");
         if (project.author != req.session.passport.user) return res.status(401).end("ProjectId: "+req.params.projectId+" does not belong to you");
-        project['isPublic'] = false;
+        project.isPublic = false;
         project.save();
         pubProj_Chunks.deleteMany({files_id: project.pubFile_id}, function(err, n) {
             if (err) return res.status(500).end(err);
             pubProj_Files.deleteOne({_id: project.pubFile_id}, function(err, n) {
                 if (err) return res.status(500).end(err);
-                return res.status(200).json("Successfully removed pubProject File")
+                return res.status(200).json("Successfully removed pubProject File");
             });
         });
     });

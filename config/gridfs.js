@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 const config = require('./config');
@@ -14,9 +15,9 @@ exports.trackGFS = new GridFsStorage({
             //Setting collection name, default name is fs      
             filename: file.originalname,     
             //Setting file name to original name of file    
-        }
+        };
     }
-})
+});
 
 exports.pubProjGFS = new GridFsStorage({
     url: config.mongo.url,
@@ -27,6 +28,6 @@ exports.pubProjGFS = new GridFsStorage({
             //Setting collection name, default name is fs      
             filename: file.originalname,     
             //Setting file name to original name of file    
-        }
+        };
     }
-})
+});

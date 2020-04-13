@@ -93,6 +93,6 @@ window.onload = function(){
 
     // Add google login
     document.getElementById("google_login").addEventListener('click', (function(e) {
-        location.replace("/auth/google/")
-    }))
+        location.replace("/auth/google/");
+    }));
 };

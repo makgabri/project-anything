@@ -1,3 +1,6 @@
+/*jslint node: true */
+/* jshint browser: true */
+/* globals playlist, ee */
 "use strict";
 
 var api = (function(){
@@ -73,7 +76,7 @@ var api = (function(){
             if (err) return notifyErrorListeners(err);
             notifyLoginListeners(getUsername());
             if (res == "success") {
-                window.location.replace("../homepage.html")
+                window.location.replace("../homepage.html");
             }
        });
     };
@@ -193,7 +196,7 @@ var api = (function(){
                 module.silentUpdateTrack(previousState._id, changed_items[i], previousState[changed_items[i]]);
             }
         }
-    }
+    };
 
 
     module.makeProjectPublic = function() {
@@ -227,7 +230,7 @@ var api = (function(){
     module.dateToPrettyString = function(date) {
         let dateObj = new Date(date);
         return dateObj.toDateString() + " " + dateObj.toLocaleTimeString();
-    }
+    };
 
     /**     Local Variables     **/
     let homepage_page = 0;
@@ -237,31 +240,31 @@ var api = (function(){
     /** Local Variable Getters and Setters */
     module.setCurrProj = function(newProjId) {
         localStorage.setItem("currProj", newProjId);
-    }
+    };
     let getCurrProj = function() {
         return localStorage.getItem("currProj");
-    }
+    };
     module.setHomePage = function(new_page) {
         homepage_page = new_page;
         notifyPubProjectListeners();
-    }
+    };
     module.getHomePage = function() {
         return homepage_page;
-    }
+    };
     module.setChangedItems = function(newList) {
         changed_items = newList;
-    }
+    };
 
 
 
     /**     AJAX Get Function   **/
     let getUsername = function(callback){
         send("GET", "/user_name/", null, callback);
-    }
+    };
 
     let getProjList = function(callback){
         send("GET", "/project/user/", null, callback);
-    }
+    };
 
     let getProject = function(callback){
         let currProj = getCurrProj();
@@ -294,11 +297,11 @@ var api = (function(){
     /**     Public notifier invokers  **/
     module.invokeError = function(err) {
         notifyErrorListeners(err);
-    }
+    };
 
     module.invokeProjList = function() {
         notifyProjListListeners();
-    }
+    };
 
     /**    Private Notifiers     **/
     function notifyErrorListeners(err){
@@ -311,7 +314,7 @@ var api = (function(){
         loginListeners.forEach(function(listener){
             listener(username);
         });
-    };
+    }
 
     function notifyProjListListeners(){
         getProjList(function(err, projList) {
@@ -394,8 +397,8 @@ var api = (function(){
         getPubProjects(function(err, pubProjList) {
             if (err) return notifyErrorListeners(err);
             listener(pubProjList);
-        })
-    }
+        });
+    };
 
 
 

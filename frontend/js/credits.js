@@ -1,3 +1,6 @@
+/*jslint node: true */
+/* jshint browser: true */
+/* globals api */
 "use strict";
 
 window.onload = function(){
@@ -19,7 +22,7 @@ window.onload = function(){
             let elmt = document.createElement('div');
             elmt.className = 'nav';
             elmt.id = 'signout_button';
-            elmt.innerHTML = 'Signout'
+            elmt.innerHTML = 'Signout';
 
             elmt.addEventListener('click', (function(e) {
                 api.signout();
@@ -37,4 +40,4 @@ window.onload = function(){
             }));
         }
     });
-}
+};

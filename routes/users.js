@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -103,7 +104,7 @@ exports.sign_up_local = function(req, res, next) {
                     'username': new_local_user.username,
                     'familyName': new_local_user.familyName,
                     'givenName': new_local_user.givenName
-                }
+                };
                 return res.status(200).json(user_data);
             });
         });
@@ -164,8 +165,8 @@ exports.sign_in_google = function(req, res, next) {
     req.session.save(function(err) {
         if (err) return res.status(500).end(err);
         res.redirect('/homepage.html');
-    })
-}
+    });
+};
 
 /**
  * @api {get} /signout/ Sign out of current account
@@ -247,5 +248,5 @@ exports.get_user_name = function(req, res, next) {
                 });
             });
         }
-    })
-}
+    });
+};

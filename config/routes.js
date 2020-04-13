@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -27,7 +28,8 @@ module.exports = function(app, passport) {
                 if (err) return res.status(500).end(err);
                 return res.status(200).json('success');
             });
-        })(req,res,next)});
+        })(req,res,next);
+    });
     app.get('/auth/google/', passport.authenticate('google', { scope: ['profile']}));
     app.get('/auth/google/callback/', passport.authenticate('google',   {failureRedirect: '/'}), users.sign_in_google);
     app.get('/signout/', auth.isLoggedIn, users.sign_out);

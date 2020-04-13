@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -107,12 +108,10 @@ const TrackSchema = new Schema({
 
 
 /**     Schema Methods     */
-// SchemaVar.methods.functionName
 
 /**     Virtuals    **/
-// SchemaVar.virtual('name').set(function(name)).get(
 
 module.exports = {
     Project: ProjectSchema,
     Track: TrackSchema
-}
+};

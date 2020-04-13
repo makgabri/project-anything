@@ -1,9 +1,13 @@
+/*jslint node: true */
+/* jshint browser: true */
+/* globals api, WaveformPlaylist, $ */
+
 "use strict";
 
 /**     Waveform Playlist init    **/
 let playlist = WaveformPlaylist.init({
     // DOM for playlist
-    container: this.document.querySelector('#playlist'),
+    container: document.querySelector('#playlist'),
     state: 'cursor',
     colors: {
       waveOutlineColor: '#E0EFF1',
@@ -39,7 +43,7 @@ let editTitle = function(e) {
     document.querySelector("#save_title").className = "save_title";
     let titleDOM = document.querySelector(".title");
     titleDOM.innerHTML = '<input value="'+titleDOM.innerText+'">';
-}
+};
 
 let saveTitle = function(e) {
     document.querySelector("#save_title").className = "hidden";
@@ -50,13 +54,13 @@ let saveTitle = function(e) {
     let newTitle = titleDOM.childNodes[0].value;
     titleDOM.innerHTML = newTitle;
     api.updateProjectTitle(newTitle);
-}
+};
 
 let gotStream = function(stream) {
     userMediaStream = stream;
     playlist.initRecorder(userMediaStream);
-    $(".btn-record").removeClass("disabled");
-}
+    document.querySelector('.btn-record').classList.remove('disabled');
+};
 
 
 /**     Load Website Functionality    **/
@@ -93,19 +97,19 @@ window.onload = function(){
 
         let to_load = [];
         trackList.forEach(function(track) {
-            track['src'] = '/track/'+track._id+"/file/";
-            track['stereoPan'] = track['stereoPan'].$numberDecimal;
-            track['gain'] = track['gain'].$numberDecimal;
-            track['fadeIn'] = {
-                'duration': track['fadeIn_duration'].$numberDecimal,
-                'shape': track['fadeIn_shape']
+            track.src = '/track/'+track._id+"/file/";
+            track.stereoPan = track.stereoPan.$numberDecimal;
+            track.gain = track.gain.$numberDecimal;
+            track.fadeIn = {
+                'duration': track.fadeIn_duration.$numberDecimal,
+                'shape': track.fadeIn_shape
             };
-            track['fadeOut'] = {
-                'duration': track['fadeOut_duration'].$numberDecimal,
-                'shape': track['fadeOut_shape']
+            track.fadeOut = {
+                'duration': track.fadeOut_duration.$numberDecimal,
+                'shape': track.fadeOut_shape
             };
             to_load.push(track);
-        })
+        });
         playlist.load(to_load).then(function(){
             playlist.initExporter();
         });
@@ -263,6 +267,4 @@ window.onload = function(){
         );
     }
 
-   
-
-}
+};

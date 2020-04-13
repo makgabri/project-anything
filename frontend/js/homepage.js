@@ -18,7 +18,7 @@
         document.getElementById("signout_button").addEventListener('click', function (e) {
             api.signout();
             window.location.href = '/';
-        })
+        });
     
 
         /** Basic functionality if logged in **/
@@ -32,7 +32,7 @@
                 let elmt = document.querySelector('#welcome_message');
                 elmt.innerHTML = `
                     <h3>Welcome ${username.familyName} ${username.givenName} to anything</h3>
-                `
+                `;
             }
 
             document.querySelector("#complex_form").addEventListener("submit", function(e){
@@ -125,6 +125,6 @@
         
         api.homepage_refresh();
 
-    }
+    };
 }());
 

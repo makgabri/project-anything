@@ -1,3 +1,5 @@
+/*jslint -W083 */
+
 /** Helper Functions **/
 /**
  * cueFormatters
@@ -81,7 +83,7 @@ function updateSelect(start, end) {
       document.querySelector(".btn-loop").classList.remove('disabled');
     }
     else {
-      document.querySelector(".btn-trim-audio").classList.add('disabled')
+      document.querySelector(".btn-trim-audio").classList.add('disabled');
       document.querySelector(".btn-loop").classList.add('disabled');
     }
     audioStart.value = cueFormatters(format)(start);
@@ -138,7 +140,7 @@ function stopRecording() {
 
     recording = false;
     let recordedBlob = playlist.mediaRecorder.requestData();
-    recordedBlob = blobToFile(recordedBlob, 'Recording.oog')
+    recordedBlob = blobToFile(recordedBlob, 'Recording.oog');
     api.uploadTrack(recordedBlob);
 }
 
@@ -307,7 +309,7 @@ document.querySelector(".btn-trim-audio").addEventListener('click', function(e){
 
 // Download Audio Button
 document.querySelector(".btn-render").addEventListener('click', function(e){
-    if (playlist.tracks.length == 0) return api.invokeError("Project musn't be empty")
+    if (playlist.tracks.length == 0) return api.invokeError("Project musn't be empty");
     ee.emit('startaudiorendering', 'wav');
 });
 
@@ -340,7 +342,7 @@ document.querySelector(".track-drop").addEventListener('drop', function(e){
 
 
 let gainChangeEvents = ["input", "change"];
-for (event of gainChangeEvents){
+for (let event of gainChangeEvents){
     document.querySelector(".master-gain").addEventListener(event, function(e){
         ee.emit("mastervolumechange", e.target.value);
     });
@@ -366,7 +368,7 @@ ee.on("loadprogress", function(percent, src) {
 
 ee.on("audiosourcesloaded", function() {
     displayLoadingData('');
-})
+});
 
 ee.on('audiorenderingfinished', function (type, data) {
   if (type == 'wav'){
@@ -422,7 +424,7 @@ ee.on('mute', function(track) {
 
 ee.on('delete', function(track) {
     api.deleteTrack(getTrackIdBySrc(track.src));
-})
+});
 
 ee.on('volumechange', function(volume, track) {
     api.setChangedItems(['gain']);

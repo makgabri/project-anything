@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -70,19 +71,17 @@ const PublicProjectChunksSchema = new Schema({
     n: {
         type: Schema.Types.Number
     }
-})
+});
 
 
 
 /**     Schema Methods     */
-// SchemaVar.methods.functionName
 
 /**     Virtuals    **/
-// SchemaVar.virtual('name').set(function(name)).get(
 
 module.exports = {
     File: FileSchema,
     Chunks: ChunksSchema,
     PubProj: PublicProjectFileSchema,
     PubChunk: PublicProjectChunksSchema
-}
+};

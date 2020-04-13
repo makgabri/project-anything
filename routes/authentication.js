@@ -51,8 +51,8 @@ exports.validate = function(method) {
         // Validating new title project
         case 'new_title_project': {
             return [
-                check('title').exists().withMessage('title must exist'),
-                check('title').isAlphanumeric().withMessage('title must be alphanumeric'),
+                check('newTitle').exists().withMessage('newTitle must exist'),
+                check('newTitle').isAlphanumeric().withMessage('newTitle must be alphanumeric'),
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
             ];

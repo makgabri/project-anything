@@ -1,6 +1,7 @@
+/*jslint node: true */
 'use strict';
-/**     Required Node Libraries     **/
 
+/**     Required Node Libraries     **/
 const mongoose = require('mongoose');
 const Google = mongoose.model('google_users');
 const Local = mongoose.model('local_users');
@@ -70,6 +71,6 @@ module.exports = function(passport) {
     passport.deserializeUser(function(key, done) {
         User.findOne({key: key}, function(err, user_found) {
             done(err, user_found);
-        })
+        });
     });
 };

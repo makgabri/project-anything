@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -56,7 +57,7 @@ exports.delete_track = function(req, res, next) {
         if (err) return res.status(500).end(err);
         return res.json("Track: " + req.params.trackId + " has been deleted");
     });
-}
+};
 
 /**
  * @api {post} /upload_track/ Create a track
@@ -136,8 +137,8 @@ exports.upload_audio_track = function(req, res, next) {
             if (err) return res.status(500).end(err);
             return res.status(200).json(new_track);
         });
-    })
-}
+    });
+};
 
 /**
  * @api {get} /track/:trackId/info/ Get the track object
@@ -199,8 +200,8 @@ exports.track_info = function(req, res, next) {
         if (!track) return res.status(404).end("TrackId: " + req.params.trackId + " does not exist");
         if (track.author != req.session.passport.user) return res.status(401).end("You are not the owner of this track");
         return res.status(200).json(track);
-    })
-}
+    });
+};
 
 
 /**
@@ -259,7 +260,7 @@ exports.get_track = function(req, res, next) {
             return res.end(final_file);
         });
     });
-}
+};
 
 
 /**
@@ -305,5 +306,5 @@ exports.update_track_option = function(req, res, next) {
         track[req.body.option] = req.body.newValue;
         track.save();
         return res.status(200).json("Succesfully changed option");
-    })
-}
+    });
+};

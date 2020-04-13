@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -53,7 +54,7 @@ const LocalSchema = new Schema({
         type: String,
         required: true
     }
-})
+});
 
 
 
@@ -62,7 +63,7 @@ LocalSchema.methods.verifyPassword = function(password) {
     let hash = crypto.createHmac('sha512', this.salt);
     hash.update(password);
     return (hash.digest('base64') == this.hashed_password);
-}
+};
 
 /**     Virtuals    **/
 
@@ -83,4 +84,4 @@ module.exports = {
     User: UserSchema,
     Google: GoogleSchema,
     Local: LocalSchema
-}
+};
