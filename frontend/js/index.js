@@ -37,7 +37,7 @@ window.onload = function(){
         let elmt = document.createElement('form');
         elmt.className = "complex_form";
         elmt.innerHTML = `
-            <input type="text" id="username" class="element" placeholder="Enter your name" required/>
+            <input type="text" id="username" class="element" placeholder="Enter your username" required/>
             <input type="password" id="password" class="element" placeholder="Enter your password" required/>
             <div>
                 <button id="login_exec" class="btn">Sign in</button>
