@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 /**     Required Node Libraries     **/
@@ -59,8 +60,8 @@ exports.add_project = function(req, res, next) {
     }, function (err, new_project) {
         if (err) return res.status(500).end(err.errmsg);
         return res.status(200).json(new_project);
-    })
-}
+    });
+};
 
 /**
  * @api {patch} /project/:projectId/title/ Update project name
@@ -101,11 +102,11 @@ exports.new_project_title = function(req, res, next) {
         if (err) return res.status(500).end(err);
         if (!project) return res.status(404).end("ProjectId: " + req.params.projectId + " does not exist");
         if (project.author != req.session.passport.user) return res.status(401).end("You are not the owner of this project");
-        project['title'] = req.body.newTitle;
+        project.title = req.body.newTitle;
         project.save();
         return res.status(200).json("succesfully changed title");
-    })
-}
+    });
+};
 
 /**
  * @api {get} /project/user/ Gets list of projects
@@ -144,7 +145,7 @@ exports.user_project_list = function(req, res, next) {
         if (err) return res.status(500).end(err);
         return res.json(proj_list);
     });
-}
+};
 
 /**
  * @api {get} /project/:projectId/tracks/ Get list of tracks
@@ -205,7 +206,7 @@ exports.project_track_list = function(req, res, next) {
             return res.status(200).json(track_list);
         });
     });
-}
+};
 
 /**
  * @api {get} /project/:projectId/ Get the project object
@@ -258,8 +259,8 @@ exports.get_project = function(req, res, next) {
         if (!project) return res.status(404).end("Project: " + req.body.projectId + " does not exist");
         if (project.author != req.session.passport.user) return res.status(401).end("You are not the owner of this project");
         return res.status(200).json(project);
-    })
-}
+    });
+};
 
 /**
  * @api {delete} /project/:projectId/ Deletes a project
@@ -327,4 +328,4 @@ exports.delete_project = function(req, res, next) {
             return res.status(200).json("ProjectId: " + req.params.projectId +" has been deleted");
         });
     });
-}
+};

@@ -1,17 +1,18 @@
-'use strict'
+/*jslint node: true */
+"use strict";
 
 const { check, validationResult } = require('express-validator');
 
 exports.isLoggedIn = function(req, res, next) {
     if (req.isAuthenticated()) return next();
     return res.status(401).json('You are not logged in');
-}
+};
 
 exports.validate_errors = function(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json(errors.array()[0].msg);
     next();
-}
+};
 
 exports.validate = function(method) {
     switch(method) {
@@ -26,7 +27,7 @@ exports.validate = function(method) {
                 check('username').isAlphanumeric().withMessage('Username must be alphanumeric'),
                 check('password').exists().withMessage('Password must exist'),
                 check('password').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage("Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number")
-            ]
+            ];
         }
 
         // Validating signin
@@ -36,7 +37,7 @@ exports.validate = function(method) {
                 check('username').isAlphanumeric().withMessage('Username must be alphanumeric'),
                 check('password').exists().withMessage('Password must exist'),
                 check('password').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/).withMessage("Password must be 8 characters, 1 upercase letter, 1 lowercase and 1 number")
-            ]
+            ];
         }
 
         // Validating add project
@@ -44,7 +45,7 @@ exports.validate = function(method) {
             return [
                 check('title').exists().withMessage('title must exist'),
                 check('title').isAlphanumeric().withMessage('title must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating new title project
@@ -54,7 +55,7 @@ exports.validate = function(method) {
                 check('title').isAlphanumeric().withMessage('title must be alphanumeric'),
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating get project
@@ -62,7 +63,7 @@ exports.validate = function(method) {
             return [
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating delete project
@@ -70,7 +71,7 @@ exports.validate = function(method) {
             return [
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating add_track
@@ -80,7 +81,7 @@ exports.validate = function(method) {
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric'),
                 check('name').exists().withMessage('name must exist'),
                 check('name').escape()
-            ]
+            ];
         }
         
         // Validating get track
@@ -88,7 +89,7 @@ exports.validate = function(method) {
             return [
                 check('trackId').exists().withMessage('trackId must exist'),
                 check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating update track
@@ -113,7 +114,7 @@ exports.validate = function(method) {
                     "stereoPan"]).withMessage("option type is invalid, refer to API for valid option types"),
                 check('newValue').exists().withMessage('newValue must exist'),
                 check('newValue').escape()
-            ]
+            ];
         }
 
         // Validating delete track
@@ -121,7 +122,7 @@ exports.validate = function(method) {
             return [
                 check('trackId').exists().withMessage('trackId must exist'),
                 check('trackId').isAlphanumeric().withMessage('trackId must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating upload_public_project
@@ -129,14 +130,14 @@ exports.validate = function(method) {
             return [
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating public_project_list
         case 'public_project_list': {
             return [
                 check('page').isInt().withMessage('page must be integer')
-            ]
+            ];
         }
 
         // Validating get_public_project_file
@@ -144,7 +145,7 @@ exports.validate = function(method) {
             return [
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
-            ]
+            ];
         }
 
         // Validating delete_public_project
@@ -152,7 +153,7 @@ exports.validate = function(method) {
             return [
                 check('projectId').exists().withMessage('projectId must exist'),
                 check('projectId').isAlphanumeric().withMessage('projectId must be alphanumeric')
-            ]
+            ];
         }
     }
-}
+};
