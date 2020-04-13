@@ -1,4 +1,10 @@
 # Online Music Creator Studio
+## Links
+**App Url:** https://project-anything.herokuapp.com/
+
+**Video Url:** https://youtu.be/dskWQh1FS78
+
+**Docs Url:** https://project-anything.herokuapp.com/doc/index.html
 
 ## Team Members
 Tabeeb Yeamin, Sanjam Sigdel, Gabrian Mak
@@ -10,31 +16,38 @@ Anything is a web based Digital Audio Workstation (DAW) and music sharing platfo
 ## Features
 
 #### By Beta:
+Crossed out features are features that we could not fulfill.
 - Real time audio recording, visualization
 - Ability to make multiple tracks
 - Audio editing features:
-    - spliting and moving audio blocks around
-    - adjusting track volume, pitches
-    - Advanced FX: Reverb, Delay, Equalization, Compression
+    - splitting
+    - moving
+    - fadein
+    - fadeout
+    - mute
+    - volume
+    - delete tracks
+    -~~Advanced FX: Reverb, Delay, Equalization, Compression~~
 - Saving and sharing files with authenticated users
-- Allow users to authenticate using Google and upload tracks directly to YouTube, soundcloud etc.
+- Allow users to authenticate using Google ~~and upload tracks directly to YouTube, soundcloud etc.~~
 
 #### By Final:
 - User Galleries: Authenticated users can view other users publicly shared music
-- Advanced: Google docs like real time multi user editing
+- Project: Recording feature, undo feature
+- ~~Advanced: Google docs like real time multi user editing~~
 
 ## Technology:
 1. Nodejs
 
    We will use Nodejs for backend purposes.
 
-2. React
+2. ~~React~~
 
-   React for frontend purposes.
+   ~~React for frontend purposes.~~
 
 3. jQuery
 
-   jQuery for frontend purposes.
+   jQuery for frontend purposes. Only within the project event emitter and the waveform playlist api itself. No other significant use
 
 4. [Wavesurfer](https://github.com/katspaugh/wavesurfer.js)
 
@@ -49,9 +62,9 @@ Anything is a web based Digital Audio Workstation (DAW) and music sharing platfo
    Authentication for the web application, also allows for sharing to Youtube.
 
 ## Challenges
-1. Learning React to use for frontend
+1. ~~Learning React to use for frontend~~
 
-   No team member has previous experience using React, everyone has to learn it for the purpose of this application.
+   ~~No team member has previous experience using React, everyone has to learn it for the purpose of this application.~~
 
 2. Planning for scalability
 
@@ -68,5 +81,6 @@ Anything is a web based Digital Audio Workstation (DAW) and music sharing platfo
 5. Mid-Project Adjustments
 
    Hosting a gallery for each user may seem to take too long, or some previous features may take some time, so we need to be able to change our application and come up with contingency plans if certain features don't work out.
+   
 
 
