@@ -43,10 +43,6 @@ To upload a track simply drag a file and drop it into the box indicated to the l
 The marker's time can easily be viewed at the bottom of your track visuals. The start time and end time show the span when using the "select audio region" cursor.
 ![Photo](https://project-anything.herokuapp.com/media/doc/Time.JPG "API Image")
 
-## <span id="api-time-display">Project Time Display</span>
-
-The marker's time can easily be viewed at the bottom of your track visuals. The start time and end time show the span when using the "select audio region" cursor.
-![Photo](https://project-anything.herokuapp.com/media/doc/Time.JPG "API Image")
 
 ## <span id="api-button-functions">Button Action</span>
 
