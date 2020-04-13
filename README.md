@@ -1,4 +1,9 @@
 # Online Music Creator Studio
+## Links
+### App Url
+### Video Url 
+https://youtu.be/dskWQh1FS78
+### Docs Url 
 
 ## Team Members
 Tabeeb Yeamin, Sanjam Sigdel, Gabrian Mak
